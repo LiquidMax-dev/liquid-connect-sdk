@@ -18,10 +18,10 @@ export function createLiquid({ plugins = [] }: CreateLiquidConfig): Liquid {
   const liquid: Record<string, unknown> = {};
 
   for (const plugin of plugins) {
-    phantom[plugin.name] = plugin.create();
+    liquid[plugin.name] = plugin.create();
   }
 
-  return liquid as unknown as Phantom;
+  return liquid as unknown as Liquid;
 }
 
 // Export extension functionality

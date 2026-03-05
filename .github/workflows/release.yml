@@ -18,7 +18,7 @@ jobs:
     name: Publish to npm
     runs-on: ubuntu-latest
     # Only run on the public mirror — never on the internal repo
-    if: github.repository == 'phantom/liquid-connect-sdk'
+    if: github.repository == 'LiquidMax-dev/liquid-connect-sdk'
     env:
       NPM_CONFIG_PROVENANCE: true
     steps:

@@ -3,7 +3,7 @@ export type ProviderNameKey = "google" | "apple" | "liquid" | "device" | "inject
 export const PROVIDER_NAMES: Record<ProviderNameKey, string> = {
   google: "Google",
   apple: "Apple",
-  liquid: "Phantom",
+  liquid: "Liquid",
   device: "Device",
   injected: "Wallet",
   deeplink: "Deeplink",
