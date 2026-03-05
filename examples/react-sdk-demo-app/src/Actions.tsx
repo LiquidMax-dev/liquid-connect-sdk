@@ -5,7 +5,7 @@ import { DebugConsole } from "./components/DebugConsole";
 export function Actions() {
   return (
     <div id="app">
-      <h1>Phantom React SDK Demo</h1>
+      <h1>Liquid React SDK Demo</h1>
 
       <div className="main-layout">
         <div className="left-panel">

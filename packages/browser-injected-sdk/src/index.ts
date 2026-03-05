@@ -3,25 +3,25 @@ export type Plugin<T> = {
   create: () => T;
 };
 
-export type CreatePhantomConfig = {
+export type CreateLiquidConfig = {
   plugins?: Plugin<unknown>[];
 };
 
 // Base interface that plugins will extend via declaration merging
-export interface Phantom {}
+export interface Liquid {}
 
 /**
- * Creates a Phantom instance with the provided plugins.
- * Each plugin extends the Phantom interface via declaration merging.
+ * Creates a Liquid instance with the provided plugins.
+ * Each plugin extends the Liquid interface via declaration merging.
  */
-export function createPhantom({ plugins = [] }: CreatePhantomConfig): Phantom {
-  const phantom: Record<string, unknown> = {};
+export function createLiquid({ plugins = [] }: CreateLiquidConfig): Liquid {
+  const liquid: Record<string, unknown> = {};
 
   for (const plugin of plugins) {
-    phantom[plugin.name] = plugin.create();
+    liquid[plugin.name] = plugin.create();
   }
 
-  return phantom as unknown as Phantom;
+  return liquid as unknown as Liquid;
 }
 
 // Export extension functionality
@@ -30,4 +30,4 @@ export { createExtensionPlugin, type Extension } from "./extension";
 // Export Ethereum functionality
 export { createEthereumPlugin, createSiweMessage } from "./ethereum";
 
-export { isInstalled as isPhantomExtensionInstalled } from "./extension/isInstalled";
+export { isInstalled as isLiquidExtensionInstalled } from "./extension/isInstalled";

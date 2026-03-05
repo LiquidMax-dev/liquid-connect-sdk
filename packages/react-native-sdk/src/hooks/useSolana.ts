@@ -1,5 +1,5 @@
-import { usePhantom } from "../PhantomContext";
-import type { ISolanaChain } from "@phantom/chain-interfaces";
+import { useLiquid } from "../LiquidContext";
+import type { ISolanaChain } from "@liquid/chain-interfaces";
 
 /**
  * Hook for Solana chain operations in React Native
@@ -10,7 +10,7 @@ export function useSolana(): {
   solana: ISolanaChain;
   isAvailable: boolean;
 } {
-  const { sdk, isConnected } = usePhantom();
+  const { sdk, isConnected } = useLiquid();
 
   return {
     solana: sdk.solana,

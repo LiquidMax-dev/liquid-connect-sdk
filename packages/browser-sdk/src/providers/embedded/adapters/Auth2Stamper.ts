@@ -1,7 +1,7 @@
 import bs58 from "bs58";
-import { base64urlEncode } from "@phantom/base64url";
-import { Algorithm } from "@phantom/sdk-types";
-import type { StamperWithKeyManagement, StamperKeyInfo } from "@phantom/sdk-types";
+import { base64urlEncode } from "@liquid/base64url";
+import { Algorithm } from "@liquid/sdk-types";
+import type { StamperWithKeyManagement, StamperKeyInfo } from "@liquid/sdk-types";
 import type { Buffer } from "buffer";
 
 const STORE_NAME = "crypto-keys";
@@ -25,7 +25,7 @@ export class Auth2Stamper implements StamperWithKeyManagement {
 
   /**
    * @param dbName - IndexedDB database name (use a unique name per app to
-   *   avoid key collisions with other stampers, e.g. `phantom-auth2-<appId>`).
+   *   avoid key collisions with other stampers, e.g. `liquid-auth2-<appId>`).
    */
   constructor(private readonly dbName: string) {}
 

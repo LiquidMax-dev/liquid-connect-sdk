@@ -1,10 +1,10 @@
 import { EventEmitter } from "eventemitter3";
-import type { ISolanaChain } from "@phantom/chain-interfaces";
+import type { ISolanaChain } from "@liquid/chain-interfaces";
 import type { EmbeddedProvider } from "../embedded-provider";
-import { NetworkId } from "@phantom/constants";
+import { NetworkId } from "@liquid/constants";
 import bs58 from "bs58";
-import type { Transaction, VersionedTransaction } from "@phantom/sdk-types";
-import { parseSolanaSignedTransaction } from "@phantom/parsers";
+import type { Transaction, VersionedTransaction } from "@liquid/sdk-types";
+import { parseSolanaSignedTransaction } from "@liquid/parsers";
 
 /**
  * Embedded Solana chain implementation that is wallet adapter compliant

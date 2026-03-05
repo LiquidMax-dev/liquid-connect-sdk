@@ -35,5 +35,5 @@ export async function connect({ onlyIfTrusted = false } = {}): Promise<string | 
     // Silently fail eager connect attempt
   }
 
-  throw new Error("Failed to connect to Phantom.");
+  throw new Error("Failed to connect to Liquid.");
 }

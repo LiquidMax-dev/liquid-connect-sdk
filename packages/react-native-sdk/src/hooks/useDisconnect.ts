@@ -1,8 +1,8 @@
 import { useState, useCallback } from "react";
-import { usePhantom } from "../PhantomContext";
+import { useLiquid } from "../LiquidContext";
 
 export function useDisconnect() {
-  const { sdk } = usePhantom();
+  const { sdk } = useLiquid();
   const [isDisconnecting, setIsDisconnecting] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 

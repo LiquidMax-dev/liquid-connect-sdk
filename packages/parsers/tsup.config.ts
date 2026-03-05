@@ -5,5 +5,5 @@ export default defineConfig({
   format: ["cjs", "esm"],
   dts: true,
   clean: true,
-  external: ["@phantom/base64url", "@phantom/client"],
+  external: ["@liquid/base64url", "@liquid/client"],
 });

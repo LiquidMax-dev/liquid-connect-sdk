@@ -1,14 +1,14 @@
 import { createConnector } from "@wagmi/core";
-import { BrowserSDK, DebugLevel } from "@phantom/browser-sdk";
-import { AddressType } from "@phantom/browser-sdk";
+import { BrowserSDK, DebugLevel } from "@liquid/browser-sdk";
+import { AddressType } from "@liquid/browser-sdk";
 
-export interface PhantomConnectorParameters {
+export interface LiquidConnectorParameters {
   organizationId: string;
   apiBaseUrl?: string;
   redirect?: string;
 }
 
-export function phantomConnector() {
+export function liquidConnector() {
   let sdk: BrowserSDK | null = null;
 
   const initializeSdk = async () => {
@@ -39,9 +39,9 @@ export function phantomConnector() {
   };
 
   return createConnector(config => ({
-    id: "phantom",
-    name: "Phantom Wallet",
-    type: "phantom",
+    id: "liquid",
+    name: "Liquid Wallet",
+    type: "liquid",
 
     async setup() {
       await initializeSdk();
@@ -83,7 +83,7 @@ export function phantomConnector() {
       }
 
       try {
-        const result = await sdk!.connect({ provider: "phantom" });
+        const result = await sdk!.connect({ provider: "liquid" });
         const ethereumAddresses = result.addresses.filter(addr => addr.addressType === AddressType.ethereum);
 
         if (ethereumAddresses.length === 0) {

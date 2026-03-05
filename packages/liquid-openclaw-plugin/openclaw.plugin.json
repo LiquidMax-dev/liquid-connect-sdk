@@ -1,70 +1,70 @@
 {
-  "id": "phantom-openclaw-plugin",
-  "name": "Phantom Wallet Plugin",
-  "description": "Direct integration with Phantom wallet for blockchain operations - get addresses, sign messages, and sign transactions.",
+  "id": "liquid-openclaw-plugin",
+  "name": "Liquid Wallet Plugin",
+  "description": "Direct integration with Liquid wallet for blockchain operations - get addresses, sign messages, and sign transactions.",
   "configSchema": {
     "type": "object",
     "additionalProperties": false,
     "properties": {
-      "PHANTOM_APP_ID": {
+      "LIQUID_APP_ID": {
         "type": "string",
         "minLength": 1,
-        "description": "Application ID from Phantom Portal."
+        "description": "Application ID from Liquid Portal."
       },
-      "PHANTOM_CLIENT_ID": {
+      "LIQUID_CLIENT_ID": {
         "type": "string",
         "minLength": 1,
-        "description": "Legacy alias for PHANTOM_APP_ID."
+        "description": "Legacy alias for LIQUID_APP_ID."
       },
-      "PHANTOM_CLIENT_SECRET": {
+      "LIQUID_CLIENT_SECRET": {
         "type": "string",
         "minLength": 1,
         "description": "Optional client secret for confidential clients."
       },
-      "PHANTOM_AUTH_BASE_URL": {
+      "LIQUID_AUTH_BASE_URL": {
         "type": "string",
         "minLength": 1
       },
-      "PHANTOM_CONNECT_BASE_URL": {
+      "LIQUID_CONNECT_BASE_URL": {
         "type": "string",
         "minLength": 1
       },
-      "PHANTOM_API_BASE_URL": {
+      "LIQUID_API_BASE_URL": {
         "type": "string",
         "minLength": 1
       },
-      "PHANTOM_CALLBACK_PORT": {
+      "LIQUID_CALLBACK_PORT": {
         "type": "integer",
         "minimum": 1,
         "maximum": 65535
       },
-      "PHANTOM_CALLBACK_PATH": {
+      "LIQUID_CALLBACK_PATH": {
         "type": "string",
         "minLength": 1
       },
-      "PHANTOM_SSO_PROVIDER": {
+      "LIQUID_SSO_PROVIDER": {
         "type": "string",
         "minLength": 1
       },
-      "PHANTOM_MCP_DEBUG": {
+      "LIQUID_MCP_DEBUG": {
         "type": "string"
       }
     }
   },
   "uiHints": {
-    "PHANTOM_APP_ID": {
-      "label": "Phantom App ID",
+    "LIQUID_APP_ID": {
+      "label": "Liquid App ID",
       "placeholder": "your_app_id_from_portal"
     },
-    "PHANTOM_CLIENT_SECRET": {
-      "label": "Phantom Client Secret",
+    "LIQUID_CLIENT_SECRET": {
+      "label": "Liquid Client Secret",
       "sensitive": true
     },
-    "PHANTOM_CALLBACK_PORT": {
+    "LIQUID_CALLBACK_PORT": {
       "label": "Callback Port",
       "placeholder": "8080"
     },
-    "PHANTOM_MCP_DEBUG": {
+    "LIQUID_MCP_DEBUG": {
       "label": "Enable Debug Logging",
       "placeholder": "1"
     }

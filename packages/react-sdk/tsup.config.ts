@@ -5,7 +5,7 @@ export default defineConfig({
   format: ["cjs", "esm"],
   dts: true,
   clean: true,
-  external: ["react", "react-dom", "@phantom/browser-sdk"],
+  external: ["react", "react-dom", "@liquid/browser-sdk"],
   noExternal: [],
   platform: "browser",
   shims: true,

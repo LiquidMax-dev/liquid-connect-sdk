@@ -1,8 +1,8 @@
 import { useState, useCallback } from "react";
 import { View, Image, StyleSheet, ActivityIndicator } from "react-native";
-import type { EmbeddedProviderAuthType } from "@phantom/embedded-provider-core";
-import { Button, Icon, Text, useTheme, hexToRgba, ModalHeader } from "@phantom/wallet-sdk-ui";
-import { usePhantom } from "../PhantomContext";
+import type { EmbeddedProviderAuthType } from "@liquid/embedded-provider-core";
+import { Button, Icon, Text, useTheme, hexToRgba, ModalHeader } from "@liquid/wallet-sdk-ui";
+import { useLiquid } from "../LiquidContext";
 import { useConnect } from "../hooks/useConnect";
 
 export interface ConnectModalContentProps {
@@ -13,7 +13,7 @@ export interface ConnectModalContentProps {
 
 export function ConnectModalContent({ appIcon, onClose }: ConnectModalContentProps) {
   const theme = useTheme();
-  const { isConnecting: contextIsConnecting, allowedProviders } = usePhantom();
+  const { isConnecting: contextIsConnecting, allowedProviders } = useLiquid();
   const { connect } = useConnect();
 
   const [isConnecting, setIsConnecting] = useState(false);
@@ -173,9 +173,9 @@ export function ConnectModalContent({ appIcon, onClose }: ConnectModalContentPro
         <Text variant="label" color={theme.secondary}>
           Powered by
         </Text>
-        <Icon type="phantom" size={16} color={theme.secondary} />
+        <Icon type="liquid" size={16} color={theme.secondary} />
         <Text variant="label" color={theme.secondary}>
-          Phantom
+          Liquid
         </Text>
       </View>
     </View>

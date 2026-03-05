@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import type { DebugLevel, DebugMessage } from "@phantom/react-sdk";
+import type { DebugLevel, DebugMessage } from "@liquid/react-sdk";
 
 // Debug Context
 export interface DebugContextType {

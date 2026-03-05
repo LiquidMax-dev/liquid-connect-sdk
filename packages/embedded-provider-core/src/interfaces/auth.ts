@@ -1,5 +1,5 @@
 import type { EmbeddedProviderAuthType } from "../types";
-import type { Algorithm } from "@phantom/sdk-types";
+import type { Algorithm } from "@liquid/sdk-types";
 
 export interface AuthResult {
   walletId: string;
@@ -11,7 +11,7 @@ export interface AuthResult {
   bearerToken?: string; // "${tokenType} ${accessToken}" for Authorization header
 }
 
-export interface PhantomConnectOptions {
+export interface LiquidConnectOptions {
   publicKey: string;
   appId: string;
   provider: EmbeddedProviderAuthType;
@@ -25,17 +25,17 @@ export interface PhantomConnectOptions {
 }
 
 export interface AuthProvider {
-  authenticate(options: PhantomConnectOptions): Promise<void | AuthResult>;
+  authenticate(options: LiquidConnectOptions): Promise<void | AuthResult>;
   resumeAuthFromRedirect?(provider: EmbeddedProviderAuthType): Promise<AuthResult | null>;
 }
 
-export interface PhantomAppAuthOptions {
+export interface LiquidAppAuthOptions {
   publicKey: string;
   appId: string;
   sessionId: string;
 }
 
-export interface PhantomAppProvider {
-  authenticate(options: PhantomAppAuthOptions): Promise<AuthResult>;
+export interface LiquidAppProvider {
+  authenticate(options: LiquidAppAuthOptions): Promise<AuthResult>;
   isAvailable(): boolean;
 }

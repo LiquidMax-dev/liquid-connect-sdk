@@ -1,6 +1,6 @@
 import { InjectedWalletSolanaChain } from "./InjectedWalletSolanaChain";
-import type { ISolanaChain } from "@phantom/chain-interfaces";
-import type { Transaction } from "@phantom/sdk-types";
+import type { ISolanaChain } from "@liquid/chain-interfaces";
+import type { Transaction } from "@liquid/sdk-types";
 
 describe("InjectedWalletSolanaChain", () => {
   let mockProvider: any;

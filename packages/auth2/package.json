@@ -1,10 +1,10 @@
 {
-  "name": "@phantom/auth2",
+  "name": "@liquid/auth2",
   "version": "1.0.1",
   "description": "Shared core utilities for the Auth2 OAuth2 PKCE flow",
   "repository": {
     "type": "git",
-    "url": "https://github.com/phantom/phantom-connect-sdk",
+    "url": "https://github.com/LiquidMax-dev/liquid-connect-sdk",
     "directory": "packages/auth2"
   },
   "main": "dist/index.js",
@@ -33,15 +33,15 @@
     "prettier": "prettier --write \"src/**/*.{ts}\""
   },
   "dependencies": {
-    "@phantom/base64url": "workspace:^",
-    "@phantom/crypto": "workspace:^",
+    "@liquid/base64url": "workspace:^",
+    "@liquid/crypto": "workspace:^",
     "@phantom/openapi-wallet-service": "0.1.11",
     "axios": "^1.10.0",
     "bs58": "^6.0.0",
     "buffer": "^6.0.3"
   },
   "devDependencies": {
-    "@phantom/sdk-types": "workspace:^",
+    "@liquid/sdk-types": "workspace:^",
     "@types/bs58": "^5.0.0",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.11.0",

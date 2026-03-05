@@ -1,5 +1,5 @@
 /**
- * PhantomMCPServer - Main MCP server implementation
+ * LiquidMCPServer - Main MCP server implementation
  *
  * This server:
  * - Manages session lifecycle via SessionManager
@@ -20,9 +20,9 @@ import { tools, getTool } from "./tools/index.js";
 import { Logger } from "./utils/logger.js";
 
 /**
- * Configuration options for PhantomMCPServer
+ * Configuration options for LiquidMCPServer
  */
-export interface PhantomMCPServerOptions {
+export interface LiquidMCPServerOptions {
   /** Session manager configuration */
   session?: {
     authBaseUrl?: string;
@@ -35,31 +35,31 @@ export interface PhantomMCPServerOptions {
 }
 
 /**
- * PhantomMCPServer - Main server class that wires everything together
+ * LiquidMCPServer - Main server class that wires everything together
  *
  * Usage:
  * ```typescript
- * const server = new PhantomMCPServer();
+ * const server = new LiquidMCPServer();
  * await server.start();
  * ```
  */
-export class PhantomMCPServer {
+export class LiquidMCPServer {
   private readonly server: Server;
   private readonly sessionManager: SessionManager;
   private readonly logger: Logger;
 
   /**
-   * Creates a new PhantomMCPServer instance
+   * Creates a new LiquidMCPServer instance
    *
    * @param options - Configuration options
    */
-  constructor(options: PhantomMCPServerOptions = {}) {
-    this.logger = new Logger("PhantomMCPServer");
+  constructor(options: LiquidMCPServerOptions = {}) {
+    this.logger = new Logger("LiquidMCPServer");
 
     // Initialize MCP Server
     this.server = new Server(
       {
-        name: "phantom-mcp-server",
+        name: "liquid-mcp-server",
         version: "1.0.0",
       },
       {
@@ -75,7 +75,7 @@ export class PhantomMCPServer {
     // Setup handlers
     this.setupHandlers();
 
-    this.logger.info("PhantomMCPServer initialized");
+    this.logger.info("LiquidMCPServer initialized");
   }
 
   /**
@@ -129,7 +129,7 @@ export class PhantomMCPServer {
           };
         }
 
-        // Step 2: Get PhantomClient from SessionManager
+        // Step 2: Get LiquidClient from SessionManager
         const client = this.sessionManager.getClient();
         const session = this.sessionManager.getSession();
 
@@ -194,7 +194,7 @@ export class PhantomMCPServer {
    * @throws Error if initialization or startup fails
    */
   async start(): Promise<void> {
-    this.logger.info("Starting PhantomMCPServer");
+    this.logger.info("Starting LiquidMCPServer");
 
     try {
       // Connect stdio transport FIRST so Claude Desktop can complete the MCP

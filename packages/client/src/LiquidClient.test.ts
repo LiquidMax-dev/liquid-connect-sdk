@@ -1,6 +1,6 @@
-import { PhantomClient } from "./PhantomClient";
+import { LiquidClient } from "./LiquidClient";
 import type { UserConfig, CreateAuthenticatorParams, AuthenticatorConfig } from "./types";
-import { NetworkId } from "@phantom/constants";
+import { NetworkId } from "@liquid/constants";
 import { SpendingLimitError, TransactionBlockedError } from "./errors";
 import axios, { type AxiosError } from "axios";
 
@@ -22,11 +22,11 @@ jest.mock("axios", () => {
   };
 });
 
-describe("PhantomClient Name Length Validation", () => {
-  let client: PhantomClient;
+describe("LiquidClient Name Length Validation", () => {
+  let client: LiquidClient;
 
   beforeEach(() => {
-    client = new PhantomClient({
+    client = new LiquidClient({
       apiBaseUrl: "https://api.phantom.app",
       organizationId: "test-org-id",
       headers: {},
@@ -312,8 +312,8 @@ describe("PhantomClient Name Length Validation", () => {
   });
 });
 
-describe("PhantomClient Spending Limits Integration", () => {
-  let client: PhantomClient;
+describe("LiquidClient Spending Limits Integration", () => {
+  let client: LiquidClient;
   let mockAxiosPost: jest.Mock;
   let mockKmsPost: jest.Mock;
   let mockGetOrganization: jest.Mock;
@@ -329,7 +329,7 @@ describe("PhantomClient Spending Limits Integration", () => {
 
     (axios.create as jest.Mock).mockReturnValue(mockAxiosInstance);
 
-    client = new PhantomClient({
+    client = new LiquidClient({
       apiBaseUrl: "https://api.phantom.app",
       organizationId: "test-org-id",
       headers: {},
@@ -859,10 +859,10 @@ describe("PhantomClient Spending Limits Integration", () => {
   });
 
   describe("getRpcMethodName", () => {
-    let client: PhantomClient;
+    let client: LiquidClient;
 
     beforeEach(() => {
-      client = new PhantomClient({
+      client = new LiquidClient({
         apiBaseUrl: "https://api.phantom.app",
         organizationId: "test-org-id",
       });

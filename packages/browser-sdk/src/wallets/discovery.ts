@@ -1,12 +1,12 @@
-import type { InjectedWalletInfo, PhantomExtended } from "./registry";
-import { PHANTOM_ICON } from "@phantom/constants";
-import { AddressType as ClientAddressType } from "@phantom/client";
-import type { ISolanaChain, IEthereumChain } from "@phantom/chain-interfaces";
-import { isPhantomExtensionInstalled } from "@phantom/browser-injected-sdk";
-import { createPhantom, createExtensionPlugin, type Plugin } from "@phantom/browser-injected-sdk";
-import { createSolanaPlugin } from "@phantom/browser-injected-sdk/solana";
-import { createEthereumPlugin } from "@phantom/browser-injected-sdk/ethereum";
-import { createAutoConfirmPlugin } from "@phantom/browser-injected-sdk/auto-confirm";
+import type { InjectedWalletInfo, LiquidExtended } from "./registry";
+import { LIQUID_ICON } from "@liquid/constants";
+import { AddressType as ClientAddressType } from "@liquid/client";
+import type { ISolanaChain, IEthereumChain } from "@liquid/chain-interfaces";
+import { isLiquidExtensionInstalled } from "@liquid/browser-injected-sdk";
+import { createLiquid, createExtensionPlugin, type Plugin } from "@liquid/browser-injected-sdk";
+import { createSolanaPlugin } from "@liquid/browser-injected-sdk/solana";
+import { createEthereumPlugin } from "@liquid/browser-injected-sdk/ethereum";
+import { createAutoConfirmPlugin } from "@liquid/browser-injected-sdk/auto-confirm";
 import { debug, DebugCategory } from "../debug";
 import { CUSTOM_WALLET_CONFIGS } from "./custom-wallets";
 
@@ -67,14 +67,15 @@ function processEIP6963Providers(providers: Map<string, EIP6963ProviderDetail>):
   for (const [, detail] of providers) {
     const { info, provider } = detail;
 
-    // Skip Phantom as it's handled by our custom discovery
+    // Skip Liquid as it's handled by our custom discovery
     // Check both name and rdns to catch different variations
-    const isPhantom =
+    const isLiquid =
+      info.name.toLowerCase().includes("liquid") ||
       info.name.toLowerCase().includes("phantom") ||
-      (info.rdns && (info.rdns.toLowerCase().includes("phantom") || info.rdns.toLowerCase() === "app.phantom"));
+      (info.rdns && (info.rdns.toLowerCase().includes("liquid") || info.rdns.toLowerCase().includes("phantom")));
 
-    if (isPhantom) {
-      debug.log(DebugCategory.BROWSER_SDK, "Skipping Phantom from EIP-6963", { name: info.name, rdns: info.rdns });
+    if (isLiquid) {
+      debug.log(DebugCategory.BROWSER_SDK, "Skipping Liquid from EIP-6963", { name: info.name, rdns: info.rdns });
       continue;
     }
 
@@ -364,9 +365,9 @@ export async function discoverSolanaWallets(): Promise<InjectedWalletInfo[]> {
         continue;
       }
 
-      // Skip Phantom as is handled by our injected provider
-      if (wallet.name.toLowerCase().includes("phantom")) {
-        debug.log(DebugCategory.BROWSER_SDK, "Skipping Phantom from Wallet Standard (handled separately)");
+      // Skip Liquid as is handled by our injected provider
+      if (wallet.name.toLowerCase().includes("liquid") || wallet.name.toLowerCase().includes("phantom")) {
+        debug.log(DebugCategory.BROWSER_SDK, "Skipping Liquid from Wallet Standard (handled separately)");
         continue;
       }
 
@@ -477,20 +478,20 @@ export function discoverCustomSolanaWallets(): InjectedWalletInfo[] {
 }
 
 /**
- * Discover Phantom wallet if extension is installed
- * Creates Phantom instance with plugins and returns wallet info
+ * Discover Liquid wallet if extension is installed
+ * Creates Liquid instance with plugins and returns wallet info
  */
-export function discoverPhantomWallet(addressTypes: ClientAddressType[]): InjectedWalletInfo | null {
+export function discoverLiquidWallet(addressTypes: ClientAddressType[]): InjectedWalletInfo | null {
   if (typeof window === "undefined") {
     return null;
   }
 
-  // Check if Phantom extension is installed
-  if (!isPhantomExtensionInstalled()) {
+  // Check if Liquid extension is installed
+  if (!isLiquidExtensionInstalled()) {
     return null;
   }
 
-  // Create Phantom instance with plugins
+  // Create Liquid instance with plugins
   const plugins: Plugin<any>[] = [createExtensionPlugin()];
 
   if (addressTypes.includes(ClientAddressType.solana)) {
@@ -501,24 +502,24 @@ export function discoverPhantomWallet(addressTypes: ClientAddressType[]): Inject
     plugins.push(createEthereumPlugin());
   }
 
-  // Always add autoConfirm for Phantom
+  // Always add autoConfirm for Liquid
   plugins.push(createAutoConfirmPlugin());
 
-  const phantomInstance = createPhantom({ plugins }) as unknown as PhantomExtended;
+  const liquidInstance = createLiquid({ plugins }) as unknown as LiquidExtended;
 
   return {
-    id: "phantom",
+    id: "liquid",
     name: "Phantom",
-    icon: PHANTOM_ICON,
+    icon: LIQUID_ICON,
     addressTypes,
     providers: {
-      solana: addressTypes.includes(ClientAddressType.solana) ? (phantomInstance.solana as any) : undefined,
-      ethereum: addressTypes.includes(ClientAddressType.ethereum) ? (phantomInstance.ethereum as any) : undefined,
+      solana: addressTypes.includes(ClientAddressType.solana) ? (liquidInstance.solana as any) : undefined,
+      ethereum: addressTypes.includes(ClientAddressType.ethereum) ? (liquidInstance.ethereum as any) : undefined,
     },
-    isPhantom: true,
-    phantomInstance,
-    discovery: "phantom",
-  } as InjectedWalletInfo & { isPhantom: true; phantomInstance: PhantomExtended };
+    isLiquid: true,
+    liquidInstance,
+    discovery: "liquid",
+  } as InjectedWalletInfo & { isLiquid: true; liquidInstance: LiquidExtended };
 }
 
 export async function discoverWallets(addressTypes?: ClientAddressType[]): Promise<InjectedWalletInfo[]> {
@@ -529,10 +530,10 @@ export async function discoverWallets(addressTypes?: ClientAddressType[]): Promi
   });
 
   const [solanaWallets, ethereumWallets] = await Promise.all([discoverSolanaWallets(), discoverEthereumWallets()]);
-  const phantomWallet = discoverPhantomWallet(requestedAddressTypes);
+  const liquidWallet = discoverLiquidWallet(requestedAddressTypes);
 
   debug.log(DebugCategory.BROWSER_SDK, "All wallet discovery methods completed", {
-    phantomFound: !!phantomWallet,
+    liquidFound: !!liquidWallet,
     solanaWalletsCount: solanaWallets.length,
     ethereumWalletsCount: ethereumWallets.length,
     solanaWalletIds: solanaWallets.map(w => w.id),
@@ -541,9 +542,9 @@ export async function discoverWallets(addressTypes?: ClientAddressType[]): Promi
 
   const walletMap = new Map<string, InjectedWalletInfo>();
 
-  // Add Phantom first if available (so it's the default)
-  if (phantomWallet) {
-    walletMap.set("phantom", phantomWallet);
+  // Add Liquid first if available (so it's the default)
+  if (liquidWallet) {
+    walletMap.set("liquid", liquidWallet);
   }
 
   // Add other wallets and merge only by exact ID match

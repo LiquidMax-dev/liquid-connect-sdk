@@ -1,7 +1,7 @@
-import { usePhantom } from "../PhantomContext";
+import { useLiquid } from "../LiquidContext";
 
 export function useAccounts() {
-  const { addresses, isConnected } = usePhantom();
+  const { addresses, isConnected } = useLiquid();
 
   // Return addresses only when connected
   return isConnected ? addresses : null;

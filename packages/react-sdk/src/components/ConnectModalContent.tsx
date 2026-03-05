@@ -1,19 +1,19 @@
 import { useState, useCallback, useMemo, type CSSProperties } from "react";
-import { isMobileDevice, type AuthProviderType, type InjectedWalletInfo } from "@phantom/browser-sdk";
+import { isMobileDevice, type AuthProviderType, type InjectedWalletInfo } from "@liquid/browser-sdk";
 import {
   Button,
-  LoginWithPhantomButton,
+  LoginWithLiquidButton,
   Icon,
   BoundedIcon,
   Text,
   hexToRgba,
   useTheme,
   ModalHeader,
-} from "@phantom/wallet-sdk-ui";
-import { getProviderName } from "@phantom/constants";
-import { usePhantom } from "../PhantomContext";
+} from "@liquid/wallet-sdk-ui";
+import { getProviderName } from "@liquid/constants";
+import { useLiquid } from "../LiquidContext";
 import { useIsExtensionInstalled } from "../hooks/useIsExtensionInstalled";
-import { useIsPhantomLoginAvailable } from "../hooks/useIsPhantomLoginAvailable";
+import { useIsLiquidLoginAvailable } from "../hooks/useIsLiquidLoginAvailable";
 import { useConnect } from "../hooks/useConnect";
 import { useDiscoveredWallets } from "../hooks/useDiscoveredWallets";
 import { ChainIcon } from "./ChainIcon";
@@ -32,10 +32,10 @@ export function ConnectModalContent({
   hideCloseButton = false,
 }: ConnectModalContentProps) {
   const theme = useTheme();
-  const { isLoading, allowedProviders } = usePhantom();
+  const { isLoading, allowedProviders } = useLiquid();
   const baseConnect = useConnect();
   const isExtensionInstalled = useIsExtensionInstalled();
-  const isPhantomLoginAvailable = useIsPhantomLoginAvailable();
+  const isLiquidLoginAvailable = useIsLiquidLoginAvailable();
   const isMobile = useMemo(() => isMobileDevice(), []);
   const { wallets: discoveredWallets } = useDiscoveredWallets();
 
@@ -286,8 +286,8 @@ export function ConnectModalContent({
               >
                 <span style={walletButtonContentStyle}>
                   <span style={walletButtonLeftStyle}>
-                    {wallet.id === "phantom" ? (
-                      <BoundedIcon type="phantom" size={20} background={"#aba0f2"} color={"white"} />
+                    {wallet.id === "liquid" ? (
+                      <BoundedIcon type="liquid" size={20} background={"#aba0f2"} color={"white"} />
                     ) : wallet.icon ? (
                       <img src={wallet.icon} alt={wallet.name} style={walletIconStyle} />
                     ) : (
@@ -323,26 +323,26 @@ export function ConnectModalContent({
 
             {errorState && <div style={errorStyle}>{errorState}</div>}
 
-            {/* Mobile device with no Phantom extension - show deeplink button */}
+            {/* Mobile device with no Liquid extension - show deeplink button */}
             {isMobile && !isExtensionInstalled.isInstalled && allowedProviders.includes("deeplink") && (
-              <LoginWithPhantomButton
+              <LoginWithLiquidButton
                 testId="deeplink-button"
                 onClick={connectWithDeeplink}
                 disabled={isConnectingState}
                 isLoading={isConnectingState && providerType === "deeplink"}
                 fullWidth={true}
               >
-                {isConnecting && providerType === "deeplink" ? "Opening Phantom..." : "Open in Phantom App"}
-              </LoginWithPhantomButton>
+                {isConnecting && providerType === "deeplink" ? "Opening Phantom..." : "Open in Liquid App"}
+              </LoginWithLiquidButton>
             )}
 
-            {/* Desktop Phantom Login button */}
-            {!isMobile && allowedProviders.includes("phantom") && isPhantomLoginAvailable.isAvailable && (
-              <LoginWithPhantomButton
-                testId="login-with-phantom-button"
-                onClick={() => connectWithAuthProvider("phantom")}
+            {/* Desktop Liquid Login button */}
+            {!isMobile && allowedProviders.includes("liquid") && isLiquidLoginAvailable.isAvailable && (
+              <LoginWithLiquidButton
+                testId="login-with-liquid-button"
+                onClick={() => connectWithAuthProvider("liquid")}
                 disabled={isConnectingState}
-                isLoading={isConnectingState && providerType === "phantom"}
+                isLoading={isConnectingState && providerType === "liquid"}
               />
             )}
 
@@ -387,7 +387,7 @@ export function ConnectModalContent({
             )}
 
             {/* Injected provider section */}
-            {/* Show on desktop OR on mobile when extension is detected (Phantom app webview) OR when wallets are discovered */}
+            {/* Show on desktop OR on mobile when extension is detected (Liquid app webview) OR when wallets are discovered */}
             {allowedProviders.includes("injected") &&
               (isExtensionInstalled.isInstalled || discoveredWallets.length > 0) && (
                 <>
@@ -410,8 +410,8 @@ export function ConnectModalContent({
                     >
                       <span style={walletButtonContentStyle}>
                         <span style={walletButtonLeftStyle}>
-                          {wallet.id === "phantom" ? (
-                            <BoundedIcon type="phantom" size={20} background={"#aba0f2"} color={"white"} />
+                          {wallet.id === "liquid" ? (
+                            <BoundedIcon type="liquid" size={20} background={"#aba0f2"} color={"white"} />
                           ) : wallet.icon ? (
                             <img src={wallet.icon} alt={wallet.name} style={walletIconStyle} />
                           ) : (
@@ -460,9 +460,9 @@ export function ConnectModalContent({
             <Text variant="label" color={theme.secondary}>
               Powered by
             </Text>
-            <Icon type="phantom" size={16} />
+            <Icon type="liquid" size={16} />
             <Text variant="label" color={theme.secondary}>
-              Phantom
+              Liquid
             </Text>
           </div>
         </>

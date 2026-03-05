@@ -1,5 +1,5 @@
 const mockBase64urlEncode = jest.fn((data: Uint8Array) => Buffer.from(data).toString("base64url"));
-jest.mock("@phantom/base64url", () => ({
+jest.mock("@liquid/base64url", () => ({
   base64urlEncode: mockBase64urlEncode,
 }));
 
@@ -19,7 +19,7 @@ jest.mock("axios", () => ({
   create: jest.fn(),
 }));
 
-import type { StamperWithKeyManagement } from "@phantom/sdk-types";
+import type { StamperWithKeyManagement } from "@liquid/sdk-types";
 import axios from "axios";
 import { KMSRPCApi } from "@phantom/openapi-wallet-service";
 import { Auth2KmsRpcClient } from "../index";
@@ -84,7 +84,7 @@ describe("Auth2KmsRpcClient", () => {
   });
 
   describe("axios request interceptor", () => {
-    it("sets x-app-id, x-api-version, and x-phantom-stamp headers", async () => {
+    it("sets x-app-id, x-api-version, and x-liquid-stamp headers", async () => {
       const stamper = makeStamper();
       makeClient(stamper);
 
@@ -96,7 +96,7 @@ describe("Auth2KmsRpcClient", () => {
       const headers = result["headers"] as Record<string, string>;
       expect(headers["x-app-id"]).toBe("app-123");
       expect(headers["x-api-version"]).toBe("2025-11-24");
-      expect(headers["x-phantom-stamp"]).toBe("mock-stamp");
+      expect(headers["x-liquid-stamp"]).toBe("mock-stamp");
       expect(stamper.stamp).toHaveBeenCalledWith(expect.objectContaining({ data: expect.anything() }));
     });
 

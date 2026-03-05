@@ -3,7 +3,7 @@ import { useConnect, useDisconnect, useAccount, useSignMessage, useChainId, useS
 import { sepolia } from "wagmi/chains";
 
 export default function WalletDemo() {
-  const [message, setMessage] = useState("Hello from Phantom SDK + wagmi!");
+  const [message, setMessage] = useState("Hello from Liquid SDK + wagmi!");
   const [signResult, setSignResult] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -32,14 +32,14 @@ export default function WalletDemo() {
     }
   }, [signError]);
 
-  // Get the phantom connector
-  const phantomConnector = connectors.find(c => c.id === "phantom");
+  // Get the liquid connector
+  const liquidConnector = connectors.find(c => c.id === "liquid");
 
   const handleConnect = async () => {
     try {
       setError(null);
-      if (phantomConnector) {
-        connect({ connector: phantomConnector });
+      if (liquidConnector) {
+        connect({ connector: liquidConnector });
       }
     } catch (err) {
       setError(`Connection failed: ${err instanceof Error ? err.message : "Unknown error"}`);
@@ -83,7 +83,7 @@ export default function WalletDemo() {
           <div>
             <p>Not connected</p>
             <button onClick={handleConnect} disabled={isConnecting}>
-              {isConnecting ? "Connecting..." : "Connect Phantom Wallet"}
+              {isConnecting ? "Connecting..." : "Connect Liquid Wallet"}
             </button>
           </div>
         )}
@@ -139,9 +139,9 @@ export default function WalletDemo() {
       <div className="status">
         <h3>How it works</h3>
         <ol style={{ textAlign: "left", maxWidth: "600px", margin: "0 auto" }}>
-          <li>Our custom Phantom connector implements the EIP-1193 interface</li>
+          <li>Our custom Liquid connector implements the EIP-1193 interface</li>
           <li>
-            The connector uses the Phantom SDK's <code>sdk.ethereum</code> provider
+            The connector uses the Liquid SDK's <code>sdk.ethereum</code> provider
           </li>
           <li>wagmi treats it as a standard Ethereum wallet</li>
           <li>

@@ -1,5 +1,5 @@
 import { parseToKmsTransaction } from "./index";
-import { base64urlDecode } from "@phantom/base64url";
+import { base64urlDecode } from "@liquid/base64url";
 
 describe("Solana Transaction Parser", () => {
   it("should parse @solana/kit transaction with messageBytes", async () => {

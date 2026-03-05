@@ -5,22 +5,22 @@
 // Mock all external dependencies FIRST before any imports
 jest.mock("./storage");
 jest.mock("../auth/oauth");
-jest.mock("@phantom/client", () => ({
-  PhantomClient: jest.fn().mockImplementation(() => ({})),
+jest.mock("@liquid/client", () => ({
+  LiquidClient: jest.fn().mockImplementation(() => ({})),
 }));
-jest.mock("@phantom/api-key-stamper", () => ({
+jest.mock("@liquid/api-key-stamper", () => ({
   ApiKeyStamper: jest.fn().mockImplementation(() => ({})),
 }));
-jest.mock("@phantom/crypto", () => ({
+jest.mock("@liquid/crypto", () => ({
   generateKeyPair: jest.fn(),
 }));
 
 import { SessionManager } from "./manager";
 import { SessionStorage } from "./storage";
 import { OAuthFlow } from "../auth/oauth";
-import { PhantomClient } from "@phantom/client";
-import { ApiKeyStamper } from "@phantom/api-key-stamper";
-import { generateKeyPair } from "@phantom/crypto";
+import { LiquidClient } from "@liquid/client";
+import { ApiKeyStamper } from "@liquid/api-key-stamper";
+import { generateKeyPair } from "@liquid/crypto";
 import type { SessionData } from "./types";
 import type { OAuthFlowResult } from "../auth/oauth";
 
@@ -103,17 +103,17 @@ describe("SessionManager", () => {
     });
 
     it("should use environment variables for URLs", () => {
-      process.env.PHANTOM_AUTH_BASE_URL = "https://env-auth.example.com";
-      process.env.PHANTOM_CONNECT_BASE_URL = "https://env-connect.example.com";
-      process.env.PHANTOM_API_BASE_URL = "https://env-api.example.com";
+      process.env.LIQUID_AUTH_BASE_URL = "https://env-auth.example.com";
+      process.env.LIQUID_CONNECT_BASE_URL = "https://env-connect.example.com";
+      process.env.LIQUID_API_BASE_URL = "https://env-api.example.com";
 
       const manager = new SessionManager();
       expect(manager).toBeDefined();
 
       // Clean up
-      delete process.env.PHANTOM_AUTH_BASE_URL;
-      delete process.env.PHANTOM_CONNECT_BASE_URL;
-      delete process.env.PHANTOM_API_BASE_URL;
+      delete process.env.LIQUID_AUTH_BASE_URL;
+      delete process.env.LIQUID_CONNECT_BASE_URL;
+      delete process.env.LIQUID_API_BASE_URL;
     });
   });
 
@@ -132,17 +132,17 @@ describe("SessionManager", () => {
       expect(ApiKeyStamper).toHaveBeenCalledWith({
         apiSecretKey: validSession.stamperKeys.secretKey,
       });
-      expect(PhantomClient).toHaveBeenCalledWith(
+      expect(LiquidClient).toHaveBeenCalledWith(
         {
           apiBaseUrl: "https://api.phantom.app/v1/wallets",
           organizationId: validSession.organizationId,
           walletType: "user-wallet",
           headers: expect.objectContaining({
-            "x-phantom-platform": "ext-sdk",
-            "x-phantom-sdk-type": "server",
-            "x-phantom-client": "mcp",
-            "x-phantom-sdk-version": expect.any(String),
-            "x-app-id": "phantom-mcp",
+            "x-liquid-platform": "ext-sdk",
+            "x-liquid-sdk-type": "server",
+            "x-liquid-client": "mcp",
+            "x-liquid-sdk-version": expect.any(String),
+            "x-app-id": "liquid-mcp",
           }),
         },
         expect.anything(),
@@ -230,7 +230,7 @@ describe("SessionManager", () => {
   });
 
   describe("getClient", () => {
-    it("should return PhantomClient after initialization", async () => {
+    it("should return LiquidClient after initialization", async () => {
       const validSession = createValidSession();
       mockStorage.load.mockReturnValue(validSession);
       mockStorage.isExpired.mockReturnValue(false);
@@ -240,7 +240,7 @@ describe("SessionManager", () => {
 
       const client = manager.getClient();
       expect(client).toBeDefined();
-      expect(PhantomClient).toHaveBeenCalled();
+      expect(LiquidClient).toHaveBeenCalled();
     });
 
     it("should throw error if not initialized", () => {
@@ -320,7 +320,7 @@ describe("SessionManager", () => {
       });
     });
 
-    it("should create PhantomClient with correct config", async () => {
+    it("should create LiquidClient with correct config", async () => {
       const validSession = createValidSession();
       mockStorage.load.mockReturnValue(validSession);
       mockStorage.isExpired.mockReturnValue(false);
@@ -330,17 +330,17 @@ describe("SessionManager", () => {
       });
       await manager.initialize();
 
-      expect(PhantomClient).toHaveBeenCalledWith(
+      expect(LiquidClient).toHaveBeenCalledWith(
         {
           apiBaseUrl: "https://custom-api.example.com",
           organizationId: validSession.organizationId,
           walletType: "user-wallet",
           headers: expect.objectContaining({
-            "x-phantom-platform": "ext-sdk",
-            "x-phantom-sdk-type": "server",
-            "x-phantom-client": "mcp",
-            "x-phantom-sdk-version": expect.any(String),
-            "x-app-id": "phantom-mcp",
+            "x-liquid-platform": "ext-sdk",
+            "x-liquid-sdk-type": "server",
+            "x-liquid-client": "mcp",
+            "x-liquid-sdk-version": expect.any(String),
+            "x-app-id": "liquid-mcp",
           }),
         },
         expect.anything(),
@@ -355,7 +355,7 @@ describe("SessionManager", () => {
       const manager = new SessionManager();
       await manager.initialize();
 
-      expect(PhantomClient).toHaveBeenCalledWith(
+      expect(LiquidClient).toHaveBeenCalledWith(
         expect.objectContaining({
           walletType: "user-wallet",
         }),

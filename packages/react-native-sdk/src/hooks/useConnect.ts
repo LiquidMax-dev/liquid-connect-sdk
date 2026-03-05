@@ -1,9 +1,9 @@
 import { useCallback } from "react";
-import { usePhantom } from "../PhantomContext";
+import { useLiquid } from "../LiquidContext";
 import type { ConnectOptions, ConnectResult } from "../types";
 
 export function useConnect() {
-  const { sdk, isConnecting, errors, setWalletId } = usePhantom();
+  const { sdk, isConnecting, errors, setWalletId } = useLiquid();
 
   const connect = useCallback(
     async (options: ConnectOptions): Promise<ConnectResult> => {

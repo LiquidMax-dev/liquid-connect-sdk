@@ -1,26 +1,26 @@
 /**
- * Session management for Phantom OpenClaw plugin
- * Wraps the SessionManager from @phantom/mcp-server
+ * Session management for Liquid OpenClaw plugin
+ * Wraps the SessionManager from @liquid/mcp-server
  */
 
-import { SessionManager } from "@phantom/mcp-server";
-import type { PhantomClient, SessionData } from "@phantom/mcp-server";
+import { SessionManager } from "@liquid/mcp-server";
+import type { LiquidClient, SessionData } from "@liquid/mcp-server";
 
 /**
  * Configuration options for PluginSession
  */
 export interface PluginSessionOptions {
-  /** Application identifier from Phantom Portal */
+  /** Application identifier from Liquid Portal */
   appId?: string;
   /** OAuth callback port (default: 8080) */
   callbackPort?: number;
-  /** Directory to store session data (default: ~/.phantom-mcp) */
+  /** Directory to store session data (default: ~/.liquid-mcp) */
   sessionDir?: string;
 }
 
 /**
  * Plugin session manager
- * Handles authentication and provides access to PhantomClient
+ * Handles authentication and provides access to LiquidClient
  */
 export class PluginSession {
   private sessionManager: SessionManager;
@@ -30,7 +30,7 @@ export class PluginSession {
   constructor(options: PluginSessionOptions = {}) {
     // Initialize SessionManager with configuration
     this.sessionManager = new SessionManager({
-      appId: options.appId ?? "phantom-openclaw",
+      appId: options.appId ?? "liquid-openclaw",
       callbackPort: options.callbackPort,
       sessionDir: options.sessionDir,
     });
@@ -66,9 +66,9 @@ export class PluginSession {
   }
 
   /**
-   * Get the authenticated PhantomClient
+   * Get the authenticated LiquidClient
    */
-  getClient(): PhantomClient {
+  getClient(): LiquidClient {
     if (!this.initialized) {
       throw new Error("Session not initialized. Call initialize() first.");
     }

@@ -2,10 +2,10 @@ import { getProvider } from "./getProvider";
 import type { EthereumTransaction } from "./types";
 
 /**
- * Sends a transaction using the Phantom Ethereum provider.
+ * Sends a transaction using the Liquid Ethereum provider.
  * @param transaction The transaction to send.
  * @returns A promise that resolves with the transaction hash.
- * @throws Error if Phantom provider is not found or if the operation fails.
+ * @throws Error if Liquid provider is not found or if the operation fails.
  */
 export async function sendTransaction(transaction: EthereumTransaction): Promise<string> {
   const provider = await getProvider();
@@ -18,10 +18,10 @@ export async function sendTransaction(transaction: EthereumTransaction): Promise
 }
 
 /**
- * Signs a transaction using the Phantom Ethereum provider.
+ * Signs a transaction using the Liquid Ethereum provider.
  * @param transaction The transaction to sign.
  * @returns A promise that resolves with the signed transaction.
- * @throws Error if Phantom provider is not found or if the operation fails.
+ * @throws Error if Liquid provider is not found or if the operation fails.
  */
 export async function signTransaction(transaction: EthereumTransaction): Promise<string> {
   const provider = await getProvider();

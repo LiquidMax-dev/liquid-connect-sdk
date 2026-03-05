@@ -26,8 +26,8 @@ const mockCreateConnectStartUrl = jest
     "https://auth.example.com/login/start?client_id=int-client-id&response_type=code&scope=openid&nonce=int-nonce&state=int-session-1&code_challenge=int-challenge&code_challenge_method=S256",
   );
 
-jest.mock("@phantom/auth2", () => {
-  const actual = jest.requireActual<Record<string, unknown>>("@phantom/auth2");
+jest.mock("@liquid/auth2", () => {
+  const actual = jest.requireActual<Record<string, unknown>>("@liquid/auth2");
   return {
     ...actual,
     createConnectStartUrl: mockCreateConnectStartUrl,
@@ -60,7 +60,7 @@ const mockSubtle = {
   importKey: jest.fn().mockResolvedValue(mockPrivateKey),
 };
 
-jest.mock("@phantom/base64url", () => ({
+jest.mock("@liquid/base64url", () => ({
   base64urlEncode: jest.fn((data: Uint8Array) => Buffer.from(data).toString("base64url")),
 }));
 
@@ -95,11 +95,11 @@ afterEach(() => {
   navigateSpy.mockRestore();
 });
 
-import type { StamperWithKeyManagement } from "@phantom/sdk-types";
-import type { EmbeddedStorage, URLParamsAccessor } from "@phantom/embedded-provider-core";
+import type { StamperWithKeyManagement } from "@liquid/sdk-types";
+import type { EmbeddedStorage, URLParamsAccessor } from "@liquid/embedded-provider-core";
 import { Auth2Stamper } from "./adapters/Auth2Stamper";
 import { Auth2AuthProvider } from "./adapters/Auth2AuthProvider";
-import { exchangeAuthCode } from "@phantom/auth2";
+import { exchangeAuthCode } from "@liquid/auth2";
 
 const AUTH2_OPTIONS = {
   clientId: "int-client-id",

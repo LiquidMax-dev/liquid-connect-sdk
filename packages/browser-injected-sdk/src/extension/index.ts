@@ -3,7 +3,7 @@ export { createExtensionPlugin } from "./plugin";
 export type { Extension } from "./plugin";
 
 declare module "../index" {
-  interface Phantom {
+  interface Liquid {
     extension: Extension;
   }
 }

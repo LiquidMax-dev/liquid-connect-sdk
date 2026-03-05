@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ConnectButton, usePhantom, isMobileDevice, AddressType, useTheme, ConnectBox } from "@phantom/react-sdk";
+import { ConnectButton, useLiquid, isMobileDevice, AddressType, useTheme, ConnectBox } from "@liquid/react-sdk";
 
 interface ConnectExampleProps {
   appIcon?: string;
@@ -7,7 +7,7 @@ interface ConnectExampleProps {
 }
 
 export default function ConnectExample({ appIcon, appName }: ConnectExampleProps) {
-  const { isConnected } = usePhantom();
+  const { isConnected } = useLiquid();
   const theme = useTheme();
   const isMobile = isMobileDevice();
   const [activeTab, setActiveTab] = useState<"connectbox" | "buttons">("connectbox");

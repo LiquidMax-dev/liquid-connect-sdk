@@ -2,9 +2,9 @@
  * transfer_tokens tool - Transfers SOL or SPL tokens on Solana
  */
 
-import { base64urlEncode } from "@phantom/base64url";
-import { NetworkId } from "@phantom/client";
-import { isSolanaChain } from "@phantom/utils";
+import { base64urlEncode } from "@liquid/base64url";
+import { NetworkId } from "@liquid/client";
+import { isSolanaChain } from "@liquid/utils";
 import { Connection, PublicKey, SystemProgram, Transaction, type Commitment } from "@solana/web3.js";
 import {
   createAssociatedTokenAccountInstruction,

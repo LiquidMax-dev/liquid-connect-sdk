@@ -3,8 +3,8 @@ import type { SolanaStrategy } from "./strategies/types";
 import { ProviderStrategy } from "../types";
 
 /**
- * Retrieves Phantom injected provider and returns it if it exists.
- * @returns Phantom injected provider or throws error if it doesn't exist.
+ * Retrieves Liquid injected provider and returns it if it exists.
+ * @returns Liquid injected provider or throws error if it doesn't exist.
  */
 export async function getProvider(strategy: ProviderStrategy = ProviderStrategy.INJECTED): Promise<SolanaStrategy> {
   if (strategy === "injected") {

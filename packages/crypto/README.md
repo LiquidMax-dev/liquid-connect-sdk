@@ -1,6 +1,6 @@
-# @phantom/crypto
+# @liquid/crypto
 
-Cryptographic utilities for Phantom SDK, providing Ed25519 key generation, key pair management, and digital signing functionality.
+Cryptographic utilities for Liquid SDK, providing Ed25519 key generation, key pair management, and digital signing functionality.
 
 ## Features
 
@@ -13,9 +13,9 @@ Cryptographic utilities for Phantom SDK, providing Ed25519 key generation, key p
 ## Installation
 
 ```bash
-npm install @phantom/crypto
+npm install @liquid/crypto
 # or
-yarn add @phantom/crypto
+yarn add @liquid/crypto
 ```
 
 ## Usage
@@ -23,7 +23,7 @@ yarn add @phantom/crypto
 ### Generate a New Key Pair
 
 ```typescript
-import { generateKeyPair } from "@phantom/crypto";
+import { generateKeyPair } from "@liquid/crypto";
 
 const keyPair = generateKeyPair();
 console.log("Public Key:", keyPair.publicKey);
@@ -33,7 +33,7 @@ console.log("Secret Key:", keyPair.secretKey);
 ### Create Key Pair from Existing Secret Key
 
 ```typescript
-import { createKeyPairFromSecret } from "@phantom/crypto";
+import { createKeyPairFromSecret } from "@liquid/crypto";
 
 const existingSecretKey = "your-base58-encoded-secret-key";
 const keyPair = createKeyPairFromSecret(existingSecretKey);
@@ -43,7 +43,7 @@ console.log("Recovered Public Key:", keyPair.publicKey);
 ### Sign Data
 
 ```typescript
-import { signWithSecret } from "@phantom/crypto";
+import { signWithSecret } from "@liquid/crypto";
 
 const secretKey = "your-base58-encoded-secret-key";
 const message = "Hello, world!";

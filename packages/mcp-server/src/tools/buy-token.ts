@@ -1,13 +1,13 @@
 /**
- * buy_token tool - Fetches a swap quote from the Phantom quotes API.
+ * buy_token tool - Fetches a swap quote from the Liquid quotes API.
  */
 
-import type { NetworkId } from "@phantom/client";
-import { isSolanaChain } from "@phantom/utils";
+import type { NetworkId } from "@liquid/client";
+import { isSolanaChain } from "@liquid/utils";
 import { Connection, PublicKey } from "@solana/web3.js";
 import { getMint } from "@solana/spl-token";
 import bs58 from "bs58";
-import { base64urlEncode } from "@phantom/base64url";
+import { base64urlEncode } from "@liquid/base64url";
 import type { ToolHandler, ToolContext } from "./types.js";
 import { normalizeNetworkId, normalizeSwapperChainId } from "../utils/network.js";
 import { getSolanaAddress } from "../utils/solana.js";
@@ -15,7 +15,7 @@ import { parseBaseUnitAmount, parseUiAmount, requirePositiveAmount } from "../ut
 import { parseOptionalNonNegativeInteger } from "../utils/params.js";
 
 const DEFAULT_QUOTES_API_URL = "https://api.phantom.app/swap/v2/quotes";
-const DEFAULT_PHANTOM_VERSION = "mcp-server";
+const DEFAULT_LIQUID_VERSION = "mcp-server";
 
 const DEFAULT_SOLANA_RPC_URLS: Record<string, string> = {
   "solana:101": "https://api.mainnet-beta.solana.com",
@@ -57,8 +57,8 @@ function validateHttpsUrl(url: string, context: string): void {
 }
 
 /**
- * Resolves the Phantom quotes API URL to use for fetching swap quotes.
- * Priority: override parameter > PHANTOM_QUOTES_API_URL environment variable > default URL
+ * Resolves the Liquid quotes API URL to use for fetching swap quotes.
+ * Priority: override parameter > LIQUID_QUOTES_API_URL environment variable > default URL
  *
  * @param override - Optional URL override to use instead of defaults
  * @returns The resolved quotes API URL
@@ -74,8 +74,8 @@ function resolveQuotesApiUrl(override?: string): string {
 
   if (override && typeof override === "string") {
     url = override;
-  } else if (process.env.PHANTOM_QUOTES_API_URL) {
-    url = process.env.PHANTOM_QUOTES_API_URL;
+  } else if (process.env.LIQUID_QUOTES_API_URL) {
+    url = process.env.LIQUID_QUOTES_API_URL;
   } else {
     url = DEFAULT_QUOTES_API_URL;
   }
@@ -157,7 +157,7 @@ function decodeTransactionData(transactionData: string, base64Encoded: boolean |
 }
 
 /**
- * MCP tool handler for fetching swap quotes from Phantom's quotes API.
+ * MCP tool handler for fetching swap quotes from Liquid's quotes API.
  * Supports buying tokens on Solana networks with optional transaction execution.
  *
  * @remarks
@@ -187,7 +187,7 @@ function decodeTransactionData(transactionData: string, base64Encoded: boolean |
 export const buyTokenTool: ToolHandler = {
   name: "buy_token",
   description:
-    "Fetches an optimized Solana token swap quote from Phantom's quotes API and can optionally execute it. Despite the name, use this for both swaps and buy-intent flows (set exactOut: true to target the buy amount). By default it returns quote-only; pass execute: true to sign and send. Phantom quotes include route selection and execution parameters designed to improve landing reliability.",
+    "Fetches an optimized Solana token swap quote from Liquid's quotes API and can optionally execute it. Despite the name, use this for both swaps and buy-intent flows (set exactOut: true to target the buy amount). By default it returns quote-only; pass execute: true to sign and send. Liquid quotes include route selection and execution parameters designed to improve landing reliability.",
   inputSchema: {
     type: "object",
     properties: {
@@ -268,7 +268,7 @@ export const buyTokenTool: ToolHandler = {
       quoteApiUrl: {
         type: "string",
         description:
-          "Optional Phantom-compatible quotes API URL override. This must point to an endpoint that accepts Phantom's swap quote request format. Do not use Jupiter or other third-party API URLs as they have different request/response schemas.",
+          "Optional Liquid-compatible quotes API URL override. This must point to an endpoint that accepts Liquid's swap quote request format. Do not use Jupiter or other third-party API URLs as they have different request/response schemas.",
       },
       derivationIndex: {
         type: "number",
@@ -459,17 +459,17 @@ export const buyTokenTool: ToolHandler = {
 
     const appId =
       (typeof session.appId === "string" && session.appId) ||
-      process.env.PHANTOM_APP_ID ||
-      process.env.PHANTOM_CLIENT_ID;
+      process.env.LIQUID_APP_ID ||
+      process.env.LIQUID_CLIENT_ID;
     if (!appId) {
       logger.warn("Quote request missing app id; sending request without x-api-key header");
     }
 
     const quoteHeaders: Record<string, string> = {
       "Content-Type": "application/json",
-      "x-phantom-platform": "ext-sdk",
-      "x-phantom-client": "mcp",
-      "X-Phantom-Version": process.env.PHANTOM_VERSION ?? DEFAULT_PHANTOM_VERSION,
+      "x-liquid-platform": "ext-sdk",
+      "x-liquid-client": "mcp",
+      "X-Liquid-Version": process.env.LIQUID_VERSION ?? DEFAULT_LIQUID_VERSION,
     };
     if (appId) {
       // Keep legacy x-api-key for backwards compatibility while also mirroring Terminal headers.
@@ -511,7 +511,7 @@ export const buyTokenTool: ToolHandler = {
       const message = typeof responseJson === "string" ? responseJson : JSON.stringify(responseJson);
       if (response.status === 405) {
         throw new Error(
-          `Quote API error (405): ${message}. Endpoint must accept POST with Phantom quote schema. If using quoteApiUrl override, use a Phantom-compatible endpoint (for example, https://api.phantom.app/swap/v2/quotes) instead of Jupiter's /swap/v1/quote endpoint.`,
+          `Quote API error (405): ${message}. Endpoint must accept POST with Liquid quote schema. If using quoteApiUrl override, use a Liquid-compatible endpoint (for example, https://api.phantom.app/swap/v2/quotes) instead of Jupiter's /swap/v1/quote endpoint.`,
         );
       }
       throw new Error(`Quote API error (${response.status}): ${message}`);

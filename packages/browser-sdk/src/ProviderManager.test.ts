@@ -1,13 +1,13 @@
 import { ProviderManager } from "./ProviderManager";
 import { InjectedProvider } from "./providers/injected";
 import { EmbeddedProvider } from "./providers/embedded";
-import { AddressType } from "@phantom/client";
-import { getDeeplinkToPhantom } from "./utils/deeplink";
+import { AddressType } from "@liquid/client";
+import { getDeeplinkToLiquid } from "./utils/deeplink";
 import { cleanupWindowMock } from "./test-utils/mockWindow";
 import type { ConnectResult, WalletAddress } from "./types";
 
 // Mock parsers to prevent ESM module parsing issues
-jest.mock("@phantom/parsers", () => ({
+jest.mock("@liquid/parsers", () => ({
   parseToKmsTransaction: jest.fn().mockResolvedValue({ base64url: "mock-base64url", originalFormat: "mock" }),
   parseSignMessageResponse: jest.fn().mockReturnValue({ signature: "mock-signature", rawSignature: "mock-raw" }),
   parseTransactionResponse: jest.fn().mockReturnValue({
@@ -24,7 +24,7 @@ jest.mock("./providers/embedded");
 
 // Mock deeplink utility
 jest.mock("./utils/deeplink", () => ({
-  getDeeplinkToPhantom: jest.fn(),
+  getDeeplinkToLiquid: jest.fn(),
 }));
 
 // Mock auth-callback utilities
@@ -35,7 +35,7 @@ jest.mock("./utils/auth-callback", () => ({
 
 const MockInjectedProvider = InjectedProvider as jest.MockedClass<typeof InjectedProvider>;
 const MockEmbeddedProvider = EmbeddedProvider as jest.MockedClass<typeof EmbeddedProvider>;
-const mockGetDeeplinkToPhantom = getDeeplinkToPhantom as jest.MockedFunction<typeof getDeeplinkToPhantom>;
+const mockGetDeeplinkToLiquid = getDeeplinkToLiquid as jest.MockedFunction<typeof getDeeplinkToLiquid>;
 const win = window as Window & { location: Location };
 
 // Helper to create mock provider instances
@@ -59,7 +59,7 @@ describe("ProviderManager", () => {
     cleanupWindowMock();
 
     // Setup default mocks
-    mockGetDeeplinkToPhantom.mockReturnValue("https://phantom.app/ul/browse/test-url");
+    mockGetDeeplinkToLiquid.mockReturnValue("https://phantom.app/ul/browse/test-url");
   });
 
   afterEach(() => {
@@ -681,7 +681,7 @@ describe("ProviderManager", () => {
 
       const result = await manager.connect({ provider: "deeplink" });
 
-      expect(mockGetDeeplinkToPhantom).toHaveBeenCalled();
+      expect(mockGetDeeplinkToLiquid).toHaveBeenCalled();
       // Verify that window.location.href was set (we can't easily mock it in jsdom, but we verify the function was called)
       expect(result).toEqual({
         addresses: [],
@@ -691,7 +691,7 @@ describe("ProviderManager", () => {
     });
 
     it("should throw error if deeplink generation fails", async () => {
-      mockGetDeeplinkToPhantom.mockImplementation(() => {
+      mockGetDeeplinkToLiquid.mockImplementation(() => {
         throw new Error("Invalid URL protocol");
       });
 
@@ -710,7 +710,7 @@ describe("ProviderManager", () => {
         throw new Error("navigation blocked");
       });
 
-      mockGetDeeplinkToPhantom.mockReturnValue("https://phantom.app/ul/browse/test-url");
+      mockGetDeeplinkToLiquid.mockReturnValue("https://phantom.app/ul/browse/test-url");
 
       manager = new ProviderManager({
         providers: ["deeplink", "injected"],
@@ -719,7 +719,7 @@ describe("ProviderManager", () => {
 
       const result = await manager.connect({ provider: "deeplink" });
 
-      expect(mockGetDeeplinkToPhantom).toHaveBeenCalled();
+      expect(mockGetDeeplinkToLiquid).toHaveBeenCalled();
       expect(result).toEqual({
         addresses: [],
         walletId: undefined,
@@ -738,8 +738,8 @@ describe("ProviderManager", () => {
 
       await manager.connect({ provider: "deeplink" });
 
-      // Verify that getDeeplinkToPhantom was called
-      expect(mockGetDeeplinkToPhantom).toHaveBeenCalled();
+      // Verify that getDeeplinkToLiquid was called
+      expect(mockGetDeeplinkToLiquid).toHaveBeenCalled();
 
       // Note: MockInjectedProvider and MockEmbeddedProvider may have been called during initialization,
       // but the important thing is that connect() on those providers was NOT called for deeplink

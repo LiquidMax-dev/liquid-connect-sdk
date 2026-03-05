@@ -1,4 +1,4 @@
-import { base64urlDecode, base64urlEncode } from "@phantom/base64url";
+import { base64urlDecode, base64urlEncode } from "@liquid/base64url";
 
 const AUTH2_JAR_ALGORITHM = "ES256" as const;
 const AUTH2_JAR_TYP = "oauth-authz-req+jwt" as const;

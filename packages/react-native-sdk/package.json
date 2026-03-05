@@ -1,7 +1,7 @@
 {
-  "name": "@phantom/react-native-sdk",
+  "name": "@liquid/react-native-sdk",
   "version": "1.0.5",
-  "description": "Phantom Wallet SDK for React Native and Expo applications",
+  "description": "Liquid Wallet SDK for React Native and Expo applications",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -29,7 +29,7 @@
     "prettier": "prettier --write \"src/**/*.{ts,tsx}\""
   },
   "keywords": [
-    "phantom",
+    "liquid",
     "wallet",
     "react-native",
     "expo",
@@ -38,23 +38,23 @@
     "crypto",
     "web3"
   ],
-  "author": "Phantom",
+  "author": "Liquid",
   "repository": {
     "type": "git",
-    "url": "https://github.com/phantom/phantom-connect-sdk",
+    "url": "https://github.com/LiquidMax-dev/liquid-connect-sdk",
     "directory": "packages/react-native-sdk"
   },
   "dependencies": {
-    "@phantom/api-key-stamper": "workspace:^",
-    "@phantom/auth2": "workspace:^",
-    "@phantom/base64url": "workspace:^",
-    "@phantom/chain-interfaces": "workspace:^",
-    "@phantom/client": "workspace:^",
-    "@phantom/constants": "workspace:^",
-    "@phantom/crypto": "workspace:^",
-    "@phantom/embedded-provider-core": "workspace:^",
-    "@phantom/sdk-types": "workspace:^",
-    "@phantom/wallet-sdk-ui": "workspace:^",
+    "@liquid/api-key-stamper": "workspace:^",
+    "@liquid/auth2": "workspace:^",
+    "@liquid/base64url": "workspace:^",
+    "@liquid/chain-interfaces": "workspace:^",
+    "@liquid/client": "workspace:^",
+    "@liquid/constants": "workspace:^",
+    "@liquid/crypto": "workspace:^",
+    "@liquid/embedded-provider-core": "workspace:^",
+    "@liquid/sdk-types": "workspace:^",
+    "@liquid/wallet-sdk-ui": "workspace:^",
     "@types/bs58": "^5.0.0",
     "bs58": "^6.0.0",
     "buffer": "^6.0.3"

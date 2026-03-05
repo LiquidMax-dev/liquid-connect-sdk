@@ -1,6 +1,6 @@
 import { useState, useEffect, type CSSProperties } from "react";
-import { Button, Text, useTheme, ModalHeader } from "@phantom/wallet-sdk-ui";
-import { usePhantom } from "../PhantomContext";
+import { Button, Text, useTheme, ModalHeader } from "@liquid/wallet-sdk-ui";
+import { useLiquid } from "../LiquidContext";
 import { useDisconnect } from "../hooks/useDisconnect";
 
 export interface ConnectedModalContentProps {
@@ -10,7 +10,7 @@ export interface ConnectedModalContentProps {
 
 export function ConnectedModalContent({ onClose, hideCloseButton = false }: ConnectedModalContentProps) {
   const theme = useTheme();
-  const { addresses } = usePhantom();
+  const { addresses } = useLiquid();
   const { disconnect } = useDisconnect();
   const [isDisconnecting, setIsDisconnecting] = useState(false);
   const [disconnectError, setDisconnectError] = useState<Error | null>(null);

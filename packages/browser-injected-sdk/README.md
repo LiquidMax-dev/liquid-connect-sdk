@@ -1,6 +1,6 @@
-# Phantom Browser Injected SDK
+# Liquid Browser Injected SDK
 
-The Phantom Browser Injected SDK allows you to interact with the Phantom wallet from your web application. (Browser Extension and Mobile)
+The Liquid Browser Injected SDK allows you to interact with the Liquid wallet from your web application. (Browser Extension and Mobile)
 
 ## Installation
 
@@ -9,13 +9,13 @@ You can install the SDK using npm or yarn:
 **npm:**
 
 ```bash
-npm install @phantom/browser-injected-sdk
+npm install @liquid/browser-injected-sdk
 ```
 
 **yarn:**
 
 ```bash
-yarn add @phantom/browser-injected-sdk
+yarn add @liquid/browser-injected-sdk
 ```
 
 ## Usage
@@ -23,12 +23,12 @@ yarn add @phantom/browser-injected-sdk
 Here's an example of how to import and use the SDK with the Solana plugin:
 
 ```typescript
-import { createPhantom } from "@phantom/browser-injected-sdk";
-import { createSolanaPlugin } from "@phantom/browser-injected-sdk/solana"; // Import the solana plugin
-import { createEthereumPlugin } from "@phantom/browser-injected-sdk/ethereum";
+import { createLiquid } from "@liquid/browser-injected-sdk";
+import { createSolanaPlugin } from "@liquid/browser-injected-sdk/solana"; // Import the solana plugin
+import { createEthereumPlugin } from "@liquid/browser-injected-sdk/ethereum";
 
-// Create a Phantom instance with the Solana plugin
-const phantom = createPhantom({
+// Create a Liquid instance with the Solana plugin
+const liquid = createLiquid({
   plugins: [createSolanaPlugin(), createEthereumPlugin()],
 });
 
@@ -46,11 +46,11 @@ async function connectAndSign() {
     console.log("Sign In Result:", signInResult.address);
 
     // Example: Sign a message
-    const message = new TextEncoder().encode("Hello from Phantom Browser SDK!");
+    const message = new TextEncoder().encode("Hello from Liquid Browser SDK!");
     const signedMessage = await phantom.solana.signMessage(message, "utf8");
     console.log("Signed Message:", signedMessage);
   } catch (error) {
-    console.error("Error interacting with Phantom:", error);
+    console.error("Error interacting with Liquid:", error);
   }
 }
 
@@ -62,9 +62,9 @@ connectAndSign();
 Once the `phantom.solana` object is initialized, you can access the following methods:
 
 - `connect(opts?: { onlyIfTrusted?: boolean }): Promise<string>`
-  - Connects to the Phantom wallet. Optionally, `onlyIfTrusted` can be set to true to only connect if the dApp is already trusted.
+  - Connects to the Liquid wallet. Optionally, `onlyIfTrusted` can be set to true to only connect if the dApp is already trusted.
 - `disconnect(): Promise<void>`
-  - Disconnects from the Phantom wallet.
+  - Disconnects from the Liquid wallet.
 - `getAccount(): Promise<string | undefined>`
   - Gets the current connected address
 - `signIn(): Promise<SignInResult>`
@@ -78,7 +78,7 @@ Once the `phantom.solana` object is initialized, you can access the following me
 
 The SDK also allows you to listen for `connect`, `disconnect`, and `accountChanged` events:
 
-- `addEventListener(event: PhantomEventType, callback: PhantomEventCallback): () => void`
+- `addEventListener(event: LiquidEventType, callback: LiquidEventCallback): () => void`
   - Registers a callback that will be invoked when the specified event occurs.
   - For the `connect` event, the callback receives the public key (as a string) of the connected account.
   - For the `disconnect` event, the callback receives no arguments.
@@ -89,7 +89,7 @@ The SDK also allows you to listen for `connect`, `disconnect`, and `accountChang
   **Example:**
 
   ```typescript
-  const phantom = createPhantom({ plugins: [createSolanaPlugin()] });
+  const liquid = createLiquid({ plugins: [createSolanaPlugin()] });
 
   const handleConnect = (address: string) => {
     console.log(`Wallet connected with public key: ${address}`);
@@ -108,13 +108,13 @@ The SDK also allows you to listen for `connect`, `disconnect`, and `accountChang
   // clearAccountChangedListener();
   ```
 
-- `removeEventListener(event: PhantomEventType, callback: PhantomEventCallback): void`
+- `removeEventListener(event: LiquidEventType, callback: LiquidEventCallback): void`
   - Unregisters a previously registered callback for the specified event.
 
   **Example:**
 
   ```typescript
-  const phantom = createPhantom({ plugins: [createSolanaPlugin()] });
+  const liquid = createLiquid({ plugins: [createSolanaPlugin()] });
 
   const handleDisconnect = () => {
     console.log("Wallet disconnected");
@@ -128,7 +128,7 @@ The SDK also allows you to listen for `connect`, `disconnect`, and `accountChang
 
 ### Creating a transaction
 
-Phantom's SDK uses the `@solana/kit` library to create transactions. You can use the `createTransactionMessage` function to create a transaction message.
+Liquid's SDK uses the `@solana/kit` library to create transactions. You can use the `createTransactionMessage` function to create a transaction message.
 
 ```typescript
 import {
@@ -155,5 +155,5 @@ const transactionMessage = pipe(
 
 const transaction = compileTransaction(transactionMessage);
 
-const { signature } = await phantomInstance.solana.signAndSendTransaction(transaction);
+const { signature } = await liquidInstance.solana.signAndSendTransaction(transaction);
 ```

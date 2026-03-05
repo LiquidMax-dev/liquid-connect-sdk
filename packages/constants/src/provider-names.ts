@@ -1,9 +1,9 @@
-export type ProviderNameKey = "google" | "apple" | "phantom" | "device" | "injected" | "deeplink";
+export type ProviderNameKey = "google" | "apple" | "liquid" | "device" | "injected" | "deeplink";
 
 export const PROVIDER_NAMES: Record<ProviderNameKey, string> = {
   google: "Google",
   apple: "Apple",
-  phantom: "Phantom",
+  liquid: "Liquid",
   device: "Device",
   injected: "Wallet",
   deeplink: "Deeplink",

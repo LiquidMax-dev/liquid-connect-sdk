@@ -2,20 +2,20 @@ import type React from "react";
 import { render, fireEvent, waitFor } from "@testing-library/react-native";
 import type { ConnectedModalContentProps } from "./ConnectedModalContent";
 import { ConnectedModalContent } from "./ConnectedModalContent";
-import { usePhantom } from "../PhantomContext";
+import { useLiquid } from "../LiquidContext";
 import { useDisconnect } from "../hooks/useDisconnect";
-import { ThemeProvider } from "@phantom/wallet-sdk-ui";
+import { ThemeProvider } from "@liquid/wallet-sdk-ui";
 
 // Mock dependencies
-jest.mock("../PhantomContext");
+jest.mock("../LiquidContext");
 jest.mock("../hooks/useDisconnect");
 /* eslint-disable @typescript-eslint/no-var-requires */
-jest.mock("@phantom/wallet-sdk-ui", () => {
+jest.mock("@liquid/wallet-sdk-ui", () => {
   const React = require("react");
   const { TouchableOpacity, Text, View } = require("react-native");
 
   return {
-    ...jest.requireActual("@phantom/wallet-sdk-ui"),
+    ...jest.requireActual("@liquid/wallet-sdk-ui"),
     Button: (props: any) => {
       const { children, onClick, disabled, isLoading, variant } = props;
 
@@ -93,7 +93,7 @@ const mockTheme = {
 };
 
 describe("ConnectedModalContent", () => {
-  const mockUsePhantom = usePhantom as jest.MockedFunction<typeof usePhantom>;
+  const mockUseLiquid = useLiquid as jest.MockedFunction<typeof useLiquid>;
   const mockUseDisconnect = useDisconnect as jest.MockedFunction<typeof useDisconnect>;
   const mockDisconnect = jest.fn();
 
@@ -111,7 +111,7 @@ describe("ConnectedModalContent", () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    mockUsePhantom.mockReturnValue({
+    mockUseLiquid.mockReturnValue({
       addresses: [
         { address: "0x1234567890abcdef", addressType: "ethereum" },
         { address: "8B3fFH7w...vwLTHTLS", addressType: "solana" },
@@ -153,8 +153,8 @@ describe("ConnectedModalContent", () => {
     });
 
     it("should handle empty addresses array", () => {
-      mockUsePhantom.mockReturnValue({
-        ...mockUsePhantom(),
+      mockUseLiquid.mockReturnValue({
+        ...mockUseLiquid(),
         addresses: [],
       } as any);
 
@@ -165,8 +165,8 @@ describe("ConnectedModalContent", () => {
     });
 
     it("should handle single address", () => {
-      mockUsePhantom.mockReturnValue({
-        ...mockUsePhantom(),
+      mockUseLiquid.mockReturnValue({
+        ...mockUseLiquid(),
         addresses: [{ address: "0x1234567890abcdef", addressType: "ethereum" }],
       } as any);
 
@@ -319,8 +319,8 @@ describe("ConnectedModalContent", () => {
 
   describe("UI States", () => {
     it("should display addresses with proper formatting", () => {
-      mockUsePhantom.mockReturnValue({
-        ...mockUsePhantom(),
+      mockUseLiquid.mockReturnValue({
+        ...mockUseLiquid(),
         addresses: [{ address: "0xabcdefghijklmnopqrstuvwxyz123456789", addressType: "ethereum" }],
       } as any);
 

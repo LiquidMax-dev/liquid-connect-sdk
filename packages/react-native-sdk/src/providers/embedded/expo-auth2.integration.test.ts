@@ -19,8 +19,8 @@ const mockCreateConnectStartUrl = jest
   .fn()
   .mockResolvedValue("https://auth.example.com/login/start?state=rn-int-session-1");
 
-jest.mock("@phantom/auth2", () => {
-  const actual = jest.requireActual<Record<string, unknown>>("@phantom/auth2");
+jest.mock("@liquid/auth2", () => {
+  const actual = jest.requireActual<Record<string, unknown>>("@liquid/auth2");
   return {
     ...actual,
     createConnectStartUrl: mockCreateConnectStartUrl,
@@ -56,7 +56,7 @@ const mockSubtle = {
   importKey: jest.fn().mockResolvedValue(mockPrivateKey),
 };
 
-jest.mock("@phantom/base64url", () => ({
+jest.mock("@liquid/base64url", () => ({
   base64urlEncode: jest.fn((data: Uint8Array) => Buffer.from(data).toString("base64url")),
 }));
 
@@ -87,7 +87,7 @@ import * as SecureStore from "expo-secure-store";
 import * as WebBrowser from "expo-web-browser";
 import { ExpoAuth2Stamper } from "./ExpoAuth2Stamper";
 import { ExpoAuth2AuthProvider } from "./ExpoAuth2AuthProvider";
-import { exchangeAuthCode } from "@phantom/auth2";
+import { exchangeAuthCode } from "@liquid/auth2";
 
 const AUTH2_OPTIONS = {
   clientId: "rn-int-client-id",
@@ -131,7 +131,7 @@ describe("ExpoAuth2 React Native flow — end-to-end", () => {
   });
 
   it("full connect flow: stamper init → authenticate → AuthResult", async () => {
-    const stamper = new ExpoAuth2Stamper("phantom-auth2-rn-int");
+    const stamper = new ExpoAuth2Stamper("liquid-auth2-rn-int");
     const provider = makeProvider(stamper);
 
     const result = await provider.authenticate(CONNECT_OPTIONS);
@@ -152,7 +152,7 @@ describe("ExpoAuth2 React Native flow — end-to-end", () => {
   });
 
   it("exchanges the authorization code from the callback URL", async () => {
-    const stamper = new ExpoAuth2Stamper("phantom-auth2-rn-code");
+    const stamper = new ExpoAuth2Stamper("liquid-auth2-rn-code");
     const provider = makeProvider(stamper);
     await provider.authenticate(CONNECT_OPTIONS);
 
@@ -160,7 +160,7 @@ describe("ExpoAuth2 React Native flow — end-to-end", () => {
   });
 
   it("calls createConnectStartUrl with the stamper's CryptoKeyPair and connect options", async () => {
-    const stamper = new ExpoAuth2Stamper("phantom-auth2-rn-url");
+    const stamper = new ExpoAuth2Stamper("liquid-auth2-rn-url");
     const provider = makeProvider(stamper);
     await provider.authenticate(CONNECT_OPTIONS);
 
@@ -184,7 +184,7 @@ describe("ExpoAuth2 React Native flow — end-to-end", () => {
       url: buildCallbackUrl({ code: "c", state: "rn-int-session-1" }),
     });
 
-    const stamper = new ExpoAuth2Stamper("phantom-auth2-rn-url-passthrough");
+    const stamper = new ExpoAuth2Stamper("liquid-auth2-rn-url-passthrough");
     const provider = makeProvider(stamper);
     await provider.authenticate(CONNECT_OPTIONS);
 
@@ -193,7 +193,7 @@ describe("ExpoAuth2 React Native flow — end-to-end", () => {
   });
 
   it("getCryptoKeyPair() returns a CryptoKeyPair after stamper init", async () => {
-    const stamper = new ExpoAuth2Stamper("phantom-auth2-keypair-int");
+    const stamper = new ExpoAuth2Stamper("liquid-auth2-keypair-int");
     expect(stamper.getCryptoKeyPair()).toBeNull();
     await stamper.init();
     const kp = stamper.getCryptoKeyPair();
@@ -203,7 +203,7 @@ describe("ExpoAuth2 React Native flow — end-to-end", () => {
   });
 
   it("stamper key persists to SecureStore during authentication", async () => {
-    const storageKey = "phantom-auth2-persist-test";
+    const storageKey = "liquid-auth2-persist-test";
     const stamper = new ExpoAuth2Stamper(storageKey);
     const provider = makeProvider(stamper);
     await provider.authenticate(CONNECT_OPTIONS);
@@ -217,7 +217,7 @@ describe("ExpoAuth2 React Native flow — end-to-end", () => {
 
   it("loads the stored key from SecureStore on re-initialisation (simulates app restart)", async () => {
     // First authenticate — creates and stores the key.
-    const storageKey = "phantom-auth2-reload-test";
+    const storageKey = "liquid-auth2-reload-test";
     const stamper1 = new ExpoAuth2Stamper(storageKey);
     const provider1 = makeProvider(stamper1);
     await provider1.authenticate(CONNECT_OPTIONS);
@@ -246,7 +246,7 @@ describe("ExpoAuth2 React Native flow — end-to-end", () => {
   it("throws and cooldown still runs when user cancels the browser session", async () => {
     (WebBrowser.openAuthSessionAsync as jest.Mock).mockResolvedValueOnce({ type: "cancel" });
 
-    const stamper = new ExpoAuth2Stamper("phantom-auth2-cancel");
+    const stamper = new ExpoAuth2Stamper("liquid-auth2-cancel");
     const provider = makeProvider(stamper);
 
     await expect(provider.authenticate(CONNECT_OPTIONS)).rejects.toThrow("Authentication failed");
@@ -256,7 +256,7 @@ describe("ExpoAuth2 React Native flow — end-to-end", () => {
   it("stamp output produced after auth contains OIDC kind with idToken and algorithm", async () => {
     // After authenticate(), the provider calls setIdToken() on the stamper,
     // so subsequent stamps use OIDC format.
-    const stamper = new ExpoAuth2Stamper("phantom-auth2-stamp-int");
+    const stamper = new ExpoAuth2Stamper("liquid-auth2-stamp-int");
     const provider = makeProvider(stamper);
     await provider.authenticate(CONNECT_OPTIONS);
 
@@ -285,14 +285,14 @@ describe("ExpoAuth2 React Native flow — end-to-end", () => {
       url: buildCallbackUrl({ code: "c", state: "ATTACKER-SESSION" }),
     });
 
-    const stamper = new ExpoAuth2Stamper("phantom-auth2-csrf");
+    const stamper = new ExpoAuth2Stamper("liquid-auth2-csrf");
     const provider = makeProvider(stamper);
 
     await expect(provider.authenticate(CONNECT_OPTIONS)).rejects.toThrow("CSRF");
   });
 
   it("KMS org discovery called with bearerToken and authUserId from token exchange", async () => {
-    const stamper = new ExpoAuth2Stamper("phantom-auth2-kms");
+    const stamper = new ExpoAuth2Stamper("liquid-auth2-kms");
     const provider = makeProvider(stamper);
     await provider.authenticate(CONNECT_OPTIONS);
 

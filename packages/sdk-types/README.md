@@ -1,22 +1,22 @@
-# @phantom/sdk-types
+# @liquid/sdk-types
 
-Common TypeScript types and interfaces used across the Phantom Wallet SDK packages.
+Common TypeScript types and interfaces used across the Liquid Wallet SDK packages.
 
 ## Overview
 
-This package provides centralized type definitions that are shared across multiple Phantom SDK packages, ensuring consistency and reducing duplication.
+This package provides centralized type definitions that are shared across multiple Liquid SDK packages, ensuring consistency and reducing duplication.
 
 ## Installation
 
 ```bash
-npm install @phantom/sdk-types
+npm install @liquid/sdk-types
 ```
 
 ## Types
 
 ### `Stamper`
 
-Interface for creating X-Phantom-Stamp header values for API authentication.
+Interface for creating X-Liquid-Stamp header values for API authentication.
 
 ```typescript
 interface Stamper {
@@ -31,7 +31,7 @@ interface Stamper {
 **Usage:**
 
 ```typescript
-import type { Stamper } from "@phantom/sdk-types";
+import type { Stamper } from "@liquid/sdk-types";
 
 class MyStamper implements Stamper {
   type = "PKI"; // or "OIDC"
@@ -69,7 +69,7 @@ interface StamperWithKeyManagement extends Stamper {
 **Usage:**
 
 ```typescript
-import type { StamperWithKeyManagement } from "@phantom/sdk-types";
+import type { StamperWithKeyManagement } from "@liquid/sdk-types";
 
 class MyKeyManagedStamper implements StamperWithKeyManagement {
   async init(): Promise<StamperKeyInfo> {
@@ -93,11 +93,11 @@ class MyKeyManagedStamper implements StamperWithKeyManagement {
 
 This package is used by:
 
-- `@phantom/client` - For the base Stamper interface
-- `@phantom/embedded-provider-core` - For StamperWithKeyManagement interface
-- `@phantom/api-key-stamper` - Implements Stamper interface
-- `@phantom/indexed-db-stamper` - Implements StamperWithKeyManagement interface
-- `@phantom/react-native-sdk` - For embedded stampers
+- `@liquid/client` - For the base Stamper interface
+- `@liquid/embedded-provider-core` - For StamperWithKeyManagement interface
+- `@liquid/api-key-stamper` - Implements Stamper interface
+- `@liquid/indexed-db-stamper` - Implements StamperWithKeyManagement interface
+- `@liquid/react-native-sdk` - For embedded stampers
 
 ## License
 

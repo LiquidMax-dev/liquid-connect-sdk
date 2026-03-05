@@ -2,7 +2,7 @@
  * MCP Tool types and interfaces
  */
 
-import type { PhantomClient } from "@phantom/client";
+import type { LiquidClient } from "@liquid/client";
 import type { SessionData } from "../session/types.js";
 import type { Logger } from "../utils/logger.js";
 
@@ -10,8 +10,8 @@ import type { Logger } from "../utils/logger.js";
  * Context provided to tool handlers
  */
 export interface ToolContext {
-  /** Authenticated PhantomClient instance */
-  client: PhantomClient;
+  /** Authenticated LiquidClient instance */
+  client: LiquidClient;
   /** Current session data */
   session: SessionData;
   /** Logger instance for this tool */

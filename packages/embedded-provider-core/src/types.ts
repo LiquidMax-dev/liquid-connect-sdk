@@ -1,6 +1,6 @@
-import type { AddressType } from "@phantom/client";
-import type { NetworkId } from "@phantom/constants";
-import type { ParsedSignatureResult, ParsedTransactionResult } from "@phantom/parsers";
+import type { AddressType } from "@liquid/client";
+import type { NetworkId } from "@liquid/constants";
+import type { ParsedSignatureResult, ParsedTransactionResult } from "@liquid/parsers";
 
 export interface WalletAddress {
   addressType: AddressType;
@@ -11,7 +11,7 @@ export interface ConnectResult {
   walletId?: string; // Only for embedded
   addresses: WalletAddress[];
   status?: "pending" | "completed"; // Session status - pending means redirect in progress, completed means wallet is ready
-  authUserId?: string; // Phantom user ID from auth flow (for embedded user-wallets)
+  authUserId?: string; // Liquid user ID from auth flow (for embedded user-wallets)
   authProvider: EmbeddedProviderAuthType;
 }
 
@@ -41,7 +41,7 @@ export interface SignAndSendTransactionParams {
 // Use the parsed transaction result instead of raw transaction
 export interface SignedTransaction extends ParsedTransactionResult {}
 
-export type EmbeddedProviderAuthType = "google" | "apple" | "phantom" | "device";
+export type EmbeddedProviderAuthType = "google" | "apple" | "liquid" | "device";
 
 export interface AuthOptions {
   provider: EmbeddedProviderAuthType;
@@ -55,7 +55,7 @@ export interface EmbeddedProviderConfig {
     authUrl?: string;
     redirectUrl?: string;
   };
-  /** When also provided, the Auth2 PKCE flow is used instead of the legacy Phantom Connect flow. */
+  /** When also provided, the Auth2 PKCE flow is used instead of the legacy Liquid Connect flow. */
   unstable__auth2Options?: {
     authApiBaseUrl: string;
     clientId: string;

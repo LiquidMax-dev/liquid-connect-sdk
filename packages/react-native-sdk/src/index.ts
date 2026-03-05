@@ -1,6 +1,6 @@
 // Main provider and context
-export { PhantomProvider } from "./PhantomProvider";
-export { usePhantom } from "./PhantomContext";
+export { LiquidProvider } from "./LiquidProvider";
+export { useLiquid } from "./LiquidContext";
 export { useModal } from "./ModalContext";
 
 // Individual hooks
@@ -8,8 +8,8 @@ export * from "./hooks";
 
 // Types
 export type {
-  PhantomSDKConfig,
-  PhantomDebugConfig,
+  LiquidSDKConfig,
+  LiquidDebugConfig,
   ConnectOptions,
   ConnectResult,
   WalletAddress,
@@ -28,11 +28,11 @@ export type {
   DisconnectEventData,
   EmbeddedProviderEventMap,
   EventCallback,
-} from "@phantom/embedded-provider-core";
+} from "@liquid/embedded-provider-core";
 
-export { AddressType } from "@phantom/client";
-export { NetworkId } from "@phantom/constants";
+export { AddressType } from "@liquid/client";
+export { NetworkId } from "@liquid/constants";
 
 // Theme exports - re-export from UI package for convenience
-export { darkTheme, lightTheme } from "@phantom/wallet-sdk-ui";
-export type { PhantomTheme } from "@phantom/wallet-sdk-ui";
+export { darkTheme, lightTheme } from "@liquid/wallet-sdk-ui";
+export type { LiquidTheme } from "@liquid/wallet-sdk-ui";

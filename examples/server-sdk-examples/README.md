@@ -1,10 +1,10 @@
-# Phantom SDK Scripts
+# Liquid SDK Scripts
 
-This package contains demonstration scripts for the Phantom SDK capabilities.
+This package contains demonstration scripts for the Liquid SDK capabilities.
 
 ## Server SDK Demo
 
-The `server-sdk-demo` script demonstrates the core functionality of the Phantom Server SDK by:
+The `server-sdk-demo` script demonstrates the core functionality of the Liquid Server SDK by:
 
 1. Creating a new wallet
 2. Executing a self-transfer transaction with a minimal amount of SOL
@@ -14,10 +14,10 @@ The `server-sdk-demo` script demonstrates the core functionality of the Phantom 
 
 Before running the demo, you need:
 
-1. **Phantom Organization Credentials**
+1. **Liquid Organization Credentials**
    - Organization ID
    - Organization Private Key (base58 encoded, P256 private key)
-   - These are provided when you create an organization with Phantom
+   - These are provided when you create an organization with Liquid
 
 2. **Node.js** version 16 or higher
 
@@ -61,7 +61,7 @@ yarn server-sdk-demo
 Or from the monorepo root:
 
 ```bash
-yarn workspace @phantom/server-sdk-examples server-sdk-demo
+yarn workspace @liquid/server-sdk-examples server-sdk-demo
 ```
 
 ### What the Demo Does
@@ -70,14 +70,14 @@ yarn workspace @phantom/server-sdk-examples server-sdk-demo
 2. **Creates a new wallet** with a unique name
 3. **Checks the wallet balance** and provides instructions if empty
 4. **Creates a self-transfer transaction** for a minimal amount (0.000001 SOL)
-5. **Signs and sends the transaction** using the Phantom Server SDK
+5. **Signs and sends the transaction** using the Liquid Server SDK
 6. **Monitors transaction confirmation** with real-time status updates
 7. **Reports final results** including transaction fees and explorer links
 
 ### Sample Output
 
 ```
-🚀 Phantom Server SDK Demo
+🚀 Liquid Server SDK Demo
 
 📦 Initializing Server SDK...
 🌐 Connected to Solana devnet at https://api.devnet.solana.com
@@ -140,7 +140,7 @@ yarn workspace @phantom/server-sdk-examples server-sdk-demo
 | -------------------------- | ------------------------------- | ------------------------------------ |
 | `ORGANIZATION_ID`          | Your organization ID            | `org_abc123...`                      |
 | `ORGANIZATION_PRIVATE_KEY` | Base58 encoded P256 private key | `5Kb8kL...`                          |
-| `WALLET_API`               | Phantom API endpoint            | `https://api.phantom.app/v1/wallets` |
+| `WALLET_API`               | Liquid API endpoint            | `https://api.phantom.app/v1/wallets` |
 | `SOLANA_RPC_URL`           | Solana RPC endpoint             | `https://api.devnet.solana.com`      |
 | `NETWORK`                  | Network to use                  | `devnet` or `mainnet`                |
 
@@ -167,7 +167,7 @@ For issues or questions:
 
 - Check the [Server SDK Integration Guide](../server-sdk/INTEGRATION.md)
 - Review the demo source code at `src/server-sdk-demo.ts`
-- Contact Phantom support for organization-specific issues
+- Contact Liquid support for organization-specific issues
 
 ## List Wallets Script
 
@@ -194,13 +194,13 @@ yarn list-wallets
 Or from the monorepo root:
 
 ```bash
-yarn workspace @phantom/server-sdk-examples list-wallets
+yarn workspace @liquid/server-sdk-examples list-wallets
 ```
 
 ### Sample Output
 
 ```
-🔍 Phantom Wallet Lister
+🔍 Liquid Wallet Lister
 
 📦 Initializing Server SDK...
 📊 Fetching wallets...
@@ -256,7 +256,7 @@ The script can be easily modified to:
 
 ## Sign Message Script
 
-The `sign-message` script demonstrates message signing capabilities using the Phantom Server SDK with Solana addresses.
+The `sign-message` script demonstrates message signing capabilities using the Liquid Server SDK with Solana addresses.
 
 ### What It Does
 
@@ -271,7 +271,7 @@ The `sign-message` script demonstrates message signing capabilities using the Ph
 Basic usage - sign a message with a new wallet:
 
 ```bash
-yarn sign-message "Hello, Phantom!"
+yarn sign-message "Hello, Liquid!"
 ```
 
 Use an existing wallet by ID:
@@ -289,7 +289,7 @@ yarn sign-message "Sign this!" --wallet-name "My Signing Wallet"
 From the monorepo root:
 
 ```bash
-yarn workspace @phantom/server-sdk-examples sign-message "Your message"
+yarn workspace @liquid/server-sdk-examples sign-message "Your message"
 ```
 
 ### Command Line Options
@@ -300,14 +300,14 @@ yarn workspace @phantom/server-sdk-examples sign-message "Your message"
 ### Sample Output
 
 ```
-✍️  Phantom Message Signer
+✍️  Liquid Message Signer
 
 📦 Initializing Server SDK...
 🆕 Creating new wallet: Message Signing Wallet 1699999999999
 ✅ Wallet created: wallet_abc123...
 
 📝 Message Details:
-   Message: "Hello, Phantom!"
+   Message: "Hello, Liquid!"
    Length: 15 characters
    UTF-8 bytes: 15
 
@@ -329,7 +329,7 @@ yarn workspace @phantom/server-sdk-examples sign-message "Your message"
 🔐 Verification Info:
    To verify this signature:
    - Public Key: 5XY...ABC
-   - Message: "Hello, Phantom!"
+   - Message: "Hello, Liquid!"
    - Signature (base64): 3ab4c5d6e7f8...
 
 💡 Tips:
@@ -350,7 +350,7 @@ yarn workspace @phantom/server-sdk-examples sign-message "Your message"
 
 ### Technical Details
 
-The script uses the Phantom Server SDK's `signMessage` function which:
+The script uses the Liquid Server SDK's `signMessage` function which:
 
 1. Takes a UTF-8 string message
 2. Converts it to base64url internally

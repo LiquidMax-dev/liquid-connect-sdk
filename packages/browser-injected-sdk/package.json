@@ -1,9 +1,9 @@
 {
-  "name": "@phantom/browser-injected-sdk",
+  "name": "@liquid/browser-injected-sdk",
   "version": "1.0.5",
   "repository": {
     "type": "git",
-    "url": "https://github.com/phantom/phantom-connect-sdk",
+    "url": "https://github.com/LiquidMax-dev/liquid-connect-sdk",
     "directory": "packages/browser-injected-sdk"
   },
   "main": "dist/index.js",
@@ -47,9 +47,9 @@
     "prettier": "prettier --write \"src/**/*.{ts,tsx}\""
   },
   "dependencies": {
-    "@phantom/chain-interfaces": "workspace:^",
-    "@phantom/constants": "workspace:^",
-    "@phantom/sdk-types": "workspace:^"
+    "@liquid/chain-interfaces": "workspace:^",
+    "@liquid/constants": "workspace:^",
+    "@liquid/sdk-types": "workspace:^"
   },
   "devDependencies": {
     "@jest/fake-timers": "^29.7.0",

@@ -3,10 +3,10 @@
  * This module contains the specific parsing logic for each blockchain network
  */
 
-import { base64urlDecode } from "@phantom/base64url";
-import type { NetworkId } from "@phantom/constants";
-import { getExplorerUrl } from "@phantom/constants";
-import { isEthereumChain } from "@phantom/utils";
+import { base64urlDecode } from "@liquid/base64url";
+import type { NetworkId } from "@liquid/constants";
+import { getExplorerUrl } from "@liquid/constants";
+import { isEthereumChain } from "@liquid/utils";
 import { Transaction, VersionedTransaction } from "@solana/web3.js";
 import bs58 from "bs58";
 import { Buffer } from "buffer";
@@ -167,7 +167,7 @@ function parseBitcoinSignatureResponse(base64Response: string): ParsedSignatureR
  */
 export function parseSolanaSignedTransaction(base64RawTransaction: string): Transaction | VersionedTransaction | null {
   try {
-    // Use @phantom/base64url utility for proper browser compatibility
+    // Use @liquid/base64url utility for proper browser compatibility
     const transactionBytes = base64urlDecode(base64RawTransaction);
     return deserializeSolanaTransaction(transactionBytes);
   } catch (error) {

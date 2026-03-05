@@ -1,22 +1,22 @@
-# Phantom Client Demo Apps
+# Liquid Client Demo Apps
 
-This directory contains demo applications showcasing Phantom Client functionality, including basic setup and advanced multi-authenticator features.
+This directory contains demo applications showcasing Liquid Client functionality, including basic setup and advanced multi-authenticator features.
 
 ## Available Scripts
 
 ### 1. Basic Setup Tool (`yarn dev`)
 
-Sets up your Phantom wallet infrastructure by generating credentials and creating your organization:
+Sets up your Liquid wallet infrastructure by generating credentials and creating your organization:
 
 1. Generate a cryptographic Ed25519 key pair for your organization
 2. Save credentials to a secure JSON file
-3. Create your organization using the Phantom API
+3. Create your organization using the Liquid API
 4. Generate a test wallet to verify functionality
 5. Create comprehensive Server SDK documentation with your credentials
 
 ### 2. Multi-Authenticator Demo (`yarn multi-auth`)
 
-Demonstrates the Phantom Client with multi-authenticator support:
+Demonstrates the Liquid Client with multi-authenticator support:
 
 1. Generate multiple key pairs for different authenticators
 2. Create an organization with multiple authenticators (keypair, PKI, OIDC)
@@ -50,10 +50,10 @@ No environment variables needed - the tools generate everything for you!
 
 ### Basic Setup Script (`yarn dev`)
 
-- Generate a new Ed25519 key pair using `@phantom/crypto`
+- Generate a new Ed25519 key pair using `@liquid/crypto`
 - Save the key pair to `demo-data.json`
-- Initialize a Phantom client with the generated private key
-- Create your organization on Phantom's platform
+- Initialize a Liquid client with the generated private key
+- Create your organization on Liquid's platform
 - Update `demo-data.json` with organization details
 - Create a test wallet with addresses for Solana, Ethereum, Bitcoin, and Sui
 - Generate `SERVER_SDK_USAGE.md` with complete integration instructions
@@ -80,9 +80,9 @@ No environment variables needed - the tools generate everything for you!
 
 The multi-authenticator demo runs all tests in memory without creating any files. All test results are displayed in the console output.
 
-## Phantom Client Features
+## Liquid Client Features
 
-The multi-authenticator demo showcases PhantomClient capabilities:
+The multi-authenticator demo showcases LiquidClient capabilities:
 
 ### Multi-Authenticator Organization Creation
 

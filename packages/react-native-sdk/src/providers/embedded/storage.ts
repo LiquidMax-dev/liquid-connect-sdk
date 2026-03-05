@@ -1,9 +1,9 @@
 import * as SecureStore from "expo-secure-store";
-import type { EmbeddedStorage, Session } from "@phantom/embedded-provider-core";
+import type { EmbeddedStorage, Session } from "@liquid/embedded-provider-core";
 
 export class ExpoSecureStorage implements EmbeddedStorage {
-  private readonly sessionKey = "phantom_session";
-  private readonly logoutFlagKey = "phantom_should_clear_previous_session";
+  private readonly sessionKey = "liquid_session";
+  private readonly logoutFlagKey = "liquid_should_clear_previous_session";
   private readonly requireAuth: boolean;
 
   constructor(requireAuth: boolean = false) {

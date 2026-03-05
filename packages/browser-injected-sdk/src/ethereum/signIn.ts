@@ -2,10 +2,10 @@ import { getProvider } from "./getProvider";
 import type { EthereumSignInData } from "./types";
 
 /**
- * Signs in using the Phantom Ethereum provider.
+ * Signs in using the Liquid Ethereum provider.
  * @param signInData The sign-in data.
  * @returns A promise that resolves with the signature data.
- * @throws Error if Phantom provider is not found or if the operation fails.
+ * @throws Error if Liquid provider is not found or if the operation fails.
  */
 export async function signIn(
   signInData: EthereumSignInData,

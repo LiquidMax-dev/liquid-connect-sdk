@@ -1,11 +1,11 @@
 {
-  "name": "@phantom/openclaw-plugin",
+  "name": "@liquid/openclaw-plugin",
   "version": "0.1.8",
-  "description": "OpenClaw plugin that bridges tool calls to Phantom's MCP server for wallet operations.",
+  "description": "OpenClaw plugin that bridges tool calls to Liquid's MCP server for wallet operations.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/phantom/phantom-connect-sdk",
-    "directory": "packages/phantom-openclaw-plugin"
+    "url": "https://github.com/LiquidMax-dev/liquid-connect-sdk",
+    "directory": "packages/liquid-openclaw-plugin"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -43,7 +43,7 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
-    "@phantom/mcp-server": "workspace:^",
+    "@liquid/mcp-server": "workspace:^",
     "@sinclair/typebox": "^0.32.0"
   },
   "files": [

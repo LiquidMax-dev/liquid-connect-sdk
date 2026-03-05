@@ -2,7 +2,7 @@ import type { TSchema } from "@sinclair/typebox";
 import { Value } from "@sinclair/typebox/value";
 import type { OpenClawApi } from "../client/types.js";
 import type { PluginSession } from "../session.js";
-import { registerPhantomTools } from "./register-tools.js";
+import { registerLiquidTools } from "./register-tools.js";
 
 type RegisteredTool = Parameters<OpenClawApi["registerTool"]>[0];
 
@@ -19,7 +19,7 @@ function registerToolsForTest(): RegisteredTool[] {
     getSession: jest.fn(),
   } as unknown as PluginSession;
 
-  registerPhantomTools(api, session);
+  registerLiquidTools(api, session);
   return registeredTools;
 }
 
@@ -29,7 +29,7 @@ function findToolSchema(registeredTools: RegisteredTool[], toolName: string): TS
   return tool!.parameters as TSchema;
 }
 
-describe("registerPhantomTools schema conversion", () => {
+describe("registerLiquidTools schema conversion", () => {
   it("preserves buy_token enum, union types, and required fields", () => {
     const registeredTools = registerToolsForTest();
     const buyTokenSchema = findToolSchema(registeredTools, "buy_token");

@@ -5,7 +5,7 @@ import {
   addEventListener,
   removeEventListener,
   triggerEvent,
-  type PhantomEthereumEventCallback,
+  type LiquidEthereumEventCallback,
 } from "./eventListeners";
 import { getAccounts } from "./getAccounts";
 import { signPersonalMessage, signTypedData } from "./signMessage";
@@ -13,11 +13,11 @@ import { sendTransaction, signTransaction } from "./sendTransaction";
 import { getChainId, switchChain } from "./chainUtils";
 import { getProvider } from "./getProvider";
 import type { EthereumEventType, ProviderRpcError } from "./types";
-import type { IEthereumChain, EthTransactionRequest } from "@phantom/chain-interfaces";
+import type { IEthereumChain, EthTransactionRequest } from "@liquid/chain-interfaces";
 
 /**
- * Phantom Ethereum chain implementation that is EIP-1193 compliant
- * This wraps Phantom's Ethereum provider with event listeners and state management
+ * Liquid Ethereum chain implementation that is EIP-1193 compliant
+ * This wraps Liquid's Ethereum provider with event listeners and state management
  */
 export class Ethereum implements IEthereumChain {
   private _chainId: string = "0x1";
@@ -102,11 +102,11 @@ export class Ethereum implements IEthereumChain {
     return this._accounts.length > 0;
   }
 
-  on(event: EthereumEventType, listener: PhantomEthereumEventCallback): void {
+  on(event: EthereumEventType, listener: LiquidEthereumEventCallback): void {
     addEventListener(event, listener);
   }
 
-  off(event: EthereumEventType, listener: PhantomEthereumEventCallback): void {
+  off(event: EthereumEventType, listener: LiquidEthereumEventCallback): void {
     removeEventListener(event, listener);
   }
 

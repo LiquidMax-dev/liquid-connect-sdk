@@ -1,7 +1,7 @@
 {
-  "name": "@phantom/chain-interfaces",
+  "name": "@liquid/chain-interfaces",
   "version": "1.0.5",
-  "description": "Shared chain interfaces for Phantom SDK",
+  "description": "Shared chain interfaces for Liquid SDK",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
@@ -24,7 +24,7 @@
     "prettier": "prettier --write \"src/**/*.{ts,tsx}\""
   },
   "keywords": [
-    "phantom",
+    "liquid",
     "wallet",
     "solana",
     "ethereum",
@@ -32,16 +32,16 @@
     "web3",
     "chains"
   ],
-  "author": "Phantom",
+  "author": "Liquid",
   "repository": {
     "type": "git",
-    "url": "https://github.com/phantom/phantom-connect-sdk",
+    "url": "https://github.com/LiquidMax-dev/liquid-connect-sdk",
     "directory": "packages/chain-interfaces"
   },
   "dependencies": {
-    "@phantom/constants": "workspace:^",
-    "@phantom/parsers": "workspace:^",
-    "@phantom/sdk-types": "workspace:^"
+    "@liquid/constants": "workspace:^",
+    "@liquid/parsers": "workspace:^",
+    "@liquid/sdk-types": "workspace:^"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",

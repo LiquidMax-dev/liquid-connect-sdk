@@ -1,6 +1,6 @@
-# Phantom Server SDK
+# Liquid Server SDK
 
-The Phantom Server SDK provides a secure and straightforward way to create and manage wallets, sign transactions, and interact with multiple blockchains from your backend services. This SDK is designed for server-side applications that need programmatic access to Phantom's wallet infrastructure.
+The Liquid Server SDK provides a secure and straightforward way to create and manage wallets, sign transactions, and interact with multiple blockchains from your backend services. This SDK is designed for server-side applications that need programmatic access to Liquid's wallet infrastructure.
 
 ## 📖 Documentation
 
@@ -29,27 +29,27 @@ Visit **[docs.phantom.com/server-sdk](https://docs.phantom.com/server-sdk)** for
 Install the Server SDK using your preferred package manager:
 
 ```bash
-npm install @phantom/server-sdk
+npm install @liquid/server-sdk
 ```
 
 ```bash
-yarn add @phantom/server-sdk
+yarn add @liquid/server-sdk
 ```
 
 ```bash
-pnpm add @phantom/server-sdk
+pnpm add @liquid/server-sdk
 ```
 
 ## Prerequisites
 
 Before using the SDK, you need:
 
-1. **Phantom Organization Credentials**
+1. **Liquid Organization Credentials**
    - Organization ID
    - Organization Private Key (base58 encoded)
    - API Base URL
 
-   These credentials are provided when you create an organization with Phantom.
+   These credentials are provided when you create an organization with Liquid.
 
 2. **Node.js** version 16 or higher
 
@@ -77,7 +77,7 @@ API_URL=https://api.phantom.app/v1/wallets
 ### 2. Initialize the SDK
 
 ```typescript
-import { ServerSDK, NetworkId } from "@phantom/server-sdk";
+import { ServerSDK, NetworkId } from "@liquid/server-sdk";
 import dotenv from "dotenv";
 
 // Load environment variables
@@ -98,7 +98,7 @@ console.log("Addresses:", wallet.addresses);
 // Sign a message
 const signature = await sdk.signMessage({
   walletId: wallet.walletId,
-  message: "Hello, Phantom!",
+  message: "Hello, Liquid!",
   networkId: NetworkId.SOLANA_MAINNET,
 });
 console.log("Signature:", signature);
@@ -355,7 +355,7 @@ The Server SDK uses the `NetworkId` enum to identify blockchain networks for sig
 ### Usage Examples
 
 ```typescript
-import { ServerSDK, NetworkId } from "@phantom/server-sdk";
+import { ServerSDK, NetworkId } from "@liquid/server-sdk";
 
 const sdk = new ServerSDK({
   organizationId: process.env.ORGANIZATION_ID!,
@@ -366,7 +366,7 @@ const sdk = new ServerSDK({
 // Sign a message on Solana
 await sdk.signMessage({
   walletId: wallet.walletId,
-  message: "Hello from Phantom!",
+  message: "Hello from Liquid!",
   networkId: NetworkId.SOLANA_MAINNET,
 });
 
@@ -408,7 +408,7 @@ For complete API documentation, visit **[docs.phantom.com/server-sdk](https://do
 ## Resources
 
 - [Documentation](https://docs.phantom.com/server-sdk)
-- [Example Code](https://github.com/phantom/wallet-sdk/tree/main/examples/server-sdk-examples)
+- [Example Code](https://github.com/LiquidMax-dev/liquid-connect-sdk/tree/main/examples/server-sdk-examples)
 - [Integration Guide](https://docs.phantom.com/server-sdk/integration-guide)
 - [API Reference](https://docs.phantom.com/server-sdk/api-reference)
 - [Changelog](./CHANGELOG.md)

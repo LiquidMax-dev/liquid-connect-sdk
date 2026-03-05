@@ -1,12 +1,12 @@
 import { getProvider } from "./getProvider";
 import type { AutoConfirmResult } from "./types";
-import { internalCaipToNetworkId } from "@phantom/constants";
+import { internalCaipToNetworkId } from "@liquid/constants";
 
 export async function autoConfirmDisable(): Promise<AutoConfirmResult> {
   const provider = getProvider();
 
   const result = await provider.request({
-    method: "phantom_auto_confirm_disable",
+    method: "liquid_auto_confirm_disable",
     params: {},
   });
 

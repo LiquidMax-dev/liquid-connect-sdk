@@ -2,7 +2,7 @@
 export { BrowserSDK } from "./BrowserSDK";
 
 // Chain interfaces (from shared package)
-export type { ISolanaChain, IEthereumChain, EthTransactionRequest } from "@phantom/chain-interfaces";
+export type { ISolanaChain, IEthereumChain, EthTransactionRequest } from "@liquid/chain-interfaces";
 
 // Types
 export * from "./types";
@@ -21,22 +21,22 @@ export {
 } from "./utils/browser-detection";
 export type { BrowserInfo } from "./utils/browser-detection";
 
-export { getDeeplinkToPhantom } from "./utils/deeplink";
+export { getDeeplinkToLiquid } from "./utils/deeplink";
 
 // Extension detection
-export { waitForPhantomExtension } from "./waitForPhantomExtension";
-export { isPhantomLoginAvailable } from "./isPhantomLoginAvailable";
+export { waitForLiquidExtension } from "./waitForLiquidExtension";
+export { isLiquidLoginAvailable } from "./isLiquidLoginAvailable";
 
 // Re-export useful types from constants and client
-export { NetworkId } from "@phantom/constants";
-export { AddressType } from "@phantom/client";
+export { NetworkId } from "@liquid/constants";
+export { AddressType } from "@liquid/client";
 
 // Re-export auto-confirm types
 export type {
   AutoConfirmEnableParams,
   AutoConfirmResult,
   AutoConfirmSupportedChainsResult,
-} from "@phantom/browser-injected-sdk/auto-confirm";
+} from "@liquid/browser-injected-sdk/auto-confirm";
 
 // Re-export event types for typed event handlers
 export type {
@@ -47,7 +47,7 @@ export type {
   DisconnectEventData,
   EmbeddedProviderEventMap,
   EventCallback,
-} from "@phantom/embedded-provider-core";
+} from "@liquid/embedded-provider-core";
 
-export { PHANTOM_ICON } from "@phantom/constants";
+export { LIQUID_ICON } from "@liquid/constants";
 export type { InjectedWalletInfo, InjectedWalletId } from "./wallets/registry";

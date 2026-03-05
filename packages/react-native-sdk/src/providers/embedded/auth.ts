@@ -1,12 +1,12 @@
 import * as WebBrowser from "expo-web-browser";
 import { Platform } from "react-native";
-import type { AuthProvider, AuthResult, PhantomConnectOptions } from "@phantom/embedded-provider-core";
-import { DEFAULT_AUTH_URL } from "@phantom/constants";
+import type { AuthProvider, AuthResult, LiquidConnectOptions } from "@liquid/embedded-provider-core";
+import { DEFAULT_AUTH_URL } from "@liquid/constants";
 
 declare const __SDK_VERSION__: string;
 
 export class ExpoAuthProvider implements AuthProvider {
-  async authenticate(options: PhantomConnectOptions): Promise<void | AuthResult> {
+  async authenticate(options: LiquidConnectOptions): Promise<void | AuthResult> {
     // Handle JWT authentication
     if ("jwtToken" in options) {
       // JWT authentication doesn't require web browser flow
@@ -15,8 +15,8 @@ export class ExpoAuthProvider implements AuthProvider {
     }
 
     // Handle redirect-based authentication
-    const phantomOptions = options as PhantomConnectOptions;
-    const { authUrl, redirectUrl, publicKey, sessionId, provider, appId } = phantomOptions;
+    const liquidOptions = options as LiquidConnectOptions;
+    const { authUrl, redirectUrl, publicKey, sessionId, provider, appId } = liquidOptions;
 
     if (!redirectUrl) {
       throw new Error("redirectUrl is required for web browser authentication");
@@ -36,8 +36,8 @@ export class ExpoAuthProvider implements AuthProvider {
         redirect_uri: redirectUrl,
         session_id: sessionId,
         // OAuth session management - defaults to allow refresh unless explicitly clearing after logout
-        clear_previous_session: (phantomOptions.clearPreviousSession ?? false).toString(),
-        allow_refresh: (phantomOptions.allowRefresh ?? true).toString(),
+        clear_previous_session: (liquidOptions.clearPreviousSession ?? false).toString(),
+        allow_refresh: (liquidOptions.allowRefresh ?? true).toString(),
         sdk_version: __SDK_VERSION__,
         sdk_type: "react-native",
         platform: Platform.OS,

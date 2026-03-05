@@ -1,5 +1,5 @@
-import { Icon, useTheme } from "@phantom/wallet-sdk-ui";
-import type { AddressType } from "@phantom/browser-sdk";
+import { Icon, useTheme } from "@liquid/wallet-sdk-ui";
+import type { AddressType } from "@liquid/browser-sdk";
 
 interface ChainIconProps {
   addressType: AddressType;

@@ -1,5 +1,5 @@
 {
-  "name": "@phantom/sdk-monorepo",
+  "name": "@liquid/sdk-monorepo",
   "private": true,
   "packageManager": "yarn@4.2.2",
   "scripts": {

@@ -1,5 +1,5 @@
 /**
- * Secure time service that fetches server time from Phantom's time API
+ * Secure time service that fetches server time from Liquid's time API
  * instead of relying on local machine time which can be manipulated
  */
 
@@ -19,7 +19,7 @@ class TimeService {
   }
 
   /**
-   * Get current timestamp from Phantom's secure time API
+   * Get current timestamp from Liquid's secure time API
    * Includes basic caching to reduce API calls
    */
   async now(): Promise<number> {

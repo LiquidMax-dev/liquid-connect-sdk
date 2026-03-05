@@ -4,23 +4,23 @@
   "commit": false,
   "fixed": [
     [
-      "@phantom/base64url",
-      "@phantom/constants",
-      "@phantom/sdk-types",
-      "@phantom/chain-interfaces",
-      "@phantom/parsers",
-      "@phantom/crypto",
-      "@phantom/api-key-stamper"
+      "@liquid/base64url",
+      "@liquid/constants",
+      "@liquid/sdk-types",
+      "@liquid/chain-interfaces",
+      "@liquid/parsers",
+      "@liquid/crypto",
+      "@liquid/api-key-stamper"
     ],
     [
-      "@phantom/client",
-      "@phantom/embedded-provider-core",
-      "@phantom/browser-sdk",
-      "@phantom/react-sdk",
-      "@phantom/react-native-sdk",
-      "@phantom/server-sdk",
-      "@phantom/utils",
-      "@phantom/wallet-sdk-ui"
+      "@liquid/client",
+      "@liquid/embedded-provider-core",
+      "@liquid/browser-sdk",
+      "@liquid/react-sdk",
+      "@liquid/react-native-sdk",
+      "@liquid/server-sdk",
+      "@liquid/utils",
+      "@liquid/wallet-sdk-ui"
     ]
   ],
   "linked": [],
@@ -29,11 +29,11 @@
   "updateInternalDependencies": "patch",
   "bumpVersionsWithWorkspaceProtocolOnly": true,
   "ignore": [
-    "@phantom/browser-sdk-demo-app",
-    "@phantom/react-sdk-demo-app",
+    "@liquid/browser-sdk-demo-app",
+    "@liquid/react-sdk-demo-app",
     "client-demo-app",
-    "@phantom/server-sdk-examples",
-    "@phantom/react-native-sdk-example",
-    "@phantom/with-modal"
+    "@liquid/server-sdk-examples",
+    "@liquid/react-native-sdk-example",
+    "@liquid/with-modal"
   ]
 }

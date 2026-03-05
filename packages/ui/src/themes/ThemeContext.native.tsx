@@ -1,16 +1,16 @@
 import { createContext, useContext, type ReactNode } from "react";
-import type { CompletePhantomNativeTheme } from "./index";
+import type { CompleteLiquidNativeTheme } from "./index";
 import { darkTheme, mergeThemeNative } from "./index";
 
 export interface ThemeContextValue {
-  theme: CompletePhantomNativeTheme;
+  theme: CompleteLiquidNativeTheme;
 }
 
 export const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 
 export interface ThemeProviderProps {
   children: ReactNode;
-  theme?: Partial<CompletePhantomNativeTheme>;
+  theme?: Partial<CompleteLiquidNativeTheme>;
 }
 
 /**
@@ -23,7 +23,7 @@ export function ThemeProvider({ children, theme }: ThemeProviderProps) {
   return <ThemeContext.Provider value={{ theme: resolvedTheme }}>{children}</ThemeContext.Provider>;
 }
 
-export function useTheme(): CompletePhantomNativeTheme {
+export function useTheme(): CompleteLiquidNativeTheme {
   const context = useContext(ThemeContext);
   if (!context) {
     throw new Error("useTheme must be used within a ThemeProvider");

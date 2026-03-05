@@ -2,9 +2,9 @@
  * sign_message tool - Signs a message using a wallet
  */
 
-import { isEthereumChain } from "@phantom/utils";
-import { stringToBase64url } from "@phantom/base64url";
-import type { NetworkId } from "@phantom/client";
+import { isEthereumChain } from "@liquid/utils";
+import { stringToBase64url } from "@liquid/base64url";
+import type { NetworkId } from "@liquid/client";
 import type { ToolHandler, ToolContext } from "./types.js";
 import { normalizeNetworkId } from "../utils/network.js";
 import { parseOptionalNonNegativeInteger } from "../utils/params.js";

@@ -4,4 +4,4 @@ export type { ConnectButtonProps } from "./ConnectButton";
 export { ConnectBox } from "./ConnectBox";
 export type { ConnectBoxProps } from "./ConnectBox";
 
-// UI components are exported from @phantom/wallet-sdk-ui
+// UI components are exported from @liquid/wallet-sdk-ui

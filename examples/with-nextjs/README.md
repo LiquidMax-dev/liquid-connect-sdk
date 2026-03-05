@@ -1,10 +1,10 @@
-# Phantom SDK Next.js Example
+# Liquid SDK Next.js Example
 
-This is a simple Next.js application that demonstrates how to use the Phantom React SDK to connect to Phantom wallet and sign Solana messages.
+This is a simple Next.js application that demonstrates how to use the Liquid React SDK to connect to Liquid wallet and sign Solana messages.
 
 ## Features
 
-- Connect/disconnect Phantom wallet
+- Connect/disconnect Liquid wallet
 - Display wallet addresses when connected
 - Sign Solana messages
 - Modern UI with Tailwind CSS
@@ -25,15 +25,15 @@ yarn dev
 
 3. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-4. Install Phantom browser extension if you haven't already
+4. Install Liquid browser extension if you haven't already
 
-5. Click "Connect Phantom Wallet" and follow the prompts
+5. Click "Connect Liquid Wallet" and follow the prompts
 
 6. Once connected, you can view your Solana address and sign a test message
 
 ## How It Works
 
-- Uses `PhantomProvider` from `@phantom/react-sdk` to wrap the app
+- Uses `LiquidProvider` from `@liquid/react-sdk` to wrap the app
 - `useConnect` hook provides connection state and methods
 - `useSolana` hook gives access to Solana-specific functionality
 - Configured for Solana only in this example
@@ -43,4 +43,4 @@ yarn dev
 - Next.js 15.5.3 with App Router
 - TypeScript
 - Tailwind CSS
-- @phantom/react-sdk
+- @liquid/react-sdk

@@ -78,7 +78,7 @@ describe("connect", () => {
       await new Promise(resolve => setTimeout(resolve, 100));
       throw new Error("Failed to connect");
     });
-    await expect(connect()).rejects.toThrow("Failed to connect to Phantom.");
+    await expect(connect()).rejects.toThrow("Failed to connect to Liquid.");
     expect(mockDefaultGetProvider).toHaveBeenCalledTimes(1);
     expect(triggerEventSpy).not.toHaveBeenCalled();
   });

@@ -1,7 +1,7 @@
-import { type NetworkId, type SdkAnalyticsHeaders } from "@phantom/constants";
-import type { Algorithm } from "@phantom/sdk-types";
+import { type NetworkId, type SdkAnalyticsHeaders } from "@liquid/constants";
+import type { Algorithm } from "@liquid/sdk-types";
 
-export interface PhantomClientConfig {
+export interface LiquidClientConfig {
   apiBaseUrl: string;
   organizationId?: string;
   headers?: Partial<SdkAnalyticsHeaders>;

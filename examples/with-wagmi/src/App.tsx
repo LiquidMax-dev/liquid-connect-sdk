@@ -13,9 +13,9 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <WagmiProvider config={config}>
           <div className="container">
-            <h1>Phantom SDK + wagmi Integration</h1>
+            <h1>Liquid SDK + wagmi Integration</h1>
             <p>
-              This example demonstrates how to use the Phantom SDK's Ethereum provider with wagmi to interact with
+              This example demonstrates how to use the Liquid SDK's Ethereum provider with wagmi to interact with
               Ethereum networks through standard Web3 tooling.
             </p>
             <WalletDemo />

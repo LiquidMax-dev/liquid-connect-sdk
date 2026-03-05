@@ -8,18 +8,18 @@ import type {
 } from "./types";
 import { ProviderManager, type ProviderPreference } from "./ProviderManager";
 import { debug, DebugCategory, type DebugLevel, type DebugCallback } from "./debug";
-import type { ISolanaChain, IEthereumChain } from "@phantom/chain-interfaces";
-import type { EmbeddedProviderEvent, EventCallback } from "@phantom/embedded-provider-core";
-import { EMBEDDED_PROVIDER_AUTH_TYPES } from "@phantom/embedded-provider-core";
+import type { ISolanaChain, IEthereumChain } from "@liquid/chain-interfaces";
+import type { EmbeddedProviderEvent, EventCallback } from "@liquid/embedded-provider-core";
+import { EMBEDDED_PROVIDER_AUTH_TYPES } from "@liquid/embedded-provider-core";
 import type { InjectedProvider } from "./providers/injected";
-import { DEFAULT_EMBEDDED_WALLET_TYPE } from "@phantom/constants";
+import { DEFAULT_EMBEDDED_WALLET_TYPE } from "@liquid/constants";
 import type { InjectedWalletInfo } from "./wallets/registry";
 import { getWalletRegistry } from "./wallets/registry";
 import type {
   AutoConfirmEnableParams,
   AutoConfirmResult,
   AutoConfirmSupportedChainsResult,
-} from "@phantom/browser-injected-sdk/auto-confirm";
+} from "@liquid/browser-injected-sdk/auto-confirm";
 
 const BROWSER_SDK_PROVIDER_TYPES: readonly AuthProviderType[] = [
   ...EMBEDDED_PROVIDER_AUTH_TYPES,
@@ -66,7 +66,7 @@ export class BrowserSDK {
       debug.error(DebugCategory.BROWSER_SDK, "appId required for embedded providers", {
         providers: config.providers,
       });
-      throw new Error("appId is required when using embedded providers (google, apple, phantom, etc.)");
+      throw new Error("appId is required when using embedded providers (google, apple, liquid, etc.)");
     }
 
     const embeddedWalletType = config.embeddedWalletType || DEFAULT_EMBEDDED_WALLET_TYPE;
@@ -183,7 +183,7 @@ export class BrowserSDK {
   /**
    * Get enabled address types for the current provider
    * - For embedded provider: returns config.addressTypes
-   * - For Phantom injected: returns config.addressTypes
+   * - For Liquid injected: returns config.addressTypes
    * - For discovered wallets: returns the wallet's addressTypes from registry
    */
   getEnabledAddressTypes(): AddressType[] {

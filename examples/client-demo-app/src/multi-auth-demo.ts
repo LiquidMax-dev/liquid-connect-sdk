@@ -1,11 +1,11 @@
-const { PhantomClient, generateKeyPair } = require("@phantom/client");
-const { ApiKeyStamper } = require("@phantom/api-key-stamper");
-const { base64urlEncode } = require("@phantom/base64url");
+const { LiquidClient, generateKeyPair } = require("@liquid/client");
+const { ApiKeyStamper } = require("@liquid/api-key-stamper");
+const { base64urlEncode } = require("@liquid/base64url");
 const bs58 = require("bs58");
 
 async function main() {
-  console.log("🚀 Starting Phantom Client Multi-Authenticator Test");
-  console.log("This test demonstrates PhantomClient methods for multi-authenticator organizations");
+  console.log("🚀 Starting Liquid Client Multi-Authenticator Test");
+  console.log("This test demonstrates LiquidClient methods for multi-authenticator organizations");
   console.log("═".repeat(80));
 
   // Step 1: Generate two key pairs for different authenticators
@@ -18,20 +18,20 @@ async function main() {
   console.log(`✅ Secondary key pair: ${secondaryKeyPair.publicKey.substring(0, 20)}...`);
 
   // Step 2: Create stamper and client using primary key
-  console.log("\n🔧 Step 2: Initialize PhantomClient");
+  console.log("\n🔧 Step 2: Initialize LiquidClient");
 
   const primaryStamper = new ApiKeyStamper({
     apiSecretKey: primaryKeyPair.secretKey,
   });
 
-  const client = new PhantomClient(
+  const client = new LiquidClient(
     {
       apiBaseUrl: "https://staging-api.phantom.app/v1/wallets",
     },
     primaryStamper,
   );
 
-  console.log("✅ PhantomClient initialized");
+  console.log("✅ LiquidClient initialized");
 
   // Step 3: Create organization with multiple authenticators
   console.log("\n🏢 Step 3: Test createOrganization with Multiple Authenticators");
@@ -107,7 +107,7 @@ async function main() {
       apiSecretKey: secondaryKeyPair.secretKey,
     });
 
-    const secondaryClient = new PhantomClient(
+    const secondaryClient = new LiquidClient(
       {
         apiBaseUrl: "https://staging-api.phantom.app/v1/wallets",
         organizationId: organization.organizationId,
@@ -202,7 +202,7 @@ async function main() {
   }
 
   console.log("\n" + "═".repeat(80));
-  console.log("🎉 All PhantomClient Methods Tested Successfully!");
+  console.log("🎉 All LiquidClient Methods Tested Successfully!");
   console.log("\n📋 Test Results:");
   console.log("✅ createOrganization - Created organization with multiple authenticators");
   console.log("✅ getOrganization - Retrieved organization details");
@@ -211,7 +211,7 @@ async function main() {
   console.log("✅ deleteAuthenticator - Successfully deleted authenticator");
   console.log("✅ Multi-auth access - Both authenticators accessed same organization");
   console.log("✅ OIDC support - AuthenticatorConfig supports OIDC with jwksUrl and idTokenClaims");
-  console.log("\n💡 All PhantomClient multi-authenticator functionality is working correctly!");
+  console.log("\n💡 All LiquidClient multi-authenticator functionality is working correctly!");
 }
 
 // Run the multi-authenticator test

@@ -1,9 +1,9 @@
 import type { Buffer } from "buffer";
-import { base64urlEncode } from "@phantom/base64url";
-import { createKeyPairFromSecret, signWithSecret } from "@phantom/crypto";
+import { base64urlEncode } from "@liquid/base64url";
+import { createKeyPairFromSecret, signWithSecret } from "@liquid/crypto";
 import bs58 from "bs58";
-import type { Stamper } from "@phantom/sdk-types";
-import { DEFAULT_AUTHENTICATOR_ALGORITHM } from "@phantom/constants";
+import type { Stamper } from "@liquid/sdk-types";
+import { DEFAULT_AUTHENTICATOR_ALGORITHM } from "@liquid/constants";
 export interface ApiKeyStamperConfig {
   apiSecretKey: string;
 }
@@ -24,9 +24,9 @@ export class ApiKeyStamper implements Stamper {
   }
 
   /**
-   * Create X-Phantom-Stamp header value
+   * Create X-Liquid-Stamp header value
    * @param params - Parameters object with data to sign
-   * @returns Complete X-Phantom-Stamp header value
+   * @returns Complete X-Liquid-Stamp header value
    */
   async stamp(
     params:

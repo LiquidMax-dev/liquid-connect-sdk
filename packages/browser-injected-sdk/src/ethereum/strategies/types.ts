@@ -1,10 +1,10 @@
-import type { EthereumTransaction, EthereumSignInData, PhantomEthereumProvider } from "../types";
+import type { EthereumTransaction, EthereumSignInData, LiquidEthereumProvider } from "../types";
 import type { ProviderStrategy } from "../../types";
 
 export interface EthereumStrategy {
   readonly type: ProviderStrategy;
   isConnected: boolean;
-  getProvider: () => PhantomEthereumProvider | null;
+  getProvider: () => LiquidEthereumProvider | null;
 
   connect: ({ onlyIfTrusted }: { onlyIfTrusted: boolean }) => Promise<string[] | undefined>;
   disconnect: () => Promise<void>;

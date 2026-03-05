@@ -1,26 +1,26 @@
 import * as React from "react";
 import { render, fireEvent, waitFor } from "@testing-library/react";
 import { ConnectModalContent, type ConnectModalContentProps } from "./ConnectModalContent";
-import { usePhantom } from "../PhantomContext";
+import { useLiquid } from "../LiquidContext";
 import { useConnect } from "../hooks/useConnect";
 import { useIsExtensionInstalled } from "../hooks/useIsExtensionInstalled";
-import { useIsPhantomLoginAvailable } from "../hooks/useIsPhantomLoginAvailable";
+import { useIsLiquidLoginAvailable } from "../hooks/useIsLiquidLoginAvailable";
 import { useDiscoveredWallets } from "../hooks/useDiscoveredWallets";
-import { isMobileDevice, getDeeplinkToPhantom } from "@phantom/browser-sdk";
-import { ThemeProvider } from "@phantom/wallet-sdk-ui";
+import { isMobileDevice, getDeeplinkToLiquid } from "@liquid/browser-sdk";
+import { ThemeProvider } from "@liquid/wallet-sdk-ui";
 
 // Mock dependencies
-jest.mock("../PhantomContext");
+jest.mock("../LiquidContext");
 jest.mock("../hooks/useConnect");
 jest.mock("../hooks/useIsExtensionInstalled");
-jest.mock("../hooks/useIsPhantomLoginAvailable");
+jest.mock("../hooks/useIsLiquidLoginAvailable");
 jest.mock("../hooks/useDiscoveredWallets");
-jest.mock("@phantom/browser-sdk", () => ({
+jest.mock("@liquid/browser-sdk", () => ({
   isMobileDevice: jest.fn(),
-  getDeeplinkToPhantom: jest.fn(),
+  getDeeplinkToLiquid: jest.fn(),
 }));
-jest.mock("@phantom/wallet-sdk-ui", () => ({
-  ...jest.requireActual("@phantom/wallet-sdk-ui"),
+jest.mock("@liquid/wallet-sdk-ui", () => ({
+  ...jest.requireActual("@liquid/wallet-sdk-ui"),
   Button: ({ children, onClick, disabled, isLoading, centered, fullWidth: _fullWidth, ...rest }: any) => (
     <button
       data-testid="button"
@@ -77,15 +77,15 @@ const mockTheme = {
 };
 
 describe("ConnectModalContent", () => {
-  const mockUsePhantom = usePhantom as jest.MockedFunction<typeof usePhantom>;
+  const mockUseLiquid = useLiquid as jest.MockedFunction<typeof useLiquid>;
   const mockUseConnect = useConnect as jest.MockedFunction<typeof useConnect>;
   const mockUseIsExtensionInstalled = useIsExtensionInstalled as jest.MockedFunction<typeof useIsExtensionInstalled>;
-  const mockUseIsPhantomLoginAvailable = useIsPhantomLoginAvailable as jest.MockedFunction<
-    typeof useIsPhantomLoginAvailable
+  const mockUseIsLiquidLoginAvailable = useIsLiquidLoginAvailable as jest.MockedFunction<
+    typeof useIsLiquidLoginAvailable
   >;
   const mockUseDiscoveredWallets = useDiscoveredWallets as jest.MockedFunction<typeof useDiscoveredWallets>;
   const mockIsMobileDevice = isMobileDevice as jest.MockedFunction<typeof isMobileDevice>;
-  const mockGetDeeplinkToPhantom = getDeeplinkToPhantom as jest.MockedFunction<typeof getDeeplinkToPhantom>;
+  const mockGetDeeplinkToLiquid = getDeeplinkToLiquid as jest.MockedFunction<typeof getDeeplinkToLiquid>;
 
   const mockConnect = jest.fn();
 
@@ -103,7 +103,7 @@ describe("ConnectModalContent", () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    mockUsePhantom.mockReturnValue({
+    mockUseLiquid.mockReturnValue({
       isLoading: false,
       allowedProviders: ["google", "apple", "deeplink"],
       isConnected: false,
@@ -126,7 +126,7 @@ describe("ConnectModalContent", () => {
       isInstalled: false,
       isLoading: false,
     });
-    mockUseIsPhantomLoginAvailable.mockReturnValue({
+    mockUseIsLiquidLoginAvailable.mockReturnValue({
       isAvailable: false,
       isLoading: false,
     });
@@ -137,7 +137,7 @@ describe("ConnectModalContent", () => {
       refetch: jest.fn(),
     });
     mockIsMobileDevice.mockReturnValue(false);
-    mockGetDeeplinkToPhantom.mockReturnValue("phantom://connect");
+    mockGetDeeplinkToLiquid.mockReturnValue("liquid://connect");
   });
 
   describe("Provider Buttons", () => {
@@ -161,8 +161,8 @@ describe("ConnectModalContent", () => {
     });
 
     it("should render Google text when only Google is allowed", () => {
-      mockUsePhantom.mockReturnValue({
-        ...mockUsePhantom(),
+      mockUseLiquid.mockReturnValue({
+        ...mockUseLiquid(),
         allowedProviders: ["google"],
       } as any);
 
@@ -172,8 +172,8 @@ describe("ConnectModalContent", () => {
     });
 
     it("should not render buttons for providers not in allowedProviders", () => {
-      mockUsePhantom.mockReturnValue({
-        ...mockUsePhantom(),
+      mockUseLiquid.mockReturnValue({
+        ...mockUseLiquid(),
         allowedProviders: ["google"], // Only google
       } as any);
 
@@ -184,58 +184,58 @@ describe("ConnectModalContent", () => {
     });
   });
 
-  describe("Phantom Login Button", () => {
-    it("should render Login with Phantom button when conditions are met", () => {
-      mockUsePhantom.mockReturnValue({
-        ...mockUsePhantom(),
-        allowedProviders: ["phantom"],
+  describe("Liquid Login Button", () => {
+    it("should render Login with Liquid button when conditions are met", () => {
+      mockUseLiquid.mockReturnValue({
+        ...mockUseLiquid(),
+        allowedProviders: ["liquid"],
       } as any);
-      mockUseIsPhantomLoginAvailable.mockReturnValue({
+      mockUseIsLiquidLoginAvailable.mockReturnValue({
         isAvailable: true,
         isLoading: false,
       });
 
       const { getByTestId } = renderComponent();
 
-      expect(getByTestId("login-with-phantom-button")).toBeInTheDocument();
+      expect(getByTestId("login-with-liquid-button")).toBeInTheDocument();
     });
 
-    it("should not render Login with Phantom on mobile", () => {
+    it("should not render Login with Liquid on mobile", () => {
       mockIsMobileDevice.mockReturnValue(true);
-      mockUsePhantom.mockReturnValue({
-        ...mockUsePhantom(),
-        allowedProviders: ["phantom"],
+      mockUseLiquid.mockReturnValue({
+        ...mockUseLiquid(),
+        allowedProviders: ["liquid"],
       } as any);
-      mockUseIsPhantomLoginAvailable.mockReturnValue({
+      mockUseIsLiquidLoginAvailable.mockReturnValue({
         isAvailable: true,
         isLoading: false,
       });
 
       const { queryByTestId } = renderComponent();
 
-      expect(queryByTestId("login-with-phantom-button")).not.toBeInTheDocument();
+      expect(queryByTestId("login-with-liquid-button")).not.toBeInTheDocument();
     });
 
-    it("should not render when phantom login is not available", () => {
-      mockUsePhantom.mockReturnValue({
-        ...mockUsePhantom(),
-        allowedProviders: ["phantom"],
+    it("should not render when liquid login is not available", () => {
+      mockUseLiquid.mockReturnValue({
+        ...mockUseLiquid(),
+        allowedProviders: ["liquid"],
       } as any);
-      mockUseIsPhantomLoginAvailable.mockReturnValue({
+      mockUseIsLiquidLoginAvailable.mockReturnValue({
         isAvailable: false,
         isLoading: false,
       });
 
       const { queryByTestId } = renderComponent();
 
-      expect(queryByTestId("login-with-phantom-button")).not.toBeInTheDocument();
+      expect(queryByTestId("login-with-liquid-button")).not.toBeInTheDocument();
     });
   });
 
   describe("Injected Provider", () => {
     it("should render injected provider button when extension is installed", () => {
-      mockUsePhantom.mockReturnValue({
-        ...mockUsePhantom(),
+      mockUseLiquid.mockReturnValue({
+        ...mockUseLiquid(),
         allowedProviders: ["injected"],
       } as any);
       mockUseIsExtensionInstalled.mockReturnValue({
@@ -245,7 +245,7 @@ describe("ConnectModalContent", () => {
       mockUseDiscoveredWallets.mockReturnValue({
         wallets: [
           {
-            id: "phantom",
+            id: "liquid",
             name: "Phantom",
             addressTypes: ["Solana"] as any,
           },
@@ -264,8 +264,8 @@ describe("ConnectModalContent", () => {
     });
 
     it("should show divider when multiple providers", () => {
-      mockUsePhantom.mockReturnValue({
-        ...mockUsePhantom(),
+      mockUseLiquid.mockReturnValue({
+        ...mockUseLiquid(),
         allowedProviders: ["google", "injected"],
       } as any);
       mockUseIsExtensionInstalled.mockReturnValue({
@@ -279,8 +279,8 @@ describe("ConnectModalContent", () => {
     });
 
     it("should not show divider when only injected provider", () => {
-      mockUsePhantom.mockReturnValue({
-        ...mockUsePhantom(),
+      mockUseLiquid.mockReturnValue({
+        ...mockUseLiquid(),
         allowedProviders: ["injected"],
       } as any);
       mockUseIsExtensionInstalled.mockReturnValue({
@@ -295,8 +295,8 @@ describe("ConnectModalContent", () => {
 
     it("should render on mobile when extension is detected", () => {
       mockIsMobileDevice.mockReturnValue(true);
-      mockUsePhantom.mockReturnValue({
-        ...mockUsePhantom(),
+      mockUseLiquid.mockReturnValue({
+        ...mockUseLiquid(),
         allowedProviders: ["injected"],
       } as any);
       mockUseIsExtensionInstalled.mockReturnValue({
@@ -306,7 +306,7 @@ describe("ConnectModalContent", () => {
       mockUseDiscoveredWallets.mockReturnValue({
         wallets: [
           {
-            id: "phantom",
+            id: "liquid",
             name: "Phantom",
             icon: undefined,
             addressTypes: ["Solana"] as any,
@@ -324,8 +324,8 @@ describe("ConnectModalContent", () => {
 
     it("should not render on mobile when extension is not detected and no wallets discovered", () => {
       mockIsMobileDevice.mockReturnValue(true);
-      mockUsePhantom.mockReturnValue({
-        ...mockUsePhantom(),
+      mockUseLiquid.mockReturnValue({
+        ...mockUseLiquid(),
         allowedProviders: ["injected"],
       } as any);
       mockUseIsExtensionInstalled.mockReturnValue({
@@ -346,8 +346,8 @@ describe("ConnectModalContent", () => {
 
     it("should render discovered wallets on mobile even when extension is not detected", () => {
       mockIsMobileDevice.mockReturnValue(true);
-      mockUsePhantom.mockReturnValue({
-        ...mockUsePhantom(),
+      mockUseLiquid.mockReturnValue({
+        ...mockUseLiquid(),
         allowedProviders: ["injected"],
       } as any);
       mockUseIsExtensionInstalled.mockReturnValue({
@@ -370,14 +370,14 @@ describe("ConnectModalContent", () => {
 
       const { getByText } = renderComponent();
 
-      // Solflare wallet should be visible even without Phantom extension
+      // Solflare wallet should be visible even without Liquid extension
       expect(getByText("Solflare")).toBeInTheDocument();
     });
 
     it("should render multiple discovered wallets on mobile without extension", () => {
       mockIsMobileDevice.mockReturnValue(true);
-      mockUsePhantom.mockReturnValue({
-        ...mockUsePhantom(),
+      mockUseLiquid.mockReturnValue({
+        ...mockUseLiquid(),
         allowedProviders: ["injected"],
       } as any);
       mockUseIsExtensionInstalled.mockReturnValue({
@@ -412,8 +412,8 @@ describe("ConnectModalContent", () => {
 
     it("should allow connecting to discovered wallet on mobile without extension", async () => {
       mockIsMobileDevice.mockReturnValue(true);
-      mockUsePhantom.mockReturnValue({
-        ...mockUsePhantom(),
+      mockUseLiquid.mockReturnValue({
+        ...mockUseLiquid(),
         allowedProviders: ["injected"],
       } as any);
       mockUseIsExtensionInstalled.mockReturnValue({
@@ -451,8 +451,8 @@ describe("ConnectModalContent", () => {
 
     it("should show discovered wallets on mobile when both extension and wallets are available", () => {
       mockIsMobileDevice.mockReturnValue(true);
-      mockUsePhantom.mockReturnValue({
-        ...mockUsePhantom(),
+      mockUseLiquid.mockReturnValue({
+        ...mockUseLiquid(),
         allowedProviders: ["injected"],
       } as any);
       mockUseIsExtensionInstalled.mockReturnValue({
@@ -462,7 +462,7 @@ describe("ConnectModalContent", () => {
       mockUseDiscoveredWallets.mockReturnValue({
         wallets: [
           {
-            id: "phantom",
+            id: "liquid",
             name: "Phantom",
             icon: undefined,
             addressTypes: ["Solana"] as any,
@@ -494,14 +494,14 @@ describe("ConnectModalContent", () => {
         isInstalled: true,
         isLoading: false,
       });
-      mockUsePhantom.mockReturnValue({
-        ...mockUsePhantom(),
+      mockUseLiquid.mockReturnValue({
+        ...mockUseLiquid(),
         allowedProviders: ["google", "apple", "injected"],
       } as any);
       mockUseDiscoveredWallets.mockReturnValue({
         wallets: [
           {
-            id: "phantom",
+            id: "liquid",
             name: "Phantom",
             icon: undefined,
             addressTypes: ["Solana"] as any,
@@ -513,7 +513,7 @@ describe("ConnectModalContent", () => {
       });
     });
 
-    it("should show injected Phantom wallet when mobile and extension is detected", () => {
+    it("should show injected Liquid wallet when mobile and extension is detected", () => {
       const { getByTestId } = renderComponent();
 
       expect(getByTestId("bounded-icon-phantom")).toBeInTheDocument();
@@ -531,18 +531,18 @@ describe("ConnectModalContent", () => {
       expect(getByText("Continue with Apple")).toBeInTheDocument();
     });
 
-    it("should allow connecting to Phantom wallet when mobile and extension is detected", async () => {
+    it("should allow connecting to Liquid wallet when mobile and extension is detected", async () => {
       mockConnect.mockResolvedValue({} as any);
       const onClose = jest.fn();
 
       const { getByTestId } = renderComponent({ onClose });
-      const phantomIcon = getByTestId("bounded-icon-phantom");
-      fireEvent.click(phantomIcon.closest("button")!);
+      const liquidIcon = getByTestId("bounded-icon-phantom");
+      fireEvent.click(liquidIcon.closest("button")!);
 
       await waitFor(() => {
         expect(mockConnect).toHaveBeenCalledWith({
           provider: "injected",
-          walletId: "phantom",
+          walletId: "liquid",
         });
         expect(onClose).toHaveBeenCalled();
       });
@@ -559,7 +559,7 @@ describe("ConnectModalContent", () => {
 
       const { getByText } = renderComponent();
 
-      expect(getByText("Open in Phantom App")).toBeInTheDocument();
+      expect(getByText("Open in Liquid App")).toBeInTheDocument();
     });
 
     it("should not show deeplink button on desktop", () => {
@@ -567,7 +567,7 @@ describe("ConnectModalContent", () => {
 
       const { queryByText } = renderComponent();
 
-      expect(queryByText("Open in Phantom App")).not.toBeInTheDocument();
+      expect(queryByText("Open in Liquid App")).not.toBeInTheDocument();
     });
 
     it("should navigate to deeplink URL when clicked", async () => {
@@ -585,7 +585,7 @@ describe("ConnectModalContent", () => {
       });
 
       const { getByText } = renderComponent();
-      fireEvent.click(getByText("Open in Phantom App"));
+      fireEvent.click(getByText("Open in Liquid App"));
 
       // Verify that connect was called with deeplink provider
       await waitFor(() => {
@@ -672,8 +672,8 @@ describe("ConnectModalContent", () => {
 
   describe("Loading States", () => {
     it("should not render buttons when isLoading", () => {
-      mockUsePhantom.mockReturnValue({
-        ...mockUsePhantom(),
+      mockUseLiquid.mockReturnValue({
+        ...mockUseLiquid(),
         isLoading: true,
         allowedProviders: ["google", "apple"],
       } as any);
@@ -704,13 +704,13 @@ describe("ConnectModalContent", () => {
         isInstalled: false,
         isLoading: false,
       });
-      mockUsePhantom.mockReturnValue({
-        ...mockUsePhantom(),
+      mockUseLiquid.mockReturnValue({
+        ...mockUseLiquid(),
         allowedProviders: ["injected"],
       });
     });
 
-    it("should show Wallet Standard discovered wallets on mobile without Phantom extension", () => {
+    it("should show Wallet Standard discovered wallets on mobile without Liquid extension", () => {
       mockUseDiscoveredWallets.mockReturnValue({
         wallets: [
           {
@@ -743,13 +743,13 @@ describe("ConnectModalContent", () => {
     });
 
     it("should show all wallets inline when only injected provider and 3+ wallets", () => {
-      mockUsePhantom.mockReturnValue({
-        ...mockUsePhantom(),
+      mockUseLiquid.mockReturnValue({
+        ...mockUseLiquid(),
         allowedProviders: ["injected"],
       } as any);
       mockUseDiscoveredWallets.mockReturnValue({
         wallets: [
-          { id: "phantom", name: "Phantom", addressTypes: ["Solana"] as any },
+          { id: "liquid", name: "Phantom", addressTypes: ["Solana"] as any },
           { id: "backpack", name: "Backpack", addressTypes: ["Solana"] as any },
           { id: "solflare", name: "Solflare", addressTypes: ["Solana"] as any },
         ],
@@ -760,7 +760,7 @@ describe("ConnectModalContent", () => {
 
       const { getAllByText, getByText, queryByText } = renderComponent();
 
-      // All wallets should be visible inline (Phantom appears in both button and footer, so use getAllByText)
+      // All wallets should be visible inline (Liquid appears in both button and footer, so use getAllByText)
       expect(getAllByText("Phantom").length).toBeGreaterThan(0);
       expect(getByText("Backpack")).toBeInTheDocument();
       expect(getByText("Solflare")).toBeInTheDocument();
@@ -773,13 +773,13 @@ describe("ConnectModalContent", () => {
     });
 
     it("should show 'Other Wallets' button when multiple providers and 3+ wallets", () => {
-      mockUsePhantom.mockReturnValue({
-        ...mockUsePhantom(),
+      mockUseLiquid.mockReturnValue({
+        ...mockUseLiquid(),
         allowedProviders: ["injected", "google"],
       } as any);
       mockUseDiscoveredWallets.mockReturnValue({
         wallets: [
-          { id: "phantom", name: "Phantom", addressTypes: ["Solana"] as any },
+          { id: "liquid", name: "Phantom", addressTypes: ["Solana"] as any },
           { id: "backpack", name: "Backpack", addressTypes: ["Solana"] as any },
           { id: "solflare", name: "Solflare", addressTypes: ["Solana"] as any },
         ],
@@ -806,13 +806,13 @@ describe("ConnectModalContent", () => {
     });
 
     it("should show wallets inline when only injected provider and 2 or fewer wallets", () => {
-      mockUsePhantom.mockReturnValue({
-        ...mockUsePhantom(),
+      mockUseLiquid.mockReturnValue({
+        ...mockUseLiquid(),
         allowedProviders: ["injected"],
       } as any);
       mockUseDiscoveredWallets.mockReturnValue({
         wallets: [
-          { id: "phantom", name: "Phantom", addressTypes: ["Solana"] as any },
+          { id: "liquid", name: "Phantom", addressTypes: ["Solana"] as any },
           { id: "backpack", name: "Backpack", addressTypes: ["Solana"] as any },
         ],
         isLoading: false,
@@ -822,7 +822,7 @@ describe("ConnectModalContent", () => {
 
       const { getAllByText, getByText, queryByText } = renderComponent();
 
-      // All wallets should be visible inline (Phantom appears in both button and footer, so use getAllByText)
+      // All wallets should be visible inline (Liquid appears in both button and footer, so use getAllByText)
       expect(getAllByText("Phantom").length).toBeGreaterThan(0);
       expect(getByText("Backpack")).toBeInTheDocument();
 
@@ -834,8 +834,8 @@ describe("ConnectModalContent", () => {
     });
 
     it("should show wallets inline when only injected provider and no wallets", () => {
-      mockUsePhantom.mockReturnValue({
-        ...mockUsePhantom(),
+      mockUseLiquid.mockReturnValue({
+        ...mockUseLiquid(),
         allowedProviders: ["injected"],
       } as any);
       mockUseDiscoveredWallets.mockReturnValue({

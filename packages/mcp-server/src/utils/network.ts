@@ -1,4 +1,4 @@
-import { NetworkId } from "@phantom/constants";
+import { NetworkId } from "@liquid/constants";
 
 /**
  * Normalizes user-friendly network IDs to canonical CAIP-2 format.
@@ -44,14 +44,14 @@ export function normalizeNetworkId(networkId: string): string {
 }
 
 /**
- * Normalizes network IDs to the chain ID format expected by Phantom's swapper API.
+ * Normalizes network IDs to the chain ID format expected by Liquid's swapper API.
  * Converts various Solana network identifier formats to the numeric chain ID format used by the quotes API.
  *
  * @param networkId - The network identifier to normalize (case-insensitive)
  * @returns The swapper-compatible chain ID, or the original value if no mapping exists
  *
  * @remarks
- * The Phantom swapper API expects Solana networks in numeric format:
+ * The Liquid swapper API expects Solana networks in numeric format:
  * - "solana:101" for mainnet
  * - "solana:103" for devnet
  * - "solana:102" for testnet

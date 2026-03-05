@@ -10,10 +10,10 @@
  *
  * Usage:
  *   # With public client (recommended - PKCE only, like browser SDK):
- *   PHANTOM_CLIENT_ID=xxx node test-auth.js
+ *   LIQUID_CLIENT_ID=xxx node test-auth.js
  *
  *   # With confidential client (PKCE + client secret):
- *   PHANTOM_CLIENT_ID=xxx PHANTOM_CLIENT_SECRET=yyy node test-auth.js
+ *   LIQUID_CLIENT_ID=xxx LIQUID_CLIENT_SECRET=yyy node test-auth.js
  *
  *   # With DCR (not currently supported by auth.phantom.app):
  *   node test-auth.js
@@ -21,47 +21,47 @@
  *   # Environment options:
  *   STAGING=1              # Use staging endpoints
  *   DEBUG=1                # Enable debug logging
- *   PHANTOM_CALLBACK_PORT  # Custom callback port (default: 8080)
+ *   LIQUID_CALLBACK_PORT  # Custom callback port (default: 8080)
  */
 
 const { SessionManager } = require("./dist/index.js");
 
 async function testAuthFlow() {
-  console.error("\n=== Phantom MCP Server - Auth Flow Test ===\n");
+  console.error("\n=== Liquid MCP Server - Auth Flow Test ===\n");
 
   // Check if staging mode
   const isStaging = process.env.STAGING === "1";
 
   if (isStaging) {
     console.error("🔧 Running in STAGING mode\n");
-    process.env.PHANTOM_AUTH_BASE_URL = "https://staging-auth.phantom.app";
-    process.env.PHANTOM_CONNECT_BASE_URL = "https://staging-connect.phantom.app";
-    process.env.PHANTOM_API_BASE_URL = "https://staging-api.phantom.app/v1/wallets";
+    process.env.LIQUID_AUTH_BASE_URL = "https://staging-auth.phantom.app";
+    process.env.LIQUID_CONNECT_BASE_URL = "https://staging-connect.phantom.app";
+    process.env.LIQUID_API_BASE_URL = "https://staging-api.phantom.app/v1/wallets";
   } else {
     console.error("🌐 Running in PRODUCTION mode\n");
   }
 
   // Enable debug logging if requested
   if (process.env.DEBUG === "1") {
-    process.env.PHANTOM_MCP_DEBUG = "1";
+    process.env.LIQUID_MCP_DEBUG = "1";
   }
 
-  const rawPort = process.env.PHANTOM_CALLBACK_PORT;
+  const rawPort = process.env.LIQUID_CALLBACK_PORT;
   const callbackPort = Number.parseInt(rawPort ?? "8080", 10);
   if (!Number.isInteger(callbackPort) || callbackPort < 1 || callbackPort > 65535) {
-    console.error(`Invalid PHANTOM_CALLBACK_PORT: ${rawPort ?? "(unset)"}`);
+    console.error(`Invalid LIQUID_CALLBACK_PORT: ${rawPort ?? "(unset)"}`);
     process.exit(1);
   }
   const config = {
-    authBaseUrl: process.env.PHANTOM_AUTH_BASE_URL,
-    connectBaseUrl: process.env.PHANTOM_CONNECT_BASE_URL,
-    apiBaseUrl: process.env.PHANTOM_API_BASE_URL,
+    authBaseUrl: process.env.LIQUID_AUTH_BASE_URL,
+    connectBaseUrl: process.env.LIQUID_CONNECT_BASE_URL,
+    apiBaseUrl: process.env.LIQUID_API_BASE_URL,
     callbackPort,
-    appId: process.env.PHANTOM_APP_ID || "phantom-mcp-test",
+    appId: process.env.LIQUID_APP_ID || "liquid-mcp-test",
   };
 
-  const hasClientId = !!process.env.PHANTOM_CLIENT_ID;
-  const hasClientSecret = !!process.env.PHANTOM_CLIENT_SECRET;
+  const hasClientId = !!process.env.LIQUID_CLIENT_ID;
+  const hasClientSecret = !!process.env.LIQUID_CLIENT_SECRET;
 
   let clientMode;
   if (hasClientId && hasClientSecret) {
@@ -90,7 +90,7 @@ async function testAuthFlow() {
   console.error("  3. User authenticates via SSO provider");
   console.error(`  4. SSO callback received → localhost:${config.callbackPort}/callback`);
   console.error("  5. Session credentials verified");
-  console.error("  6. Session saved → ~/.phantom-mcp/session.json\n");
+  console.error("  6. Session saved → ~/.liquid-mcp/session.json\n");
 
   const sessionManager = new SessionManager(config);
 
@@ -107,11 +107,11 @@ async function testAuthFlow() {
     console.error(`  Organization ID:  ${session.organizationId}`);
     console.error(`  Auth User ID:     ${session.authUserId}`);
     console.error(`  Stamper Public:   ${session.stamperKeys.publicKey}`);
-    console.error(`  Session File:     ~/.phantom-mcp/session.json\n`);
+    console.error(`  Session File:     ~/.liquid-mcp/session.json\n`);
 
     // Test client
     const client = sessionManager.getClient();
-    console.error("🔍 Testing PhantomClient...\n");
+    console.error("🔍 Testing LiquidClient...\n");
 
     const addresses = await client.getWalletAddresses(session.walletId);
     console.error(`✅ Retrieved ${addresses.length} addresses for wallet ${session.walletId}\n`);
@@ -136,8 +136,8 @@ async function testAuthFlow() {
     }
 
     console.error("\n💡 Troubleshooting:");
-    console.error("  • Set PHANTOM_CLIENT_ID (DCR not currently supported)");
-    console.error("  • PHANTOM_CLIENT_SECRET is optional (for public vs confidential clients)");
+    console.error("  • Set LIQUID_CLIENT_ID (DCR not currently supported)");
+    console.error("  • LIQUID_CLIENT_SECRET is optional (for public vs confidential clients)");
     console.error(`  • Check if port ${config.callbackPort} is available`);
     console.error("  • Ensure browser opens to connect.phantom.app");
     console.error("  • Complete the authorization in browser");

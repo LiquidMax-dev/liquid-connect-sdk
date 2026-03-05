@@ -1,15 +1,15 @@
 import * as React from "react";
 import { render, fireEvent, waitFor } from "@testing-library/react";
 import { ConnectedModalContent, type ConnectedModalContentProps } from "./ConnectedModalContent";
-import { usePhantom } from "../PhantomContext";
+import { useLiquid } from "../LiquidContext";
 import { useDisconnect } from "../hooks/useDisconnect";
-import { ThemeProvider } from "@phantom/wallet-sdk-ui";
+import { ThemeProvider } from "@liquid/wallet-sdk-ui";
 
 // Mock dependencies
-jest.mock("../PhantomContext");
+jest.mock("../LiquidContext");
 jest.mock("../hooks/useDisconnect");
-jest.mock("@phantom/wallet-sdk-ui", () => ({
-  ...jest.requireActual("@phantom/wallet-sdk-ui"),
+jest.mock("@liquid/wallet-sdk-ui", () => ({
+  ...jest.requireActual("@liquid/wallet-sdk-ui"),
   Button: ({ children, onClick, disabled, isLoading, variant }: any) => (
     <button data-testid="button" onClick={onClick} disabled={disabled} data-loading={isLoading} data-variant={variant}>
       {children}
@@ -33,7 +33,7 @@ const mockTheme = {
 };
 
 describe("ConnectedModalContent", () => {
-  const mockUsePhantom = usePhantom as jest.MockedFunction<typeof usePhantom>;
+  const mockUseLiquid = useLiquid as jest.MockedFunction<typeof useLiquid>;
   const mockUseDisconnect = useDisconnect as jest.MockedFunction<typeof useDisconnect>;
   const mockDisconnect = jest.fn();
 
@@ -51,7 +51,7 @@ describe("ConnectedModalContent", () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    mockUsePhantom.mockReturnValue({
+    mockUseLiquid.mockReturnValue({
       addresses: [
         // Use human-readable labels directly to avoid coupling to enum internals
         { address: "0x1234567890abcdef1234567890abcdef12345678", addressType: "Ethereum" as any },
@@ -91,7 +91,7 @@ describe("ConnectedModalContent", () => {
     });
 
     it("should handle empty addresses array", () => {
-      mockUsePhantom.mockReturnValue({
+      mockUseLiquid.mockReturnValue({
         addresses: [],
         isConnected: true,
         sdk: null,
@@ -112,7 +112,7 @@ describe("ConnectedModalContent", () => {
     });
 
     it("should handle addresses without proper length for truncation", () => {
-      mockUsePhantom.mockReturnValue({
+      mockUseLiquid.mockReturnValue({
         addresses: [
           { address: "0x123", addressType: "Ethereum" as any }, // Too short
         ],
@@ -271,7 +271,7 @@ describe("ConnectedModalContent", () => {
     // Pure visual/truncation behavior is tested at the UI level; we only
     // assert that addresses render, not their exact truncated form.
     it("should render without crashing for long addresses", () => {
-      mockUsePhantom.mockReturnValue({
+      mockUseLiquid.mockReturnValue({
         addresses: [{ address: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz", addressType: "Solana" as any }],
         isConnected: true,
         sdk: null,

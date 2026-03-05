@@ -29,8 +29,8 @@ export interface Session {
   lastRenewalAttempt?: number; // Last time we attempted renewal
   // Derivation index for account paths (defaults to 0 for backward compatibility)
   accountDerivationIndex?: number; // Account derivation index from auth flow
-  // Phantom user ID from auth flow (for user-wallets)
-  authUserId?: string; // User ID returned from Phantom auth service
+  // Liquid user ID from auth flow (for user-wallets)
+  authUserId?: string; // User ID returned from Liquid auth service
   pkceCodeVerifier?: string; // PKCE code verifier for Auth2 redirect flow
   salt?: string; // Per-session salt for OIDC nonce binding
   bearerToken?: string; // "${tokenType} ${accessToken}" for Authorization header

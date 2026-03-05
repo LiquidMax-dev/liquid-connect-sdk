@@ -1,5 +1,5 @@
 import { Linking } from "react-native";
-import type { URLParamsAccessor } from "@phantom/embedded-provider-core";
+import type { URLParamsAccessor } from "@liquid/embedded-provider-core";
 
 export class ExpoURLParamsAccessor implements URLParamsAccessor {
   private listeners: Set<(params: Record<string, string>) => void> = new Set();

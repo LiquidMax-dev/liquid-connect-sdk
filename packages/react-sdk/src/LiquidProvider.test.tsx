@@ -1,9 +1,9 @@
 import * as React from "react";
 import { renderHook, waitFor } from "@testing-library/react";
-import { PhantomProvider } from "./PhantomProvider";
-import { usePhantom } from "./PhantomContext";
-import { BrowserSDK, AddressType } from "@phantom/browser-sdk";
-import type { BrowserSDKConfig } from "@phantom/browser-sdk";
+import { LiquidProvider } from "./LiquidProvider";
+import { useLiquid } from "./LiquidContext";
+import { BrowserSDK, AddressType } from "@liquid/browser-sdk";
+import type { BrowserSDKConfig } from "@liquid/browser-sdk";
 
 const createMockSdk = () => ({
   autoConnect: jest.fn().mockResolvedValue(undefined),
@@ -15,7 +15,7 @@ const createMockSdk = () => ({
 });
 
 // Mock BrowserSDK
-jest.mock("@phantom/browser-sdk", () => ({
+jest.mock("@liquid/browser-sdk", () => ({
   AddressType: {
     solana: "solana",
     ethereum: "ethereum",
@@ -24,7 +24,7 @@ jest.mock("@phantom/browser-sdk", () => ({
   isMobileDevice: jest.fn().mockReturnValue(false),
 }));
 
-describe("PhantomProvider", () => {
+describe("LiquidProvider", () => {
   const mockConfig: BrowserSDKConfig = {
     appId: "test-app-id",
     providers: ["google", "apple"],
@@ -34,7 +34,7 @@ describe("PhantomProvider", () => {
   };
 
   const wrapper = ({ children }: { children: React.ReactNode }) => (
-    <PhantomProvider config={mockConfig}>{children}</PhantomProvider>
+    <LiquidProvider config={mockConfig}>{children}</LiquidProvider>
   );
 
   beforeEach(() => {
@@ -43,13 +43,13 @@ describe("PhantomProvider", () => {
 
   describe("isLoading state", () => {
     it("should start with isLoading as true", () => {
-      const { result } = renderHook(() => usePhantom(), { wrapper });
+      const { result } = renderHook(() => useLiquid(), { wrapper });
 
       expect(result.current.isLoading).toBe(true);
     });
 
     it("should set isLoading to false after initialization completes", async () => {
-      const { result } = renderHook(() => usePhantom(), { wrapper });
+      const { result } = renderHook(() => useLiquid(), { wrapper });
 
       await waitFor(() => {
         expect(result.current.isLoading).toBe(false);
@@ -66,7 +66,7 @@ describe("PhantomProvider", () => {
         configureDebug: jest.fn(),
       }));
 
-      const { result } = renderHook(() => usePhantom(), { wrapper });
+      const { result } = renderHook(() => useLiquid(), { wrapper });
 
       await waitFor(() => {
         expect(result.current.isLoading).toBe(false);
@@ -76,7 +76,7 @@ describe("PhantomProvider", () => {
     });
 
     it("should have SDK ready when isLoading is false", async () => {
-      const { result } = renderHook(() => usePhantom(), { wrapper });
+      const { result } = renderHook(() => useLiquid(), { wrapper });
 
       await waitFor(() => {
         expect(result.current.isLoading).toBe(false);
@@ -89,7 +89,7 @@ describe("PhantomProvider", () => {
 
   describe("SDK initialization", () => {
     it("should create SDK instance on client", async () => {
-      const { result } = renderHook(() => usePhantom(), { wrapper });
+      const { result } = renderHook(() => useLiquid(), { wrapper });
 
       await waitFor(() => {
         expect(result.current.sdk).not.toBeNull();
@@ -107,7 +107,7 @@ describe("PhantomProvider", () => {
         configureDebug: jest.fn(),
       }));
 
-      renderHook(() => usePhantom(), { wrapper });
+      renderHook(() => useLiquid(), { wrapper });
 
       await waitFor(() => {
         expect(mockAutoConnect).toHaveBeenCalled();
@@ -124,7 +124,7 @@ describe("PhantomProvider", () => {
       });
       (BrowserSDK as unknown as jest.Mock).mockImplementation(() => sdkMock);
 
-      const { result } = renderHook(() => usePhantom(), { wrapper });
+      const { result } = renderHook(() => useLiquid(), { wrapper });
 
       await waitFor(() => {
         expect(result.current.sdk).not.toBeNull();

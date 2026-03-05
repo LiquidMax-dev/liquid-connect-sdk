@@ -1,4 +1,4 @@
-import { Text, Button, useTheme } from "@phantom/wallet-sdk-ui";
+import { Text, Button, useTheme } from "@liquid/wallet-sdk-ui";
 
 export interface SpendingLimitModalContentProps {
   onClose: () => void;

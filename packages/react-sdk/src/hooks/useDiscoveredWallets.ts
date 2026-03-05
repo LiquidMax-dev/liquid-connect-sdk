@@ -1,6 +1,6 @@
 import { useCallback, useState, useEffect } from "react";
-import { usePhantom } from "../PhantomContext";
-import type { InjectedWalletInfo } from "@phantom/browser-sdk";
+import { useLiquid } from "../LiquidContext";
+import type { InjectedWalletInfo } from "@liquid/browser-sdk";
 
 export interface UseDiscoveredWalletsResult {
   wallets: InjectedWalletInfo[];
@@ -10,7 +10,7 @@ export interface UseDiscoveredWalletsResult {
 }
 
 export function useDiscoveredWallets(): UseDiscoveredWalletsResult {
-  const { sdk } = usePhantom();
+  const { sdk } = useLiquid();
   const [wallets, setWallets] = useState<InjectedWalletInfo[]>([]);
   const [isLoading, setIsLoading] = useState(true); // Start with loading true
   const [error, setError] = useState<Error | null>(null);

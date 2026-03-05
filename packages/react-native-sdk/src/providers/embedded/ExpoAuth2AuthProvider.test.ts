@@ -7,7 +7,7 @@ const mockCreateConnectStartUrl = jest
     "https://auth.example.com/login/start?client_id=rn-client-id&redirect_uri=myapp%3A%2F%2Fcallback&response_type=code&scope=openid&nonce=rn-nonce&state=rn-session-1&code_challenge=rn-code-challenge&code_challenge_method=S256",
   );
 
-jest.mock("@phantom/auth2", () => ({
+jest.mock("@liquid/auth2", () => ({
   createCodeVerifier: jest.fn().mockReturnValue("rn-code-verifier"),
   createConnectStartUrl: mockCreateConnectStartUrl,
   exchangeAuthCode: jest.fn().mockResolvedValue({
@@ -21,10 +21,10 @@ jest.mock("@phantom/auth2", () => ({
   })),
 }));
 
-import type { AuthResult } from "@phantom/embedded-provider-core";
+import type { AuthResult } from "@liquid/embedded-provider-core";
 import * as WebBrowser from "expo-web-browser";
 import { ExpoAuth2AuthProvider } from "./ExpoAuth2AuthProvider";
-import { createCodeVerifier, createConnectStartUrl, exchangeAuthCode } from "@phantom/auth2";
+import { createCodeVerifier, createConnectStartUrl, exchangeAuthCode } from "@liquid/auth2";
 
 const AUTH2_OPTIONS = {
   clientId: "rn-client-id",
@@ -195,10 +195,10 @@ describe("ExpoAuth2AuthProvider.authenticate()", () => {
     expect(createConnectStartUrl).toHaveBeenCalledWith(expect.objectContaining({ provider: "apple" }));
   });
 
-  it("passes provider=phantom to createConnectStartUrl", async () => {
-    await makeProvider().authenticate({ ...CONNECT_OPTIONS, provider: "phantom" });
+  it("passes provider=liquid to createConnectStartUrl", async () => {
+    await makeProvider().authenticate({ ...CONNECT_OPTIONS, provider: "liquid" });
 
-    expect(createConnectStartUrl).toHaveBeenCalledWith(expect.objectContaining({ provider: "phantom" }));
+    expect(createConnectStartUrl).toHaveBeenCalledWith(expect.objectContaining({ provider: "liquid" }));
   });
 
   it("passes provider=device to createConnectStartUrl", async () => {

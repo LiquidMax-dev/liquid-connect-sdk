@@ -1,6 +1,6 @@
-import type { PhantomSolanaProvider } from "../types";
+import type { LiquidSolanaProvider } from "../types";
 import { InjectedSolanaStrategy } from "./injected";
-import type { Transaction } from "@phantom/sdk-types";
+import type { Transaction } from "@liquid/sdk-types";
 
 const mockTransaction = {} as Transaction;
 
@@ -25,7 +25,7 @@ const createMockProvider = () => ({
 });
 
 describe("InjectedSolanaStrategy", () => {
-  let mockProvider: Partial<PhantomSolanaProvider>;
+  let mockProvider: Partial<LiquidSolanaProvider>;
 
   beforeAll(() => {
     mockProvider = createMockProvider();

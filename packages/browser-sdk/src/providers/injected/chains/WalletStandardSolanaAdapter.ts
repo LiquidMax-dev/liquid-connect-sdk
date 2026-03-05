@@ -1,8 +1,8 @@
 import { EventEmitter } from "eventemitter3";
-import type { ISolanaChain } from "@phantom/chain-interfaces";
-import type { Transaction, VersionedTransaction } from "@phantom/sdk-types";
+import type { ISolanaChain } from "@liquid/chain-interfaces";
+import type { Transaction, VersionedTransaction } from "@liquid/sdk-types";
 import { debug, DebugCategory } from "../../../debug";
-import { deserializeSolanaTransaction } from "@phantom/parsers";
+import { deserializeSolanaTransaction } from "@liquid/parsers";
 import { Buffer } from "buffer";
 import bs58 from "bs58";
 import type {

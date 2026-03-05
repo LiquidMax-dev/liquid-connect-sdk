@@ -1,6 +1,6 @@
 import { base64urlEncode, base64urlDecode, base64urlDecodeToString, stringToBase64url } from "./index";
 
-describe("@phantom/base64url", () => {
+describe("@liquid/base64url", () => {
   describe("base64urlEncode", () => {
     it("should encode string to base64url", () => {
       const result = base64urlEncode("Hello World");
@@ -166,9 +166,9 @@ describe("@phantom/base64url", () => {
   describe("compatibility with existing implementations", () => {
     // Test cases that should match existing behavior
     it("should match browser-sdk base64url behavior", () => {
-      const testString = "Hello from Phantom!";
+      const testString = "Hello from Liquid!";
       const result = stringToBase64url(testString);
-      expect(result).toBe("SGVsbG8gZnJvbSBQaGFudG9tIQ");
+      expect(result).toBe("SGVsbG8gZnJvbSBMaXF1aWQh");
     });
 
     it("should handle JWT-like payloads", () => {

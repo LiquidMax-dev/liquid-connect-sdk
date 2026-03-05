@@ -7,7 +7,7 @@ import * as signTransactionModule from "./signTransaction";
 import * as signAndSendTransactionModule from "./signAndSendTransaction";
 import * as signAllTransactionsModule from "./signAllTransactions";
 import * as signAndSendAllTransactionsModule from "./signAndSendAllTransactions";
-import type { Transaction } from "@phantom/sdk-types";
+import type { Transaction } from "@liquid/sdk-types";
 import { TextEncoder } from "util";
 import { clearAllEventListeners } from "./eventListeners";
 
@@ -178,7 +178,7 @@ describe("Solana Plugin", () => {
     });
 
     it("should sign message using string", async () => {
-      const message = "Hello from Phantom SDK!";
+      const message = "Hello from Liquid SDK!";
       const signature = new Uint8Array(64).fill(146);
       mockSignMessage.mockResolvedValue({
         signature,

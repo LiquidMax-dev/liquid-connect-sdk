@@ -1,10 +1,10 @@
-# Phantom React SDK Demo App
+# Liquid React SDK Demo App
 
-This demo application showcases the usage of the `@phantom/react-sdk` with dual provider support (both injected and embedded providers).
+This demo application showcases the usage of the `@liquid/react-sdk` with dual provider support (both injected and embedded providers).
 
 ## Features
 
-- **Dual Provider Support**: Choose between injected (Phantom extension) and embedded (server-based) providers
+- **Dual Provider Support**: Choose between injected (Liquid extension) and embedded (server-based) providers
 - **Provider Selection**: Dynamic provider switching with persistent preference
 - **Embedded Wallet Types**: Support for both user-wallet (Google auth) and app-wallet (fresh wallet)
 - Display connected wallet addresses (Solana and other supported chains)
@@ -15,7 +15,7 @@ This demo application showcases the usage of the `@phantom/react-sdk` with dual 
 
 ## Prerequisites
 
-- **For Injected Provider**: [Phantom Wallet Browser Extension](https://phantom.app/download) installed
+- **For Injected Provider**: [Liquid Wallet Browser Extension](https://phantom.app/download) installed
 - **For Embedded Provider**: Backend server running at `http://localhost:3000/api`
 - Node.js 16+ and Yarn
 
@@ -40,8 +40,8 @@ This demo application showcases the usage of the `@phantom/react-sdk` with dual 
    cp .env.example .env
 
    # Edit .env and fill in your values:
-   # - VITE_ORGANIZATION_ID: Your Phantom organization ID
-   # - VITE_API_BASE_URL: Phantom API URL (https://api.phantom.app)
+   # - VITE_ORGANIZATION_ID: Your Liquid organization ID
+   # - VITE_API_BASE_URL: Liquid API URL (https://api.phantom.app)
    # - Other optional configurations
    ```
 
@@ -50,14 +50,14 @@ This demo application showcases the usage of the `@phantom/react-sdk` with dual 
 4. Start the demo app:
 
    ```bash
-   yarn workspace @phantom/react-sdk-demo-app dev
+   yarn workspace @liquid/react-sdk-demo-app dev
    ```
 
 5. Open your browser to http://localhost:5174
 
 ## Usage
 
-1. **Provider Selection**: Choose between injected (Phantom extension) or embedded (server-based) provider
+1. **Provider Selection**: Choose between injected (Liquid extension) or embedded (server-based) provider
 2. **Embedded Options**: If using embedded provider, select user-wallet (Google auth) or app-wallet (fresh wallet)
 3. **Connect**: Click the "Connect" button to connect using your selected provider
 4. **Sign Message**: Once connected, sign a demo message using base64url encoding
@@ -69,9 +69,9 @@ This demo application showcases the usage of the `@phantom/react-sdk` with dual 
 
 This demo uses:
 
-- `@phantom/react-sdk` - The React SDK with hooks for wallet interactions
+- `@liquid/react-sdk` - The React SDK with hooks for wallet interactions
 - **Dual Provider Support**:
-  - **Injected Provider**: Connects to the Phantom browser extension
+  - **Injected Provider**: Connects to the Liquid browser extension
   - **Embedded Provider**: Server-based wallet management with Google auth or fresh wallets
 - **Provider Persistence**: Automatically remembers your provider choice across sessions
 - Base64url encoding - All messages and transactions are encoded in base64url format
@@ -82,8 +82,8 @@ The demo app uses environment variables for configuration. Copy `.env.example` t
 
 ### Required for Embedded Wallet
 
-- `VITE_ORGANIZATION_ID` - Your Phantom organization ID (get from Phantom developer dashboard)
-- `VITE_API_BASE_URL` - Phantom API URL (`https://api.phantom.app` for production)
+- `VITE_ORGANIZATION_ID` - Your Liquid organization ID (get from Liquid developer dashboard)
+- `VITE_API_BASE_URL` - Liquid API URL (`https://api.phantom.app` for production)
 
 ### Optional Configuration
 
@@ -105,7 +105,7 @@ const config = {
 
 Provider selection is handled in the UI, allowing users to choose between:
 
-- **Injected Provider**: Phantom browser extension
+- **Injected Provider**: Liquid browser extension
 - **Embedded Provider**: Server-based with options for:
   - User Wallet (Google authentication)
   - App Wallet (Fresh wallet creation)
@@ -130,7 +130,7 @@ The demo app uses:
 
 ### Injected Provider Issues
 
-1. **"Phantom wallet not found"**: Ensure the Phantom browser extension is installed
+1. **"Liquid wallet not found"**: Ensure the Liquid browser extension is installed
 2. **Transaction errors**: Make sure you have SOL in your wallet for transaction fees
 3. **Connection issues**: Try refreshing the page or restarting the browser
 
@@ -147,6 +147,6 @@ The demo app uses:
 
 ## Learn More
 
-- [Phantom React SDK Documentation](../../packages/react-sdk/README.md)
-- [Phantom Wallet](https://phantom.app)
+- [Liquid React SDK Documentation](../../packages/react-sdk/README.md)
+- [Liquid Wallet](https://phantom.app)
 - [Solana Documentation](https://docs.solana.com)

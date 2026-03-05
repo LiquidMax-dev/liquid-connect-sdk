@@ -1,6 +1,6 @@
 import * as WebBrowser from "expo-web-browser";
-import type { AuthProvider, AuthResult, PhantomConnectOptions } from "@phantom/embedded-provider-core";
-import type { StamperWithKeyManagement } from "@phantom/sdk-types";
+import type { AuthProvider, AuthResult, LiquidConnectOptions } from "@liquid/embedded-provider-core";
+import type { StamperWithKeyManagement } from "@liquid/sdk-types";
 import {
   createCodeVerifier,
   exchangeAuthCode,
@@ -8,7 +8,7 @@ import {
   type Auth2AuthProviderOptions,
   type Auth2KmsClientOptions,
   createConnectStartUrl,
-} from "@phantom/auth2";
+} from "@liquid/auth2";
 
 /** Stampers used with Auth2 must be able to expose their CryptoKeyPair for JAR signing. */
 interface Auth2StamperLike extends StamperWithKeyManagement {
@@ -36,7 +36,7 @@ export class ExpoAuth2AuthProvider implements AuthProvider {
    * expo-web-browser intercepts the OAuth callback URL and returns it synchronously,
    * so the token exchange and KMS calls all happen here before returning AuthResult.
    */
-  async authenticate(options: PhantomConnectOptions): Promise<void | AuthResult> {
+  async authenticate(options: LiquidConnectOptions): Promise<void | AuthResult> {
     // Ensure the stamper has an active key loaded (may already be initialized).
     if (!this.stamper.getKeyInfo()) {
       await this.stamper.init();

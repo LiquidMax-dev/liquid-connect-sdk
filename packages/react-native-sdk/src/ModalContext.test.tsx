@@ -8,8 +8,8 @@ import type { ReactNode } from "react";
 // Mock dependencies
 const mockClearError = jest.fn();
 
-jest.mock("./PhantomContext", () => ({
-  usePhantom: jest.fn(() => ({
+jest.mock("./LiquidContext", () => ({
+  useLiquid: jest.fn(() => ({
     isConnected: false,
     addresses: [],
     errors: {},

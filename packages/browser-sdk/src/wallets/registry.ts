@@ -1,14 +1,14 @@
-import type { IEthereumChain, ISolanaChain } from "@phantom/chain-interfaces";
+import type { IEthereumChain, ISolanaChain } from "@liquid/chain-interfaces";
 import { AddressType } from "../types";
 import { discoverWallets } from "./discovery";
-import { PHANTOM_ICON } from "@phantom/constants";
+import { LIQUID_ICON } from "@liquid/constants";
 import { debug, DebugCategory } from "../debug";
 import { InjectedWalletSolanaChain } from "../providers/injected/chains/InjectedWalletSolanaChain";
 import { WalletStandardSolanaAdapter } from "../providers/injected/chains/WalletStandardSolanaAdapter";
 import { InjectedWalletEthereumChain } from "../providers/injected/chains/InjectedWalletEthereumChain";
 import type { WalletStandardWallet } from "../providers/injected/chains/walletStandardTypes";
-import type { Extension } from "@phantom/browser-injected-sdk";
-import type { AutoConfirmPlugin } from "@phantom/browser-injected-sdk/auto-confirm";
+import type { Extension } from "@liquid/browser-injected-sdk";
+import type { AutoConfirmPlugin } from "@liquid/browser-injected-sdk/auto-confirm";
 
 export type InjectedWalletId = string;
 
@@ -27,22 +27,22 @@ export interface InjectedWalletInfo {
   providers?: WalletProviders;
   /** Reverse DNS identifier from EIP-6963 (for potential future matching with Wallet Standard) */
   rdns?: string;
-  discovery?: "standard" | "eip6963" | "phantom" | "custom";
+  discovery?: "standard" | "eip6963" | "liquid" | "custom";
 }
 
 /**
- * Phantom-specific wallet info that includes the Phantom instance for auto-confirm access
+ * Phantom-specific wallet info that includes the Liquid instance for auto-confirm access
  */
-export interface PhantomInjectedWalletInfo extends InjectedWalletInfo {
-  id: "phantom";
-  isPhantom: true;
-  phantomInstance: PhantomExtended;
+export interface LiquidInjectedWalletInfo extends InjectedWalletInfo {
+  id: "liquid";
+  isLiquid: true;
+  liquidInstance: LiquidExtended;
 }
 
 /**
- * PhantomExtended interface - matches the structure from InjectedProvider
+ * LiquidExtended interface - matches the structure from InjectedProvider
  */
-export interface PhantomExtended {
+export interface LiquidExtended {
   extension: Extension;
   solana: ISolanaChain;
   ethereum: IEthereumChain;
@@ -50,10 +50,10 @@ export interface PhantomExtended {
 }
 
 /**
- * Type guard to check if a wallet is Phantom
+ * Type guard to check if a wallet is Liquid
  */
-export function isPhantomWallet(wallet: InjectedWalletInfo | undefined): wallet is PhantomInjectedWalletInfo {
-  return wallet !== undefined && wallet.id === "phantom" && "isPhantom" in wallet && wallet.isPhantom === true;
+export function isLiquidWallet(wallet: InjectedWalletInfo | undefined): wallet is LiquidInjectedWalletInfo {
+  return wallet !== undefined && wallet.id === "liquid" && "isLiquid" in wallet && wallet.isLiquid === true;
 }
 
 /**
@@ -111,40 +111,40 @@ export class InjectedWalletRegistry {
   }
 
   /**
-   * Register Phantom wallet with its instance
-   * This creates wrapped providers and stores the Phantom instance for auto-confirm access
-   * Uses unified InjectedWallet chains for both Phantom and external wallets
+   * Register Liquid wallet with its instance
+   * This creates wrapped providers and stores the Liquid instance for auto-confirm access
+   * Uses unified InjectedWallet chains for both Liquid and external wallets
    */
-  registerPhantom(phantomInstance: PhantomExtended, addressTypes: AddressType[]): void {
+  registerLiquid(liquidInstance: LiquidExtended, addressTypes: AddressType[]): void {
     const wrappedProviders: WalletProviders = {};
 
-    if (addressTypes.includes(AddressType.solana) && phantomInstance.solana) {
-      wrappedProviders.solana = new InjectedWalletSolanaChain(phantomInstance.solana, "phantom", "Phantom");
-      debug.log(DebugCategory.BROWSER_SDK, "Created InjectedWalletSolanaChain wrapper for Phantom", {
-        walletId: "phantom",
+    if (addressTypes.includes(AddressType.solana) && liquidInstance.solana) {
+      wrappedProviders.solana = new InjectedWalletSolanaChain(liquidInstance.solana, "liquid", "Phantom");
+      debug.log(DebugCategory.BROWSER_SDK, "Created InjectedWalletSolanaChain wrapper for Liquid", {
+        walletId: "liquid",
       });
     }
 
-    if (addressTypes.includes(AddressType.ethereum) && phantomInstance.ethereum) {
-      wrappedProviders.ethereum = new InjectedWalletEthereumChain(phantomInstance.ethereum, "phantom", "Phantom");
-      debug.log(DebugCategory.BROWSER_SDK, "Created InjectedWalletEthereumChain wrapper for Phantom", {
-        walletId: "phantom",
+    if (addressTypes.includes(AddressType.ethereum) && liquidInstance.ethereum) {
+      wrappedProviders.ethereum = new InjectedWalletEthereumChain(liquidInstance.ethereum, "liquid", "Phantom");
+      debug.log(DebugCategory.BROWSER_SDK, "Created InjectedWalletEthereumChain wrapper for Liquid", {
+        walletId: "liquid",
       });
     }
 
-    const phantomWallet: PhantomInjectedWalletInfo = {
-      id: "phantom",
+    const liquidWallet: LiquidInjectedWalletInfo = {
+      id: "liquid",
       name: "Phantom",
-      icon: PHANTOM_ICON,
+      icon: LIQUID_ICON,
       addressTypes,
       providers: wrappedProviders,
-      isPhantom: true,
-      phantomInstance,
-      discovery: "phantom",
+      isLiquid: true,
+      liquidInstance,
+      discovery: "liquid",
     };
 
-    this.wallets.set("phantom", phantomWallet);
-    debug.log(DebugCategory.BROWSER_SDK, "Registered Phantom wallet with chain wrappers", {
+    this.wallets.set("liquid", liquidWallet);
+    debug.log(DebugCategory.BROWSER_SDK, "Registered Liquid wallet with chain wrappers", {
       addressTypes,
       hasSolana: !!wrappedProviders.solana,
       hasEthereum: !!wrappedProviders.ethereum,
@@ -192,9 +192,9 @@ export class InjectedWalletRegistry {
 
         // Register all relevant wallets
         for (const wallet of relevantWallets) {
-          // Special handling for Phantom - use registerPhantom if it has phantomInstance
-          if (wallet.id === "phantom" && isPhantomWallet(wallet)) {
-            this.registerPhantom(wallet.phantomInstance, wallet.addressTypes);
+          // Special handling for Liquid - use registerLiquid if it has liquidInstance
+          if (wallet.id === "liquid" && isLiquidWallet(wallet)) {
+            this.registerLiquid(wallet.liquidInstance, wallet.addressTypes);
           } else {
             this.register(wallet);
           }

@@ -51,7 +51,7 @@ import {
   type DeleteAuthenticatorParams,
   type GetWalletsResult,
   type GetWalletWithTagParams,
-  type PhantomClientConfig,
+  type LiquidClientConfig,
   type SignAndSendTransactionParams,
   type SignedTransaction,
   type SignedTransactionResult,
@@ -62,8 +62,8 @@ import {
 } from "./types";
 import { WalletServiceError, parseWalletServiceError, getAxiosErrorData, getErrorMessage } from "./errors";
 
-import type { Stamper } from "@phantom/sdk-types";
-import { getSecureTimestamp, randomUUID, isEthereumChain, isSolanaChain } from "@phantom/utils";
+import type { Stamper } from "@liquid/sdk-types";
+import { getSecureTimestamp, randomUUID, isEthereumChain, isSolanaChain } from "@liquid/utils";
 
 type AddUserToOrganizationParams = Omit<AddUserToOrganizationRequest, "user"> & {
   replaceExpirable?: boolean;
@@ -80,13 +80,13 @@ export interface SimulationConfig {
   account: string; // The address/account that is signing the transaction
 }
 
-export class PhantomClient {
-  private config: PhantomClientConfig;
+export class LiquidClient {
+  private config: LiquidClientConfig;
   private kmsApi: KMSRPCApi;
   private axiosInstance: AxiosInstance;
   public stamper?: Stamper;
 
-  constructor(config: PhantomClientConfig, stamper?: Stamper) {
+  constructor(config: LiquidClientConfig, stamper?: Stamper) {
     this.config = {
       ...config,
       walletType: config.walletType || "user-wallet",
@@ -905,7 +905,7 @@ export class PhantomClient {
 
     // Add the stamp header
     config.headers = config.headers || {};
-    config.headers["X-Phantom-Stamp"] = stamp;
+    config.headers["X-Liquid-Stamp"] = stamp;
     return config;
   }
 }

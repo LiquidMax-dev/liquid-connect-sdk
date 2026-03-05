@@ -16,7 +16,7 @@ export { useAccounts } from "./useAccounts";
 
 // Extension detection
 export { useIsExtensionInstalled } from "./useIsExtensionInstalled";
-export { useIsPhantomLoginAvailable } from "./useIsPhantomLoginAvailable";
+export { useIsLiquidLoginAvailable } from "./useIsLiquidLoginAvailable";
 
 // Auto-confirm functionality (injected provider only)
 export { useAutoConfirm } from "./useAutoConfirm";
@@ -29,5 +29,5 @@ export { useEthereum } from "./useEthereum";
 export { useDiscoveredWallets } from "./useDiscoveredWallets";
 export type { UseDiscoveredWalletsResult } from "./useDiscoveredWallets";
 
-// Theme management - exported from @phantom/wallet-sdk-ui
-export { useTheme } from "@phantom/wallet-sdk-ui";
+// Theme management - exported from @liquid/wallet-sdk-ui
+export { useTheme } from "@liquid/wallet-sdk-ui";

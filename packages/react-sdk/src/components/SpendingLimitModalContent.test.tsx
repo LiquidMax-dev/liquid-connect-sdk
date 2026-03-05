@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 import { SpendingLimitModalContent } from "./SpendingLimitModalContent";
-import { ThemeProvider } from "@phantom/wallet-sdk-ui";
+import { ThemeProvider } from "@liquid/wallet-sdk-ui";
 
 const mockTheme = {
   background: "#ffffff" as const,

@@ -15,7 +15,7 @@ const mockTheme = {
   brand: "#0000ff",
 };
 
-jest.mock("@phantom/wallet-sdk-ui", () => ({
+jest.mock("@liquid/wallet-sdk-ui", () => ({
   // Map UI primitives to React Native equivalents for this test
   Text: ({ children, ...props }: any) => <Text {...props}>{children}</Text>,
   Button: ({ children, onClick }: any) => <View onTouchEnd={onClick}>{children}</View>,

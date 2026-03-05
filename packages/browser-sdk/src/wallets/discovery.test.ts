@@ -1,5 +1,5 @@
 import { discoverEthereumWallets, discoverSolanaWallets, discoverWallets } from "./discovery";
-import { AddressType } from "@phantom/client";
+import { AddressType } from "@liquid/client";
 
 // Setup global mocks
 beforeEach(() => {
@@ -107,7 +107,7 @@ describe("discoverEthereumWallets", () => {
     expect(window.removeEventListener).toHaveBeenCalled();
   });
 
-  it("should skip Phantom wallets from EIP-6963 discovery", async () => {
+  it("should skip Liquid wallets from EIP-6963 discovery", async () => {
     jest.useRealTimers();
 
     let announceHandler: ((event: CustomEvent) => void) | null = null;
@@ -124,7 +124,7 @@ describe("discoverEthereumWallets", () => {
 
     if (announceHandler) {
       const handler = announceHandler as (event: CustomEvent) => void;
-      // Simulate Phantom announcement
+      // Simulate Liquid announcement
       handler({
         detail: {
           info: {
@@ -142,7 +142,7 @@ describe("discoverEthereumWallets", () => {
         detail: {
           info: {
             uuid: "phantom-uuid-2",
-            name: "Phantom Wallet",
+            name: "Liquid Wallet",
             icon: "https://phantom.app/icon.png",
             rdns: "com.phantom",
           },
@@ -150,7 +150,7 @@ describe("discoverEthereumWallets", () => {
         },
       } as CustomEvent);
 
-      // Add a non-Phantom wallet to ensure it's still discovered
+      // Add a non-Liquid wallet to ensure it's still discovered
       handler({
         detail: {
           info: {
@@ -358,7 +358,7 @@ describe("discoverSolanaWallets", () => {
     expect(wallets[0].id).toBe("solana-wallet");
   });
 
-  it("should skip Phantom wallets", async () => {
+  it("should skip Liquid wallets", async () => {
     const mockWallets = [
       {
         name: "Phantom",

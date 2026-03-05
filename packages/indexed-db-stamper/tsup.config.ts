@@ -5,7 +5,7 @@ export default defineConfig({
   format: ["cjs", "esm"],
   dts: true,
   clean: true,
-  external: ["buffer", "@phantom/base64url", "@phantom/crypto"],
+  external: ["buffer", "@liquid/base64url", "@liquid/crypto"],
   target: "es2020",
   platform: "browser",
 });

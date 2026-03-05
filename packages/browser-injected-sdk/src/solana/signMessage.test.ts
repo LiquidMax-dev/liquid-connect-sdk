@@ -1,7 +1,7 @@
 import type { SolanaStrategy } from "./strategies/types";
 import { getProvider } from "./getProvider";
 import { signMessage } from "./signMessage";
-import type { DisplayEncoding, PhantomSolanaProvider } from "./types";
+import type { DisplayEncoding, LiquidSolanaProvider } from "./types";
 import { SOLANA_PROVIDER_NOT_FOUND } from "../errors";
 
 jest.mock("./getProvider", () => ({
@@ -9,7 +9,7 @@ jest.mock("./getProvider", () => ({
 }));
 
 describe("signMessage", () => {
-  let mockProvider: Partial<PhantomSolanaProvider>;
+  let mockProvider: Partial<LiquidSolanaProvider>;
 
   beforeEach(() => {
     jest.clearAllMocks();

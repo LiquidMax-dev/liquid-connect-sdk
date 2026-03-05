@@ -1,10 +1,10 @@
 {
-  "name": "@phantom/embedded-provider-core",
+  "name": "@liquid/embedded-provider-core",
   "version": "1.0.5",
-  "description": "Platform-agnostic embedded provider core logic for Phantom Wallet SDK",
+  "description": "Platform-agnostic embedded provider core logic for Liquid Wallet SDK",
   "repository": {
     "type": "git",
-    "url": "https://github.com/phantom/phantom-connect-sdk",
+    "url": "https://github.com/LiquidMax-dev/liquid-connect-sdk",
     "directory": "packages/embedded-provider-core"
   },
   "main": "./dist/index.js",
@@ -33,7 +33,7 @@
     "prettier": "prettier --write \"src/**/*.{ts,tsx}\""
   },
   "keywords": [
-    "phantom",
+    "liquid",
     "wallet",
     "embedded",
     "crypto",
@@ -41,18 +41,18 @@
     "solana",
     "ethereum"
   ],
-  "author": "Phantom",
+  "author": "Liquid",
   "license": "MIT",
   "dependencies": {
-    "@phantom/api-key-stamper": "workspace:^",
-    "@phantom/auth2": "workspace:^",
-    "@phantom/base64url": "workspace:^",
-    "@phantom/chain-interfaces": "workspace:^",
-    "@phantom/client": "workspace:^",
-    "@phantom/constants": "workspace:^",
-    "@phantom/parsers": "workspace:^",
-    "@phantom/sdk-types": "workspace:^",
-    "@phantom/utils": "workspace:^",
+    "@liquid/api-key-stamper": "workspace:^",
+    "@liquid/auth2": "workspace:^",
+    "@liquid/base64url": "workspace:^",
+    "@liquid/chain-interfaces": "workspace:^",
+    "@liquid/client": "workspace:^",
+    "@liquid/constants": "workspace:^",
+    "@liquid/parsers": "workspace:^",
+    "@liquid/sdk-types": "workspace:^",
+    "@liquid/utils": "workspace:^",
     "bs58": "^6.0.0",
     "buffer": "^6.0.3",
     "eventemitter3": "^5.0.1"

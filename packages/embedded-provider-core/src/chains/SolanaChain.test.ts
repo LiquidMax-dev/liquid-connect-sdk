@@ -1,8 +1,8 @@
-// NOTE: EmbeddedSolanaChain imports @phantom/parsers, which pulls in @solana/web3.js.
+// NOTE: EmbeddedSolanaChain imports @liquid/parsers, which pulls in @solana/web3.js.
 // In this Jest setup, some transitive deps ship ESM browser builds that Jest won't transform.
 // We only need to test connection state derivation here, so we mock those heavy deps.
 jest.mock("@solana/web3.js", () => ({}), { virtual: true });
-jest.mock("@phantom/parsers", () => ({
+jest.mock("@liquid/parsers", () => ({
   parseSolanaSignedTransaction: jest.fn(),
 }));
 

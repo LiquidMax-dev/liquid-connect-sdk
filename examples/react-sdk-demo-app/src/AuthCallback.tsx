@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { usePhantom } from "@phantom/react-sdk";
+import { useLiquid } from "@liquid/react-sdk";
 import { DebugConsole } from "./components/DebugConsole";
 import "./AuthCallback.css";
 
 export function AuthCallback() {
   const navigate = useNavigate();
-  const { isConnected, isConnecting, errors } = usePhantom();
+  const { isConnected, isConnecting, errors } = useLiquid();
   const connectError = errors.connect;
 
   useEffect(() => {
@@ -17,7 +17,7 @@ export function AuthCallback() {
 
   return (
     <div id="app">
-      <h1>Phantom Authentication</h1>
+      <h1>Liquid Authentication</h1>
 
       <div className="main-layout">
         <div className="left-panel">

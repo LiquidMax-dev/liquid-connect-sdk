@@ -1,27 +1,27 @@
 import { InjectedProvider } from "./index";
-import { AddressType } from "@phantom/client";
+import { AddressType } from "@liquid/client";
 import { createMockSolanaProvider, createMockEthereumProvider, setupWindowMock } from "../../test-utils/mockWindow";
 import { getWalletRegistry } from "../../wallets/registry";
 
 // Mock the browser-injected-sdk modules
-jest.mock("@phantom/browser-injected-sdk", () => ({
-  createPhantom: jest.fn(),
+jest.mock("@liquid/browser-injected-sdk", () => ({
+  createLiquid: jest.fn(),
   createExtensionPlugin: jest.fn(),
-  isPhantomExtensionInstalled: jest.fn(),
+  isLiquidExtensionInstalled: jest.fn(),
 }));
 
-jest.mock("@phantom/browser-injected-sdk/solana", () => ({
+jest.mock("@liquid/browser-injected-sdk/solana", () => ({
   createSolanaPlugin: jest.fn(),
 }));
 
-jest.mock("@phantom/browser-injected-sdk/ethereum", () => ({
+jest.mock("@liquid/browser-injected-sdk/ethereum", () => ({
   createEthereumPlugin: jest.fn(),
 }));
 
 describe("InjectedProvider", () => {
   let mockSolanaProvider: any;
   let mockEthereumProvider: any;
-  let mockPhantomObject: any;
+  let mockLiquidObject: any;
 
   beforeEach(() => {
     // Create mock providers for window.phantom
@@ -43,23 +43,23 @@ describe("InjectedProvider", () => {
     const solanaListeners = new Map<string, Set<(...args: any[]) => void>>();
     const ethereumListeners = new Map<string, Set<(...args: any[]) => void>>();
 
-    // Create the default mock phantom object
+    // Create the default mock liquid object
     const mockPublicKey = "GfJ4JhQXbUMwh7x8e7YFHC3yLz5FJGvjurQrNxFWkeYH";
-    mockPhantomObject = {
+    mockLiquidObject = {
       extension: {
         isInstalled: () => true,
       },
       solana: {
         connect: jest.fn().mockImplementation(() => {
           // Simulate provider updating state after connect
-          mockPhantomObject.solana.isConnected = true;
-          mockPhantomObject.solana.publicKey = mockPublicKey;
+          mockLiquidObject.solana.isConnected = true;
+          mockLiquidObject.solana.publicKey = mockPublicKey;
           return Promise.resolve(undefined);
         }),
         disconnect: jest.fn().mockImplementation(() => {
           // Simulate provider updating state after disconnect
-          mockPhantomObject.solana.isConnected = false;
-          mockPhantomObject.solana.publicKey = null;
+          mockLiquidObject.solana.isConnected = false;
+          mockLiquidObject.solana.publicKey = null;
           return Promise.resolve(undefined);
         }),
         getAccount: jest.fn(),
@@ -147,20 +147,20 @@ describe("InjectedProvider", () => {
 
     // Mock the browser-injected-sdk modules
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const { isPhantomExtensionInstalled, createPhantom } = require("@phantom/browser-injected-sdk");
-    isPhantomExtensionInstalled.mockReturnValue(true);
-    createPhantom.mockReturnValue(mockPhantomObject);
+    const { isLiquidExtensionInstalled, createLiquid } = require("@liquid/browser-injected-sdk");
+    isLiquidExtensionInstalled.mockReturnValue(true);
+    createLiquid.mockReturnValue(mockLiquidObject);
 
-    // Register Phantom in the wallet registry for tests
+    // Register Liquid in the wallet registry for tests
     const registry = getWalletRegistry();
-    registry.registerPhantom(mockPhantomObject, [AddressType.solana, AddressType.ethereum]);
+    registry.registerLiquid(mockLiquidObject, [AddressType.solana, AddressType.ethereum]);
   });
 
   afterEach(() => {
     jest.clearAllMocks();
     // Clear the wallet registry after each test
     const registry = getWalletRegistry();
-    registry.unregister("phantom");
+    registry.unregister("liquid");
   });
 
   describe("connect", () => {
@@ -171,9 +171,9 @@ describe("InjectedProvider", () => {
         addressTypes: [AddressType.solana],
       });
 
-      // Register Phantom with only Solana for this test
+      // Register Liquid with only Solana for this test
       const registry = getWalletRegistry();
-      registry.registerPhantom(mockPhantomObject, [AddressType.solana]);
+      registry.registerLiquid(mockLiquidObject, [AddressType.solana]);
 
       const result = await provider.connect({ provider: "injected" });
 
@@ -185,12 +185,12 @@ describe("InjectedProvider", () => {
       expect(result.authUserId).toBe("test-auth-user-id");
       expect(result.wallet).toBeDefined();
       expect(result.wallet?.name).toBe("Phantom");
-      expect(result.wallet?.discovery).toBe("phantom");
+      expect(result.wallet?.discovery).toBe("liquid");
       expect(result.wallet?.addressTypes).toEqual([AddressType.solana]);
       expect(provider.isConnected()).toBe(true);
     });
 
-    it("should default to Phantom wallet id when none is provided", async () => {
+    it("should default to Liquid wallet id when none is provided", async () => {
       const provider = new InjectedProvider({
         addressTypes: [AddressType.solana],
       });
@@ -198,7 +198,7 @@ describe("InjectedProvider", () => {
       await provider.connect({ provider: "injected" });
 
       const internal = provider as any;
-      expect(internal.selectedWalletId).toBe("phantom");
+      expect(internal.selectedWalletId).toBe("liquid");
     });
 
     it("should accept an injected wallet id that exists in the registry", async () => {
@@ -267,9 +267,9 @@ describe("InjectedProvider", () => {
     it("should connect to Ethereum wallet when only Ethereum is enabled", async () => {
       const mockAddresses = ["0x742d35Cc6634C0532925a3b844Bc9e7595f6cE65"];
 
-      mockPhantomObject.ethereum.getAccounts.mockResolvedValue(mockAddresses);
-      mockPhantomObject.ethereum.connect.mockResolvedValue(mockAddresses);
-      mockPhantomObject.ethereum.request.mockImplementation((args: any) => {
+      mockLiquidObject.ethereum.getAccounts.mockResolvedValue(mockAddresses);
+      mockLiquidObject.ethereum.connect.mockResolvedValue(mockAddresses);
+      mockLiquidObject.ethereum.request.mockImplementation((args: any) => {
         if (args.method === "eth_requestAccounts" || args.method === "eth_accounts") {
           return Promise.resolve(mockAddresses);
         }
@@ -277,7 +277,7 @@ describe("InjectedProvider", () => {
       });
 
       const registry = getWalletRegistry();
-      registry.registerPhantom(mockPhantomObject, [AddressType.ethereum]);
+      registry.registerLiquid(mockLiquidObject, [AddressType.ethereum]);
 
       const provider = new InjectedProvider({
         addressTypes: [AddressType.ethereum], // Only Ethereum enabled
@@ -293,17 +293,17 @@ describe("InjectedProvider", () => {
       expect(provider.isConnected()).toBe(true);
     });
 
-    it("should throw error when Phantom wallet not found", async () => {
-      // Unregister Phantom from registry
+    it("should throw error when Liquid wallet not found", async () => {
+      // Unregister Liquid from registry
       const registry = getWalletRegistry();
-      registry.unregister("phantom");
+      registry.unregister("liquid");
 
       // Mock extension as not installed
-      mockPhantomObject.extension.isInstalled = () => false;
+      mockLiquidObject.extension.isInstalled = () => false;
 
       // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const { isPhantomExtensionInstalled } = require("@phantom/browser-injected-sdk");
-      isPhantomExtensionInstalled.mockReturnValue(false);
+      const { isLiquidExtensionInstalled } = require("@liquid/browser-injected-sdk");
+      isLiquidExtensionInstalled.mockReturnValue(false);
 
       const provider = new InjectedProvider({
         addressTypes: [AddressType.solana, AddressType.ethereum],
@@ -314,9 +314,9 @@ describe("InjectedProvider", () => {
 
     it("should connect to remaining chains when one chain fails", async () => {
       // Modify window.phantom.solana to simulate a provider that fails to establish connection
-      mockPhantomObject.solana.connect.mockImplementation(() => {
-        mockPhantomObject.solana.isConnected = false;
-        mockPhantomObject.solana.publicKey = null;
+      mockLiquidObject.solana.connect.mockImplementation(() => {
+        mockLiquidObject.solana.isConnected = false;
+        mockLiquidObject.solana.publicKey = null;
         return Promise.resolve(undefined);
       });
 
@@ -336,14 +336,14 @@ describe("InjectedProvider", () => {
 
     it("should throw error when all chain connections fail", async () => {
       // Make Solana fail
-      mockPhantomObject.solana.connect.mockImplementation(() => {
-        mockPhantomObject.solana.isConnected = false;
-        mockPhantomObject.solana.publicKey = null;
+      mockLiquidObject.solana.connect.mockImplementation(() => {
+        mockLiquidObject.solana.isConnected = false;
+        mockLiquidObject.solana.publicKey = null;
         return Promise.resolve(undefined);
       });
 
       // Make Ethereum fail
-      mockPhantomObject.ethereum.request.mockRejectedValue(new Error("Requested resource not available"));
+      mockLiquidObject.ethereum.request.mockRejectedValue(new Error("Requested resource not available"));
 
       const provider = new InjectedProvider({
         addressTypes: [AddressType.solana, AddressType.ethereum],
@@ -388,7 +388,7 @@ describe("InjectedProvider", () => {
 
       const result = await provider.solana.signMessage(message);
 
-      expect(mockPhantomObject.solana.signMessage).toHaveBeenCalled();
+      expect(mockLiquidObject.solana.signMessage).toHaveBeenCalled();
       expect(result).toEqual({
         signature: expect.any(Uint8Array),
         publicKey: expect.any(String),
@@ -402,7 +402,7 @@ describe("InjectedProvider", () => {
 
       const result = await provider.ethereum.signPersonalMessage(message, address);
 
-      expect(mockPhantomObject.ethereum.signPersonalMessage).toHaveBeenCalledWith(message, address);
+      expect(mockLiquidObject.ethereum.signPersonalMessage).toHaveBeenCalledWith(message, address);
       expect(result).toBe(mockSignature);
     });
 
@@ -437,7 +437,7 @@ describe("InjectedProvider", () => {
 
       const result = await provider.solana.signAndSendTransaction(mockTransaction);
 
-      expect(mockPhantomObject.solana.signAndSendTransaction).toHaveBeenCalledWith(mockTransaction);
+      expect(mockLiquidObject.solana.signAndSendTransaction).toHaveBeenCalledWith(mockTransaction);
       expect(result).toEqual({
         signature: mockSignature,
       });
@@ -453,7 +453,7 @@ describe("InjectedProvider", () => {
 
       const result = await provider.ethereum.sendTransaction(mockTransaction);
 
-      expect(mockPhantomObject.ethereum.sendTransaction).toHaveBeenCalledWith(mockTransaction);
+      expect(mockLiquidObject.ethereum.sendTransaction).toHaveBeenCalledWith(mockTransaction);
       expect(result).toBe(mockTxHash);
     });
 
@@ -462,7 +462,7 @@ describe("InjectedProvider", () => {
         addressTypes: [AddressType.solana, AddressType.ethereum],
       });
 
-      // With mocked phantom object, this will succeed
+      // With mocked liquid object, this will succeed
       const result = await disconnectedProvider.solana.signAndSendTransaction({
         messageBytes: new Uint8Array([1, 2, 3]),
       });
@@ -484,9 +484,9 @@ describe("InjectedProvider", () => {
         addressTypes: [AddressType.solana],
       });
 
-      // Register Phantom with only Solana for this test
+      // Register Liquid with only Solana for this test
       const registry = getWalletRegistry();
-      registry.registerPhantom(mockPhantomObject, [AddressType.solana]);
+      registry.registerLiquid(mockLiquidObject, [AddressType.solana]);
 
       await provider.connect({ provider: "injected" });
       const addresses = provider.getAddresses();
@@ -550,7 +550,7 @@ describe("InjectedProvider", () => {
         const newAccounts = ["0x742d35Cc6634C0532925a3b8D4C8db86fB5C4A7E"];
 
         const registry = getWalletRegistry();
-        const walletInfo = registry.getById("phantom");
+        const walletInfo = registry.getById("liquid");
         const ethereumChain = walletInfo!.providers!.ethereum as any;
 
         ethereumChain.eventEmitter.emit("accountsChanged", newAccounts);
@@ -564,7 +564,7 @@ describe("InjectedProvider", () => {
             ],
             source: "wallet-account-change",
             authUserId: "test-auth-user-id",
-            walletId: "phantom",
+            walletId: "liquid",
           }),
         );
         expect(disconnectCallback).not.toHaveBeenCalled();
@@ -575,7 +575,7 @@ describe("InjectedProvider", () => {
         disconnectCallback.mockClear();
 
         const emptyAccounts: string[] = [];
-        const ethereumListeners = (mockPhantomObject.ethereum as any)._listeners;
+        const ethereumListeners = (mockLiquidObject.ethereum as any)._listeners;
         const accountsChangedListeners = ethereumListeners.get("accountsChanged");
 
         for (const handler of accountsChangedListeners) {
@@ -598,7 +598,7 @@ describe("InjectedProvider", () => {
         const emptyAccounts: string[] = [];
 
         // Get the accountsChanged handler from the chain provider's .on() listeners
-        const ethereumListeners = (mockPhantomObject.ethereum as any)._listeners;
+        const ethereumListeners = (mockLiquidObject.ethereum as any)._listeners;
         const accountsChangedListeners = ethereumListeners.get("accountsChanged");
         expect(accountsChangedListeners).toBeDefined();
 
@@ -625,7 +625,7 @@ describe("InjectedProvider", () => {
 
         const newPublicKey = "DifferentSolanaPublicKeyHere123456789ABCDEF";
         const registry = getWalletRegistry();
-        const walletInfo = registry.getById("phantom");
+        const walletInfo = registry.getById("liquid");
         const solanaChain = walletInfo!.providers!.solana as any;
 
         solanaChain.eventEmitter.emit("accountChanged", newPublicKey);
@@ -649,7 +649,7 @@ describe("InjectedProvider", () => {
     function registerExternalWallet(provider: InjectedProvider, walletId: string) {
       const solanaListeners = new Map<string, Set<(...args: any[]) => void>>();
       const mockSolana = createMockSolanaProvider({
-        isPhantom: false,
+        isLiquid: false,
         connect: jest.fn().mockImplementation(() => {
           mockSolana.isConnected = true;
           mockSolana.publicKey = "mockPublicKey";
@@ -670,7 +670,7 @@ describe("InjectedProvider", () => {
 
       const ethereumListeners = new Map<string, Set<(...args: any[]) => void>>();
       const mockEthereum = createMockEthereumProvider({
-        isPhantom: false,
+        isLiquid: false,
         request: jest.fn().mockImplementation((args: any) => {
           if (["eth_requestAccounts", "eth_accounts"].includes(args.method)) {
             return Promise.resolve(["0x69420"]);
@@ -711,28 +711,28 @@ describe("InjectedProvider", () => {
       await provider.connect({ provider: "injected" });
 
       const registry = getWalletRegistry();
-      const phantomInfo = registry.getById("phantom")!;
-      const phantomSolanaEmitter = (phantomInfo.providers!.solana as any).eventEmitter;
-      const phantomEthereumEmitter = (phantomInfo.providers!.ethereum as any).eventEmitter;
+      const liquidInfo = registry.getById("liquid")!;
+      const liquidSolanaEmitter = (liquidInfo.providers!.solana as any).eventEmitter;
+      const liquidEthereumEmitter = (liquidInfo.providers!.ethereum as any).eventEmitter;
 
-      expect(phantomSolanaEmitter.listenerCount("connect")).toBeGreaterThan(0);
-      expect(phantomSolanaEmitter.listenerCount("disconnect")).toBeGreaterThan(0);
-      expect(phantomSolanaEmitter.listenerCount("accountChanged")).toBeGreaterThan(0);
+      expect(liquidSolanaEmitter.listenerCount("connect")).toBeGreaterThan(0);
+      expect(liquidSolanaEmitter.listenerCount("disconnect")).toBeGreaterThan(0);
+      expect(liquidSolanaEmitter.listenerCount("accountChanged")).toBeGreaterThan(0);
 
-      expect(phantomEthereumEmitter.listenerCount("connect")).toBeGreaterThan(0);
-      expect(phantomEthereumEmitter.listenerCount("disconnect")).toBeGreaterThan(0);
-      expect(phantomEthereumEmitter.listenerCount("accountsChanged")).toBeGreaterThan(0);
+      expect(liquidEthereumEmitter.listenerCount("connect")).toBeGreaterThan(0);
+      expect(liquidEthereumEmitter.listenerCount("disconnect")).toBeGreaterThan(0);
+      expect(liquidEthereumEmitter.listenerCount("accountsChanged")).toBeGreaterThan(0);
 
       registerExternalWallet(provider, "backpack");
       await provider.connect({ provider: "injected", walletId: "backpack" });
 
-      expect(phantomSolanaEmitter.listenerCount("connect")).toBe(0);
-      expect(phantomSolanaEmitter.listenerCount("disconnect")).toBe(0);
-      expect(phantomSolanaEmitter.listenerCount("accountChanged")).toBe(0);
+      expect(liquidSolanaEmitter.listenerCount("connect")).toBe(0);
+      expect(liquidSolanaEmitter.listenerCount("disconnect")).toBe(0);
+      expect(liquidSolanaEmitter.listenerCount("accountChanged")).toBe(0);
 
-      expect(phantomEthereumEmitter.listenerCount("connect")).toBe(0);
-      expect(phantomEthereumEmitter.listenerCount("disconnect")).toBe(0);
-      expect(phantomEthereumEmitter.listenerCount("accountsChanged")).toBe(0);
+      expect(liquidEthereumEmitter.listenerCount("connect")).toBe(0);
+      expect(liquidEthereumEmitter.listenerCount("disconnect")).toBe(0);
+      expect(liquidEthereumEmitter.listenerCount("accountsChanged")).toBe(0);
     });
 
     it("should not setup new listeners if already set up for current wallet", async () => {
@@ -741,17 +741,17 @@ describe("InjectedProvider", () => {
       });
 
       const registry = getWalletRegistry();
-      registry.registerPhantom(mockPhantomObject, [AddressType.solana]);
+      registry.registerLiquid(mockLiquidObject, [AddressType.solana]);
 
       await provider.connect({ provider: "injected" });
 
-      const phantomSolanaEmitter = (registry.getById("phantom")!.providers!.solana as any).eventEmitter;
-      const countAfterFirst = phantomSolanaEmitter.listenerCount("connect");
+      const liquidSolanaEmitter = (registry.getById("liquid")!.providers!.solana as any).eventEmitter;
+      const countAfterFirst = liquidSolanaEmitter.listenerCount("connect");
       expect(countAfterFirst).toBe(1);
 
       await provider.connect({ provider: "injected" });
 
-      const countAfterSecond = phantomSolanaEmitter.listenerCount("connect");
+      const countAfterSecond = liquidSolanaEmitter.listenerCount("connect");
       expect(countAfterSecond).toBe(1);
     });
 
@@ -767,14 +767,14 @@ describe("InjectedProvider", () => {
       connectCallback.mockClear();
 
       const registry = getWalletRegistry();
-      const phantomInfo = registry.getById("phantom")!;
-      const phantomSolana = phantomInfo.providers!.solana as any;
+      const liquidInfo = registry.getById("liquid")!;
+      const liquidSolana = liquidInfo.providers!.solana as any;
 
       const { mockSolana: backpackSolana } = registerExternalWallet(provider, "backpack");
       await provider.connect({ provider: "injected", walletId: "backpack" });
       connectCallback.mockClear();
 
-      phantomSolana.eventEmitter.emit("connect", "PhantomPublicKey123");
+      liquidSolana.eventEmitter.emit("connect", "LiquidPublicKey123");
       await new Promise(resolve => setTimeout(resolve, 10));
       expect(connectCallback).not.toHaveBeenCalled();
 
@@ -785,22 +785,22 @@ describe("InjectedProvider", () => {
   });
 
   describe("wallet info in ConnectResult", () => {
-    it("should include wallet info with discovery 'phantom' for Phantom wallet", async () => {
+    it("should include wallet info with discovery 'phantom' for Liquid wallet", async () => {
       const provider = new InjectedProvider({
         addressTypes: [AddressType.solana],
       });
 
       const registry = getWalletRegistry();
-      registry.registerPhantom(mockPhantomObject, [AddressType.solana]);
+      registry.registerLiquid(mockLiquidObject, [AddressType.solana]);
 
       const result = await provider.connect({ provider: "injected" });
 
       expect(result.wallet).toBeDefined();
-      expect(result.wallet?.id).toBe("phantom");
+      expect(result.wallet?.id).toBe("liquid");
       expect(result.wallet?.name).toBe("Phantom");
-      expect(result.wallet?.discovery).toBe("phantom");
+      expect(result.wallet?.discovery).toBe("liquid");
       expect(result.wallet?.addressTypes).toEqual([AddressType.solana]);
-      expect(result.walletId).toBe("phantom");
+      expect(result.walletId).toBe("liquid");
     });
 
     it("should include wallet info with discovery 'standard' for Wallet Standard wallet", async () => {

@@ -1,5 +1,5 @@
 import { DerivationInfoCurveEnum, DerivationInfoAddressFormatEnum, Algorithm } from "@phantom/openapi-wallet-service";
-import { type NetworkId } from "@phantom/constants";
+import { type NetworkId } from "@liquid/constants";
 
 /**
  * Default derivation paths for different blockchain networks with interpolated account index

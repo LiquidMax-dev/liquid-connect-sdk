@@ -1,8 +1,8 @@
 import { InjectedEthereumStrategy } from "./injected";
-import type { EthereumSignInData, PhantomEthereumProvider } from "../types";
+import type { EthereumSignInData, LiquidEthereumProvider } from "../types";
 
-const createMockProvider = (): PhantomEthereumProvider => ({
-  isPhantom: true,
+const createMockProvider = (): LiquidEthereumProvider => ({
+  isLiquid: true,
   selectedAddress: null,
   chainId: "0x1",
   isConnected: false,
@@ -12,7 +12,7 @@ const createMockProvider = (): PhantomEthereumProvider => ({
   removeAllListeners: jest.fn(),
 });
 
-let mockProvider: PhantomEthereumProvider;
+let mockProvider: LiquidEthereumProvider;
 
 describe("InjectedEthereumStrategy", () => {
   let strategy: InjectedEthereumStrategy;

@@ -1,5 +1,5 @@
 // Mock dependencies before imports
-jest.mock("@phantom/embedded-provider-core", () => ({
+jest.mock("@liquid/embedded-provider-core", () => ({
   EmbeddedProvider: jest.fn().mockImplementation(() => ({
     connect: jest.fn().mockResolvedValue({ addresses: [], walletId: "mock-id" }),
     disconnect: jest.fn().mockResolvedValue(undefined),
@@ -11,17 +11,17 @@ jest.mock("@phantom/embedded-provider-core", () => ({
   })),
 }));
 
-import { PhantomProvider, usePhantom, useConnect, useDisconnect, useAccounts, useSolana, useEthereum } from "./index";
+import { LiquidProvider, useLiquid, useConnect, useDisconnect, useAccounts, useSolana, useEthereum } from "./index";
 
 describe("React Native SDK Exports", () => {
-  it("should export PhantomProvider", () => {
-    expect(PhantomProvider).toBeDefined();
-    expect(typeof PhantomProvider).toBe("function");
+  it("should export LiquidProvider", () => {
+    expect(LiquidProvider).toBeDefined();
+    expect(typeof LiquidProvider).toBe("function");
   });
 
-  it("should export usePhantom hook", () => {
-    expect(usePhantom).toBeDefined();
-    expect(typeof usePhantom).toBe("function");
+  it("should export useLiquid hook", () => {
+    expect(useLiquid).toBeDefined();
+    expect(typeof useLiquid).toBe("function");
   });
 
   it("should export individual hooks", () => {
@@ -46,8 +46,8 @@ describe("React Native SDK Exports", () => {
     const indexModule = await import("./index");
     const exports = Object.keys(indexModule);
 
-    expect(exports).toContain("PhantomProvider");
-    expect(exports).toContain("usePhantom");
+    expect(exports).toContain("LiquidProvider");
+    expect(exports).toContain("useLiquid");
     expect(exports).toContain("useConnect");
     expect(exports).toContain("useDisconnect");
     expect(exports).toContain("useAccounts");

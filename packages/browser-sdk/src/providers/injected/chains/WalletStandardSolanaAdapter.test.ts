@@ -1,5 +1,5 @@
 import { WalletStandardSolanaAdapter } from "./WalletStandardSolanaAdapter";
-import type { Transaction } from "@phantom/sdk-types";
+import type { Transaction } from "@liquid/sdk-types";
 
 describe("WalletStandardSolanaAdapter", () => {
   let mockWallet: any;
@@ -206,7 +206,7 @@ describe("WalletStandardSolanaAdapter", () => {
     });
 
     it("should sign message using solana:signMessage feature", async () => {
-      const message = "Hello from Phantom SDK!";
+      const message = "Hello from Liquid SDK!";
       const result = await adapter.signMessage(message);
 
       expect(mockWallet.features["solana:signMessage"].signMessage).toHaveBeenCalledWith({

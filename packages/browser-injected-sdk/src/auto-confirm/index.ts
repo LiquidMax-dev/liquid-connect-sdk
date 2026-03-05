@@ -4,7 +4,7 @@ export type { AutoConfirmPlugin } from "./plugin";
 export type { AutoConfirmEnableParams, AutoConfirmResult, AutoConfirmSupportedChainsResult } from "./types";
 
 declare module "../index" {
-  interface Phantom {
+  interface Liquid {
     autoConfirm: AutoConfirmPlugin;
   }
 }

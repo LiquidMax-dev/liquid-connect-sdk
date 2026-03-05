@@ -1,4 +1,4 @@
-import type { Transaction, VersionedTransaction } from "@phantom/sdk-types";
+import type { Transaction, VersionedTransaction } from "@liquid/sdk-types";
 
 // Re-export native @solana/web3.js types
 export type { Transaction, VersionedTransaction };
@@ -32,10 +32,10 @@ export type SolanaSignInData = {
 
 export type DisplayEncoding = "utf8" | "hex";
 
-export type PhantomEventType = "connect" | "disconnect" | "accountChanged";
+export type LiquidEventType = "connect" | "disconnect" | "accountChanged";
 
-export interface PhantomSolanaProvider {
-  isPhantom: boolean;
+export interface LiquidSolanaProvider {
+  isLiquid: boolean;
   publicKey: PublicKey | null;
   isConnected: boolean;
   connect: (opts?: { onlyIfTrusted?: boolean }) => Promise<{ publicKey: PublicKey }>;
@@ -62,5 +62,5 @@ export interface PhantomSolanaProvider {
 }
 
 export interface SolanaOperationOptions {
-  getProvider?: () => PhantomSolanaProvider | null;
+  getProvider?: () => LiquidSolanaProvider | null;
 }

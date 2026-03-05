@@ -1,11 +1,11 @@
 ---
-name: phantom-wallet
-description: Interact with Phantom wallet - get addresses, sign messages and transactions
+name: liquid-wallet
+description: Interact with Liquid wallet - get addresses, sign messages and transactions
 ---
 
-# Phantom Wallet Operations
+# Liquid Wallet Operations
 
-You are helping the user interact with their Phantom wallet. You have direct access to Phantom wallet tools integrated from the Phantom MCP Server.
+You are helping the user interact with their Liquid wallet. You have direct access to Liquid wallet tools integrated from the Liquid MCP Server.
 
 ## Available Tools
 
@@ -23,7 +23,7 @@ Retrieve wallet addresses for all supported blockchain chains.
 
 ### sign_message
 
-Sign an arbitrary message with the Phantom wallet.
+Sign an arbitrary message with the Liquid wallet.
 
 **Parameters:**
 
@@ -111,7 +111,7 @@ Transfer SOL or SPL tokens on Solana. **Warning:** This tool builds, signs, and 
 
 ### buy_token
 
-Fetch an optimized Solana token swap quote from Phantom's quotes API. Use for both swap-intent and buy-intent flows, and optionally execute immediately.
+Fetch an optimized Solana token swap quote from Liquid's quotes API. Use for both swap-intent and buy-intent flows, and optionally execute immediately.
 
 **Parameters:**
 
@@ -156,7 +156,7 @@ Fetch an optimized Solana token swap quote from Phantom's quotes API. Use for bo
   - `false` - Returns quote only (safe, default)
   - `true` - Immediately executes the swap (irreversible)
 - `derivationIndex`: Account derivation index (default: 0)
-- `quoteApiUrl`: Optional Phantom-compatible quote endpoint override.
+- `quoteApiUrl`: Optional Liquid-compatible quote endpoint override.
   - Leave this unset by default.
   - Only set it for explicit debugging/troubleshooting when the user asks.
   - Do not use Jupiter endpoints such as `https://lite-api.jup.ag/swap/v1/quote` (different request/response schema).
@@ -176,7 +176,7 @@ The quote contains:
 
 - **Network fees**: ~0.000005 SOL per transaction
 - **DEX fees**: Varies by route (typically 0.25-1% of swap amount)
-- **Phantom API fees**: None (Phantom doesn't charge for quotes)
+- **Liquid API fees**: None (Liquid doesn't charge for quotes)
 
 **Error Handling:**
 
@@ -192,8 +192,8 @@ The quote contains:
 - `buy_token` supports both:
   - **Swap-intent** (`exactOut: false`) when user specifies how much to spend
   - **Buy-intent** (`exactOut: true`) when user specifies how much they want to receive
-- Phantom quote responses include route selection and execution parameters intended to improve transaction landing reliability
-- Do not override `quoteApiUrl` in normal usage; rely on the default Phantom quotes endpoint
+- Liquid quote responses include route selection and execution parameters intended to improve transaction landing reliability
+- Do not override `quoteApiUrl` in normal usage; rely on the default Liquid quotes endpoint
 - **Always review quotes before executing swaps**
 - Display expected output amount, fees, and price impact to user
 - Get explicit user confirmation before setting `execute: true`

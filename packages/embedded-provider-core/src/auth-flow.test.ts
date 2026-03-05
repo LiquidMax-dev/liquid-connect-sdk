@@ -8,16 +8,16 @@ import type {
   EmbeddedStorage,
   AuthProvider,
   URLParamsAccessor,
-  PhantomAppProvider,
+  LiquidAppProvider,
 } from "./interfaces";
-import type { StamperWithKeyManagement } from "@phantom/sdk-types";
-import { PhantomClient, generateKeyPair } from "@phantom/client";
-import { NetworkId } from "@phantom/constants";
+import type { StamperWithKeyManagement } from "@liquid/sdk-types";
+import { LiquidClient, generateKeyPair } from "@liquid/client";
+import { NetworkId } from "@liquid/constants";
 
 // Mock dependencies
-jest.mock("@phantom/api-key-stamper");
-jest.mock("@phantom/client");
-jest.mock("@phantom/parsers", () => ({
+jest.mock("@liquid/api-key-stamper");
+jest.mock("@liquid/client");
+jest.mock("@liquid/parsers", () => ({
   parseToKmsTransaction: jest.fn().mockResolvedValue({ parsed: "mock-base64url", originalFormat: "mock" }),
   parseSignMessageResponse: jest.fn().mockReturnValue({ signature: "mock-signature", rawSignature: "mock-raw" }),
   parseTransactionResponse: jest.fn().mockReturnValue({
@@ -30,7 +30,7 @@ jest.mock("@phantom/parsers", () => ({
 
 // Cast mocked functions for type safety
 const mockedGenerateKeyPair = jest.mocked(generateKeyPair);
-const mockedPhantomClient = jest.mocked(PhantomClient);
+const mockedLiquidClient = jest.mocked(LiquidClient);
 
 // Set up generateKeyPair mock
 mockedGenerateKeyPair.mockReturnValue({
@@ -68,7 +68,7 @@ function createPendingSession(overrides: Partial<Session> = {}): Session {
     organizationId: "org-123",
     appId: "app-123",
     stamperInfo: { keyId: "test-key-id", publicKey: "11111111111111111111111111111111" },
-    authProvider: "phantom-connect",
+    authProvider: "liquid-connect",
     status: "pending",
     createdAt: now,
     lastUsed: now,
@@ -89,7 +89,7 @@ describe("EmbeddedProvider Auth Flows", () => {
   let mockAuthProvider: jest.Mocked<AuthProvider>;
   let mockURLParamsAccessor: jest.Mocked<URLParamsAccessor>;
   let mockStamper: jest.Mocked<StamperWithKeyManagement>;
-  let mockClient: jest.Mocked<PhantomClient>;
+  let mockClient: jest.Mocked<LiquidClient>;
 
   beforeEach(() => {
     // Reset mocks
@@ -146,8 +146,8 @@ describe("EmbeddedProvider Auth Flows", () => {
       clear: jest.fn().mockResolvedValue(undefined),
     };
 
-    // Mock phantom app provider
-    const mockPhantomAppProvider: jest.Mocked<PhantomAppProvider> = {
+    // Mock liquid app provider
+    const mockLiquidAppProvider: jest.Mocked<LiquidAppProvider> = {
       isAvailable: jest.fn().mockReturnValue(false),
       authenticate: jest.fn(),
     };
@@ -157,7 +157,7 @@ describe("EmbeddedProvider Auth Flows", () => {
       name: "test-platform",
       storage: mockStorage,
       authProvider: mockAuthProvider,
-      phantomAppProvider: mockPhantomAppProvider,
+      liquidAppProvider: mockLiquidAppProvider,
       urlParamsAccessor: mockURLParamsAccessor,
       stamper: mockStamper,
     };
@@ -170,7 +170,7 @@ describe("EmbeddedProvider Auth Flows", () => {
       log: jest.fn(),
     };
 
-    // Mock PhantomClient
+    // Mock LiquidClient
     mockClient = {
       createOrganization: jest.fn(),
       createWallet: jest.fn(),
@@ -179,7 +179,7 @@ describe("EmbeddedProvider Auth Flows", () => {
       signUtf8Message: jest.fn(),
       signAndSendTransaction: jest.fn(),
     } as any;
-    mockedPhantomClient.mockImplementation(() => mockClient);
+    mockedLiquidClient.mockImplementation(() => mockClient);
 
     provider = new EmbeddedProvider(config, mockPlatform, mockLogger);
   });
@@ -298,7 +298,7 @@ describe("EmbeddedProvider Auth Flows", () => {
 
       await provider.connect({ provider: "google" });
 
-      expect(PhantomClient).toHaveBeenCalledWith(
+      expect(LiquidClient).toHaveBeenCalledWith(
         expect.objectContaining({
           organizationId: "org-123",
         }),
@@ -502,7 +502,7 @@ describe("EmbeddedProvider Auth Flows", () => {
         return Promise.resolve();
       });
 
-      const result = await provider.connect({ provider: "phantom" });
+      const result = await provider.connect({ provider: "liquid" });
 
       expect(mockClient.createWallet).toHaveBeenCalled();
       expect(result.walletId).toBe("app-wallet-123");
@@ -584,7 +584,7 @@ describe("EmbeddedProvider Auth Flows", () => {
         return Promise.resolve();
       });
 
-      const result = await provider.connect({ provider: "phantom" });
+      const result = await provider.connect({ provider: "liquid" });
 
       expect(mockClient.getWalletAddresses).toHaveBeenCalledWith("app-wallet-123", undefined, 0);
       expect(result.addresses).toHaveLength(1);
@@ -640,8 +640,8 @@ describe("EmbeddedProvider Auth Flows", () => {
     });
   });
 
-  describe("Default Phantom Connect Flow", () => {
-    it("should initiate phantom connect redirect when no specific provider given", async () => {
+  describe("Default Liquid Connect Flow", () => {
+    it("should initiate liquid connect redirect when no specific provider given", async () => {
       mockStorage.getSession.mockResolvedValue(null);
       mockAuthProvider.resumeAuthFromRedirect.mockReturnValue(null);
       mockClient.createOrganization.mockResolvedValue({ organizationId: "new-org-id" });
@@ -656,7 +656,7 @@ describe("EmbeddedProvider Auth Flows", () => {
       );
     });
 
-    it("should save temporary session before phantom connect redirect", async () => {
+    it("should save temporary session before liquid connect redirect", async () => {
       mockStorage.getSession.mockResolvedValue(null);
       mockAuthProvider.resumeAuthFromRedirect.mockReturnValue(null);
       mockClient.createOrganization.mockResolvedValue({ organizationId: "new-org-id" });
@@ -671,7 +671,7 @@ describe("EmbeddedProvider Auth Flows", () => {
       );
     });
 
-    it("should handle phantom connect authentication flow", async () => {
+    it("should handle liquid connect authentication flow", async () => {
       mockStorage.getSession.mockResolvedValue(null);
       mockAuthProvider.resumeAuthFromRedirect.mockReturnValue(null);
 
@@ -722,7 +722,7 @@ describe("EmbeddedProvider Auth Flows", () => {
       mockStorage.getSession.mockResolvedValue(completedSession);
       mockClient.getWalletAddresses.mockResolvedValue([{ addressType: "solana", address: "test-address" }]);
 
-      const result = await provider.connect({ provider: "phantom" });
+      const result = await provider.connect({ provider: "liquid" });
 
       expect(mockStorage.clearSession).not.toHaveBeenCalled();
       expect(result.walletId).toBe("wallet-123");
@@ -736,8 +736,8 @@ describe("EmbeddedProvider Auth Flows", () => {
       mockClient.getWalletAddresses.mockResolvedValue([]);
 
       // Simulate concurrent calls
-      const promise1 = provider.connect({ provider: "phantom" });
-      const promise2 = provider.connect({ provider: "phantom" });
+      const promise1 = provider.connect({ provider: "liquid" });
+      const promise2 = provider.connect({ provider: "liquid" });
 
       const results = await Promise.all([promise1, promise2]);
 

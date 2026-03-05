@@ -2,7 +2,7 @@
   "name": "client-demo-app",
   "version": "1.0.1",
   "private": true,
-  "description": "Demo application using Phantom Client and Crypto packages",
+  "description": "Demo application using Liquid Client and Crypto packages",
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
@@ -10,10 +10,10 @@
     "multi-auth": "ts-node src/multi-auth-demo.ts"
   },
   "dependencies": {
-    "@phantom/api-key-stamper": "workspace:^",
-    "@phantom/base64url": "workspace:^",
-    "@phantom/client": "workspace:^",
-    "@phantom/crypto": "workspace:^",
+    "@liquid/api-key-stamper": "workspace:^",
+    "@liquid/base64url": "workspace:^",
+    "@liquid/client": "workspace:^",
+    "@liquid/crypto": "workspace:^",
     "bs58": "^5.0.0"
   },
   "devDependencies": {

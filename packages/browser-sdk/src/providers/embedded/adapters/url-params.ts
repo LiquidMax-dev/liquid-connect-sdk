@@ -1,4 +1,4 @@
-import type { URLParamsAccessor } from "@phantom/embedded-provider-core";
+import type { URLParamsAccessor } from "@liquid/embedded-provider-core";
 
 /**
  * Browser implementation using window.location.search

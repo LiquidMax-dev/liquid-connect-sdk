@@ -1,5 +1,5 @@
-import type { EthTransactionRequest, IEthereumChain } from "@phantom/chain-interfaces";
-import { NetworkId, chainIdToNetworkId, networkIdToChainId } from "@phantom/constants";
+import type { EthTransactionRequest, IEthereumChain } from "@liquid/chain-interfaces";
+import { NetworkId, chainIdToNetworkId, networkIdToChainId } from "@liquid/constants";
 import { EventEmitter } from "eventemitter3";
 import type { EmbeddedProvider } from "../embedded-provider";
 

@@ -1,7 +1,7 @@
 import type { SolanaStrategy } from "./strategies/types";
 import { getProvider } from "./getProvider";
 import { signIn } from "./signIn";
-import type { PhantomSolanaProvider, SolanaSignInData } from "./types";
+import type { LiquidSolanaProvider, SolanaSignInData } from "./types";
 import { SOLANA_PROVIDER_NOT_FOUND } from "../errors";
 
 jest.mock("./getProvider", () => ({
@@ -9,7 +9,7 @@ jest.mock("./getProvider", () => ({
 }));
 
 describe("signIn", () => {
-  let mockProvider: Partial<PhantomSolanaProvider>;
+  let mockProvider: Partial<LiquidSolanaProvider>;
   const mockSignInData: SolanaSignInData = { domain: "example.com", address: "mockAddress" };
 
   beforeEach(() => {

@@ -1,5 +1,5 @@
-import type { NetworkId } from "@phantom/constants";
-import { base64urlEncode } from "@phantom/base64url";
+import type { NetworkId } from "@liquid/constants";
+import { base64urlEncode } from "@liquid/base64url";
 import { getTransactionEncoder, type Transaction } from "@solana/transactions";
 import { Buffer } from "buffer";
 import { Transaction as EthersTransaction, getAddress } from "ethers";

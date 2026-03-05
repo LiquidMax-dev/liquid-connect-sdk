@@ -180,7 +180,7 @@ describe.skip("ServerSDK", () => {
     });
 
     it("should sign a message for Solana using object parameters", async () => {
-      const message = Buffer.from("Hello from Phantom SDK tests!").toString("base64url");
+      const message = Buffer.from("Hello from Liquid SDK tests!").toString("base64url");
       const networkId = NetworkId.SOLANA_MAINNET;
 
       const signature = await sdk.signMessage({
@@ -201,7 +201,7 @@ describe.skip("ServerSDK", () => {
     }, 30000);
 
     it("should sign a plain text message (auto-parsing)", async () => {
-      const plainMessage = "Hello from Phantom SDK tests!";
+      const plainMessage = "Hello from Liquid SDK tests!";
       const networkId = NetworkId.SOLANA_MAINNET;
 
       const signature = await sdk.signMessage({
@@ -220,7 +220,7 @@ describe.skip("ServerSDK", () => {
     }, 30000);
 
     it("should sign a message for Ethereum", async () => {
-      const message = Buffer.from("Hello from Phantom SDK Ethereum test!").toString("base64url");
+      const message = Buffer.from("Hello from Liquid SDK Ethereum test!").toString("base64url");
       const networkId = NetworkId.ETHEREUM_MAINNET;
 
       const signature = await sdk.signMessage({
@@ -289,7 +289,7 @@ describe.skip("ServerSDK", () => {
     });
 
     it("should parse various transaction formats (without actual signing)", async () => {
-      const { parseToKmsTransaction } = await import("@phantom/parsers");
+      const { parseToKmsTransaction } = await import("@liquid/parsers");
 
       // Test Solana raw bytes
       const mockSolanaBytes = new Uint8Array([1, 2, 3, 4, 5]);

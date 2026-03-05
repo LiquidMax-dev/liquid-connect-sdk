@@ -5,7 +5,7 @@ module.exports = {
   collectCoverageFrom: ["src/**/*.ts", "!src/**/*.d.ts", "!src/**/*.test.ts"],
   modulePathIgnorePatterns: ["<rootDir>/_release/"],
   moduleNameMapper: {
-    "^@phantom/mcp-server$": "<rootDir>/../mcp-server/src/tools/index.ts",
+    "^@liquid/mcp-server$": "<rootDir>/../mcp-server/src/tools/index.ts",
     "^(\\.{1,2}/.*)\\.js$": "$1",
   },
 };
