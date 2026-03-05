@@ -1,12 +1,12 @@
 import { renderHook } from "@testing-library/react";
 import { useAccounts } from "./useAccounts";
-import { usePhantom } from "../PhantomContext";
+import { useLiquid } from "../LiquidContext";
 
-jest.mock("../PhantomContext", () => ({
-  usePhantom: jest.fn(),
+jest.mock("../LiquidContext", () => ({
+  useLiquid: jest.fn(),
 }));
 
-const mockUsePhantom = usePhantom as jest.Mock;
+const mockUseLiquid = useLiquid as jest.Mock;
 
 describe("useAccounts", () => {
   beforeEach(() => {
@@ -14,7 +14,7 @@ describe("useAccounts", () => {
   });
 
   it("returns null when not connected", () => {
-    mockUsePhantom.mockReturnValue({
+    mockUseLiquid.mockReturnValue({
       isConnected: false,
       addresses: ["addr1"],
     });
@@ -25,7 +25,7 @@ describe("useAccounts", () => {
 
   it("returns addresses when connected", () => {
     const addresses = ["addr1", "addr2"];
-    mockUsePhantom.mockReturnValue({
+    mockUseLiquid.mockReturnValue({
       isConnected: true,
       addresses,
     });

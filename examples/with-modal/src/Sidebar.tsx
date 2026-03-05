@@ -1,20 +1,20 @@
-import type { PhantomTheme } from "@phantom/react-sdk";
+import type { LiquidTheme } from "@liquid/react-sdk";
 
 // AuthProviderType includes all SDK providers plus deeplink for UI purposes
-type AuthProviderType = "google" | "apple" | "phantom" | "injected" | "deeplink";
+type AuthProviderType = "google" | "apple" | "liquid" | "injected" | "deeplink";
 
 interface SidebarProps {
   enabledProviders: AuthProviderType[];
   onProvidersChange: (providers: AuthProviderType[]) => void;
   themeMode: "auto" | "dark" | "light" | "custom";
   onThemeModeChange: (mode: "auto" | "dark" | "light" | "custom") => void;
-  customTheme: Partial<PhantomTheme>;
-  onCustomThemeChange: (theme: Partial<PhantomTheme>) => void;
-  currentTheme: PhantomTheme;
+  customTheme: Partial<LiquidTheme>;
+  onCustomThemeChange: (theme: Partial<LiquidTheme>) => void;
+  currentTheme: LiquidTheme;
 }
 
 const providerOptions: Array<{ id: AuthProviderType; label: string }> = [
-  { id: "phantom", label: "Phantom" },
+  { id: "liquid", label: "Liquid" },
   { id: "google", label: "Google" },
   { id: "apple", label: "Apple" },
   { id: "injected", label: "External Wallets" },
@@ -38,7 +38,7 @@ export default function Sidebar({
     }
   };
 
-  const updateCustomThemeColor = (key: keyof PhantomTheme, value: string) => {
+  const updateCustomThemeColor = (key: keyof LiquidTheme, value: string) => {
     onCustomThemeChange({ ...customTheme, [key]: value });
   };
 
@@ -63,14 +63,14 @@ export default function Sidebar({
         <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "8px" }}>
           <img
             src="/icon.png"
-            alt="Phantom"
+            alt="Liquid"
             style={{
               width: "40px",
               height: "40px",
             }}
           />
           <div>
-            <h1 style={{ margin: 0, fontSize: "20px", fontWeight: "600", color: "#FFFFFF" }}>Phantom Connect</h1>
+            <h1 style={{ margin: 0, fontSize: "20px", fontWeight: "600", color: "#FFFFFF" }}>Liquid Connect</h1>
             <p style={{ margin: 0, fontSize: "12px", color: "#98979C" }}>Demo</p>
           </div>
         </div>
@@ -197,7 +197,7 @@ export default function Sidebar({
                 { key: "brand" as const, label: "Brand Color" },
                 { key: "error" as const, label: "Error" },
                 { key: "success" as const, label: "Success" },
-              ] as Array<{ key: keyof PhantomTheme; label: string }>
+              ] as Array<{ key: keyof LiquidTheme; label: string }>
             ).map(({ key, label }) => {
               const value = customTheme[key] || currentTheme[key];
               const isHex = typeof value === "string" && value.startsWith("#");

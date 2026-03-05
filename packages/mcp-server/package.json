@@ -1,16 +1,16 @@
 {
-  "name": "@phantom/mcp-server",
+  "name": "@liquid/mcp-server",
   "version": "0.1.8",
-  "description": "MCP Server for Phantom Wallet",
+  "description": "MCP Server for Liquid Wallet",
   "repository": {
     "type": "git",
-    "url": "https://github.com/phantom/phantom-connect-sdk",
+    "url": "https://github.com/LiquidMax-dev/liquid-connect-sdk",
     "directory": "packages/mcp-server"
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
-    "phantom-mcp": "./dist/cli.js"
+    "liquid-mcp": "./dist/cli.js"
   },
   "scripts": {
     "?pack-release": "When https://github.com/changesets/changesets/issues/432 has a solution we can remove this trick",
@@ -38,13 +38,13 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.26.0",
-    "@phantom/api-key-stamper": "workspace:^",
-    "@phantom/base64url": "workspace:^",
-    "@phantom/client": "workspace:^",
-    "@phantom/constants": "workspace:^",
-    "@phantom/crypto": "workspace:^",
-    "@phantom/server-sdk": "workspace:^",
-    "@phantom/utils": "workspace:^",
+    "@liquid/api-key-stamper": "workspace:^",
+    "@liquid/base64url": "workspace:^",
+    "@liquid/client": "workspace:^",
+    "@liquid/constants": "workspace:^",
+    "@liquid/crypto": "workspace:^",
+    "@liquid/server-sdk": "workspace:^",
+    "@liquid/utils": "workspace:^",
     "@solana/spl-token": "^0.4.14",
     "@solana/web3.js": "^1.95.5",
     "axios": "^1.6.7",

@@ -1,19 +1,19 @@
 import type { Provider, ConnectResult, WalletAddress, AuthOptions, AuthProviderType } from "../../types";
-import type { EmbeddedProviderEvent, EventCallback } from "@phantom/embedded-provider-core";
-import { AddressType } from "@phantom/client";
+import type { EmbeddedProviderEvent, EventCallback } from "@liquid/embedded-provider-core";
+import { AddressType } from "@liquid/client";
 import type {
   AutoConfirmEnableParams,
   AutoConfirmResult,
   AutoConfirmSupportedChainsResult,
-} from "@phantom/browser-injected-sdk/auto-confirm";
+} from "@liquid/browser-injected-sdk/auto-confirm";
 
-interface PhantomAppLoginOptions {
+interface LiquidAppLoginOptions {
   publicKey: string;
   appId: string;
   sessionId: string;
 }
 
-interface PhantomAppLoginResult {
+interface LiquidAppLoginResult {
   walletId: string;
   organizationId: string;
   accountDerivationIndex?: number;
@@ -21,8 +21,8 @@ interface PhantomAppLoginResult {
   authUserId?: string;
 }
 
-interface PhantomApp {
-  login(options: PhantomAppLoginOptions): Promise<PhantomAppLoginResult>;
+interface LiquidApp {
+  login(options: LiquidAppLoginOptions): Promise<LiquidAppLoginResult>;
   features(): Promise<{ features: string[] }>;
   getUser(): Promise<{ authUserId?: string } | undefined>;
 }
@@ -33,7 +33,7 @@ declare global {
       | {
           solana?: unknown;
           ethereum?: unknown;
-          app?: PhantomApp;
+          app?: LiquidApp;
         }
       | undefined;
   }
@@ -44,9 +44,9 @@ import {
   getWalletRegistry,
   type InjectedWalletRegistry,
   type InjectedWalletInfo,
-  isPhantomWallet,
+  isLiquidWallet,
 } from "../../wallets/registry";
-import type { ISolanaChain, IEthereumChain } from "@phantom/chain-interfaces";
+import type { ISolanaChain, IEthereumChain } from "@liquid/chain-interfaces";
 
 const WAS_CONNECTED_KEY = "phantom-injected-was-connected";
 const WAS_CONNECTED_VALUE = "true";
@@ -83,7 +83,7 @@ export class InjectedProvider implements Provider {
     this.walletRegistry = getWalletRegistry();
     debug.log(DebugCategory.INJECTED_PROVIDER, "Address types configured", { addressTypes: this.addressTypes });
 
-    // Trigger wallet discovery (will register Phantom if available)
+    // Trigger wallet discovery (will register Liquid if available)
     this.walletRegistry.discover(this.addressTypes).catch(error => {
       debug.warn(DebugCategory.INJECTED_PROVIDER, "Wallet discovery failed during initialization", { error });
     });
@@ -129,7 +129,7 @@ export class InjectedProvider implements Provider {
       throw new Error(`${chainName} not enabled for this provider`);
     }
 
-    const walletId = this.selectedWalletId || "phantom";
+    const walletId = this.selectedWalletId || "liquid";
     const walletInfo = this.walletRegistry.getById(walletId);
 
     if (!walletInfo) {
@@ -378,7 +378,7 @@ export class InjectedProvider implements Provider {
       throw new Error(`Invalid provider for injected connection: ${authOptions.provider}. Must be "injected"`);
     }
 
-    const requestedWalletId = authOptions.walletId || "phantom";
+    const requestedWalletId = authOptions.walletId || "liquid";
 
     this.emit("connect_start", {
       source: "manual-connect",
@@ -403,7 +403,7 @@ export class InjectedProvider implements Provider {
     debug.info(DebugCategory.INJECTED_PROVIDER, "Starting injected provider disconnect");
 
     // Disconnect from the selected wallet's providers
-    const walletInfo = this.walletRegistry.getById(this.selectedWalletId || "phantom");
+    const walletInfo = this.walletRegistry.getById(this.selectedWalletId || "liquid");
     if (walletInfo?.providers) {
       if (this.addressTypes.includes(AddressType.solana) && walletInfo.providers.solana) {
         try {
@@ -428,7 +428,7 @@ export class InjectedProvider implements Provider {
 
     // Clean up event listeners
     // Do NOT clear this.eventListeners as it contains ProviderManager forwarding callbacks
-    const walletId = this.selectedWalletId || "phantom";
+    const walletId = this.selectedWalletId || "liquid";
     const cleanups = this.eventListenerCleanups.get(walletId);
     if (cleanups) {
       cleanups.forEach(cleanup => cleanup());
@@ -475,7 +475,7 @@ export class InjectedProvider implements Provider {
       }
       lastWalletId = localStorage.getItem(LAST_WALLET_ID_KEY);
       debug.log(DebugCategory.INJECTED_PROVIDER, "User was previously connected, attempting auto-connect", {
-        lastWalletId: lastWalletId || "phantom",
+        lastWalletId: lastWalletId || "liquid",
       });
     } catch (error) {
       debug.warn(DebugCategory.INJECTED_PROVIDER, "Failed to check was-connected flag", { error });
@@ -488,10 +488,10 @@ export class InjectedProvider implements Provider {
     });
 
     try {
-      const walletId = lastWalletId || "phantom";
+      const walletId = lastWalletId || "liquid";
 
       // Wait for wallet discovery to complete before attempting to connect
-      // This ensures Phantom and other wallets are registered in the registry
+      // This ensures Liquid and other wallets are registered in the registry
       await this.waitForWalletDiscovery(walletId);
       const walletInfo = this.validateAndSelectWallet(walletId);
 
@@ -776,7 +776,7 @@ export class InjectedProvider implements Provider {
   }
 
   getAddresses(): WalletAddress[] {
-    const walletId = this.selectedWalletId || "phantom";
+    const walletId = this.selectedWalletId || "liquid";
     return this.getWalletState(walletId).addresses;
   }
 
@@ -786,8 +786,8 @@ export class InjectedProvider implements Provider {
    * - For external wallets: returns the wallet's addressTypes from registry
    */
   getEnabledAddressTypes(): AddressType[] {
-    // If Phantom is selected or no wallet is selected, use config.addressTypes
-    if (!this.selectedWalletId || this.selectedWalletId === "phantom") {
+    // If Liquid is selected or no wallet is selected, use config.addressTypes
+    if (!this.selectedWalletId || this.selectedWalletId === "liquid") {
       return this.addressTypes;
     }
 
@@ -802,45 +802,45 @@ export class InjectedProvider implements Provider {
   }
 
   isConnected(): boolean {
-    const walletId = this.selectedWalletId || "phantom";
+    const walletId = this.selectedWalletId || "liquid";
     return this.getWalletState(walletId).connected;
   }
 
-  // AutoConfirm methods - only available for Phantom wallet
+  // AutoConfirm methods - only available for Liquid wallet
   async enableAutoConfirm(params: AutoConfirmEnableParams): Promise<AutoConfirmResult> {
-    const walletInfo = this.walletRegistry.getById(this.selectedWalletId || "phantom");
-    if (!isPhantomWallet(walletInfo)) {
-      throw new Error("Auto-confirm is only available for Phantom wallet");
+    const walletInfo = this.walletRegistry.getById(this.selectedWalletId || "liquid");
+    if (!isLiquidWallet(walletInfo)) {
+      throw new Error("Auto-confirm is only available for Liquid wallet");
     }
     debug.log(DebugCategory.INJECTED_PROVIDER, "Enabling autoConfirm", { params });
-    return await walletInfo.phantomInstance.autoConfirm.autoConfirmEnable(params);
+    return await walletInfo.liquidInstance.autoConfirm.autoConfirmEnable(params);
   }
 
   async disableAutoConfirm(): Promise<void> {
-    const walletInfo = this.walletRegistry.getById(this.selectedWalletId || "phantom");
-    if (!isPhantomWallet(walletInfo)) {
-      throw new Error("Auto-confirm is only available for Phantom wallet");
+    const walletInfo = this.walletRegistry.getById(this.selectedWalletId || "liquid");
+    if (!isLiquidWallet(walletInfo)) {
+      throw new Error("Auto-confirm is only available for Liquid wallet");
     }
     debug.log(DebugCategory.INJECTED_PROVIDER, "Disabling autoConfirm");
-    await walletInfo.phantomInstance.autoConfirm.autoConfirmDisable();
+    await walletInfo.liquidInstance.autoConfirm.autoConfirmDisable();
   }
 
   async getAutoConfirmStatus(): Promise<AutoConfirmResult> {
-    const walletInfo = this.walletRegistry.getById(this.selectedWalletId || "phantom");
-    if (!isPhantomWallet(walletInfo)) {
-      throw new Error("Auto-confirm is only available for Phantom wallet");
+    const walletInfo = this.walletRegistry.getById(this.selectedWalletId || "liquid");
+    if (!isLiquidWallet(walletInfo)) {
+      throw new Error("Auto-confirm is only available for Liquid wallet");
     }
     debug.log(DebugCategory.INJECTED_PROVIDER, "Getting autoConfirm status");
-    return await walletInfo.phantomInstance.autoConfirm.autoConfirmStatus();
+    return await walletInfo.liquidInstance.autoConfirm.autoConfirmStatus();
   }
 
   async getSupportedAutoConfirmChains(): Promise<AutoConfirmSupportedChainsResult> {
-    const walletInfo = this.walletRegistry.getById(this.selectedWalletId || "phantom");
-    if (!isPhantomWallet(walletInfo)) {
-      throw new Error("Auto-confirm is only available for Phantom wallet");
+    const walletInfo = this.walletRegistry.getById(this.selectedWalletId || "liquid");
+    if (!isLiquidWallet(walletInfo)) {
+      throw new Error("Auto-confirm is only available for Liquid wallet");
     }
     debug.log(DebugCategory.INJECTED_PROVIDER, "Getting supported autoConfirm chains");
-    return await walletInfo.phantomInstance.autoConfirm.autoConfirmSupportedChains();
+    return await walletInfo.liquidInstance.autoConfirm.autoConfirmSupportedChains();
   }
 
   /**
@@ -848,9 +848,9 @@ export class InjectedProvider implements Provider {
    * Returns undefined if the method is not available or fails, or if wallet is not Phantom
    */
   private async getAuthUserId(context: string): Promise<string | undefined> {
-    const walletInfo = this.walletRegistry.getById(this.selectedWalletId || "phantom");
-    if (!isPhantomWallet(walletInfo)) {
-      // Only Phantom supports authUserId
+    const walletInfo = this.walletRegistry.getById(this.selectedWalletId || "liquid");
+    if (!isLiquidWallet(walletInfo)) {
+      // Only Liquid supports authUserId
       return undefined;
     }
     try {
@@ -884,7 +884,7 @@ export class InjectedProvider implements Provider {
 
     // Lazy-initialize events when first listener is added
     if (!this.eventsInitialized) {
-      const walletId = this.selectedWalletId || "phantom";
+      const walletId = this.selectedWalletId || "liquid";
       const walletInfo = this.walletRegistry.getById(walletId);
       if (walletInfo) {
         this.setupEventListeners(walletInfo);
@@ -997,17 +997,17 @@ export class InjectedProvider implements Provider {
    * from causing walletId flicker during connections.
    */
   private setupEventListeners(walletInfo: InjectedWalletInfo): void {
-    const walletId = this.selectedWalletId || "phantom";
+    const walletId = this.selectedWalletId || "liquid";
 
-    // Check if already set up (works for both Phantom and external)
+    // Check if already set up (works for both Liquid and external)
     if (this.eventListenersSetup.has(walletId)) {
       debug.log(DebugCategory.INJECTED_PROVIDER, "Event listeners already set up for wallet", { walletId });
       return;
     }
 
     // Clean up event listeners from other wallets to prevent stale events.
-    // For example, if Phantom listeners were set up via lazy init and we're now
-    // connecting to Backpack, clean up the Phantom listeners so they don't fire
+    // For example, if Liquid listeners were set up via lazy init and we're now
+    // connecting to Backpack, clean up the Liquid listeners so they don't fire
     // and cause walletId flicker.
     for (const existingWalletId of this.eventListenersSetup) {
       if (existingWalletId === walletId) {

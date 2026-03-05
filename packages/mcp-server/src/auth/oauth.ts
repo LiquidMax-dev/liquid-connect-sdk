@@ -40,7 +40,7 @@ export interface OAuthFlowOptions {
   callbackPath?: string;
   /** Pre-registered app/client ID (UUID) or DCR naming prefix */
   appId?: string;
-  provider?: string; // SSO provider: google, apple, or phantom
+  provider?: string; // SSO provider: google, apple, or liquid
 }
 
 /**
@@ -95,20 +95,20 @@ export class OAuthFlow {
    * Creates a new OAuth flow
    *
    * @param options - OAuth flow configuration
-   * @param options.authBaseUrl - Base URL of the authorization server (default: https://auth.phantom.app or PHANTOM_AUTH_BASE_URL env var)
-   * @param options.connectBaseUrl - Base URL of Phantom Connect (default: https://connect.phantom.app or PHANTOM_CONNECT_BASE_URL env var)
-   * @param options.callbackPort - Port for the local callback server (default: 8080 or PHANTOM_CALLBACK_PORT env var)
-   * @param options.callbackPath - Path for the OAuth callback (default: /callback or PHANTOM_CALLBACK_PATH env var)
-   * @param options.appId - Pre-registered app/client ID (UUID) or DCR naming prefix (default: phantom-mcp)
-   * @param options.provider - SSO provider (default: google or PHANTOM_SSO_PROVIDER env var)
+   * @param options.authBaseUrl - Base URL of the authorization server (default: https://auth.phantom.app or LIQUID_AUTH_BASE_URL env var)
+   * @param options.connectBaseUrl - Base URL of Liquid Connect (default: https://connect.phantom.app or LIQUID_CONNECT_BASE_URL env var)
+   * @param options.callbackPort - Port for the local callback server (default: 8080 or LIQUID_CALLBACK_PORT env var)
+   * @param options.callbackPath - Path for the OAuth callback (default: /callback or LIQUID_CALLBACK_PATH env var)
+   * @param options.appId - Pre-registered app/client ID (UUID) or DCR naming prefix (default: liquid-mcp)
+   * @param options.provider - SSO provider (default: google or LIQUID_SSO_PROVIDER env var)
    */
   constructor(options: OAuthFlowOptions = {}) {
-    this.authBaseUrl = options.authBaseUrl ?? process.env.PHANTOM_AUTH_BASE_URL ?? "https://auth.phantom.app";
+    this.authBaseUrl = options.authBaseUrl ?? process.env.LIQUID_AUTH_BASE_URL ?? "https://auth.phantom.app";
     this.connectBaseUrl =
-      options.connectBaseUrl ?? process.env.PHANTOM_CONNECT_BASE_URL ?? "https://connect.phantom.app";
+      options.connectBaseUrl ?? process.env.LIQUID_CONNECT_BASE_URL ?? "https://connect.phantom.app";
 
-    // Validate PHANTOM_CALLBACK_PORT to prevent NaN from causing runtime failures
-    const envPort = process.env.PHANTOM_CALLBACK_PORT?.trim();
+    // Validate LIQUID_CALLBACK_PORT to prevent NaN from causing runtime failures
+    const envPort = process.env.LIQUID_CALLBACK_PORT?.trim();
     const defaultPort = 8080;
 
     if (options.callbackPort !== undefined) {
@@ -121,7 +121,7 @@ export class OAuthFlow {
       const port = parseInt(envPort, 10);
       if (isNaN(port) || port <= 0 || port > 65535) {
         throw new Error(
-          `Invalid PHANTOM_CALLBACK_PORT: "${envPort}". Must be a valid port number between 1 and 65535.`,
+          `Invalid LIQUID_CALLBACK_PORT: "${envPort}". Must be a valid port number between 1 and 65535.`,
         );
       }
       this.callbackPort = port;
@@ -129,10 +129,10 @@ export class OAuthFlow {
       this.callbackPort = defaultPort;
     }
 
-    this.callbackPath = options.callbackPath ?? process.env.PHANTOM_CALLBACK_PATH ?? "/callback";
-    this.appId = options.appId ?? "phantom-mcp";
-    const provider = options.provider ?? process.env.PHANTOM_SSO_PROVIDER ?? "google";
-    if (!["google", "apple", "phantom"].includes(provider)) {
+    this.callbackPath = options.callbackPath ?? process.env.LIQUID_CALLBACK_PATH ?? "/callback";
+    this.appId = options.appId ?? "liquid-mcp";
+    const provider = options.provider ?? process.env.LIQUID_SSO_PROVIDER ?? "google";
+    if (!["google", "apple", "liquid"].includes(provider)) {
       throw new Error(`Unsupported SSO provider: ${provider}`);
     }
     this.provider = provider;
@@ -157,8 +157,8 @@ export class OAuthFlow {
 
     // Step 1: Get OAuth client credentials (from env or DCR)
     let clientConfig: DCRClientConfig;
-    const envClientId = (process.env.PHANTOM_APP_ID || process.env.PHANTOM_CLIENT_ID)?.trim();
-    const envClientSecret = process.env.PHANTOM_CLIENT_SECRET?.trim();
+    const envClientId = (process.env.LIQUID_APP_ID || process.env.LIQUID_CLIENT_ID)?.trim();
+    const envClientSecret = process.env.LIQUID_CLIENT_SECRET?.trim();
 
     const providedClientId = this.getClientIdFromAppId();
     const hasClientSecret = Boolean(envClientSecret && envClientSecret.length > 0);
@@ -186,7 +186,7 @@ export class OAuthFlow {
     } else {
       this.logger.info("Step 1: Registering OAuth client via DCR");
       this.logger.warn(
-        "DCR is not currently supported by auth.phantom.app - you should provide PHANTOM_APP_ID or PHANTOM_CLIENT_ID",
+        "DCR is not currently supported by auth.phantom.app - you should provide LIQUID_APP_ID or LIQUID_CLIENT_ID",
       );
       const dcrClient = new DCRClient(this.authBaseUrl, this.appId);
       clientConfig = await dcrClient.register(redirectUri);
@@ -195,7 +195,7 @@ export class OAuthFlow {
 
     // Step 2: Generate stamper keypair
     this.logger.info("Step 2: Generating stamper keypair");
-    const { generateKeyPair } = await import("@phantom/crypto");
+    const { generateKeyPair } = await import("@liquid/crypto");
     const stamperKeys = generateKeyPair();
     this.logger.info(`Stamper public key: ${stamperKeys.publicKey}`);
 

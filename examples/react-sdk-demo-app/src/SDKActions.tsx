@@ -5,12 +5,12 @@ import {
   useSolana,
   useEthereum,
   useAccounts,
-  usePhantom,
+  useLiquid,
   useAutoConfirm,
   NetworkId,
   ConnectButton,
   ConnectBox,
-} from "@phantom/react-sdk";
+} from "@liquid/react-sdk";
 import {
   SystemProgram,
   PublicKey,
@@ -35,7 +35,7 @@ export function SDKActions() {
   const { disconnect, isDisconnecting } = useDisconnect();
   const { solana, isAvailable: isSolanaAvailable } = useSolana();
   const { ethereum, isAvailable: isEthereumAvailable } = useEthereum();
-  const { isConnected, user } = usePhantom();
+  const { isConnected, user } = useLiquid();
   const autoConfirm = useAutoConfirm();
   const addresses = useAccounts();
   const [isSigningMessageType, setIsSigningMessageType] = useState<"solana" | "evm" | null>(null);
@@ -132,14 +132,14 @@ export function SDKActions() {
     }
   };
 
-  const onConnectWithPhantom = async () => {
+  const onConnectWithLiquid = async () => {
     try {
-      // Connect with Phantom auth provider (uses extension)
+      // Connect with Liquid auth provider (uses extension)
       await connect({
-        provider: "phantom",
+        provider: "liquid",
       });
     } catch (error) {
-      console.error("Error connecting with Phantom:", error);
+      console.error("Error connecting with Liquid:", error);
       alert(`Error connecting: ${(error as Error).message || error}`);
     }
   };
@@ -165,7 +165,7 @@ export function SDKActions() {
           alert("Solana chain not available. The selected wallet does not support Solana.");
           return;
         }
-        const result = await solana.signMessage("Hello from Phantom SDK!");
+        const result = await solana.signMessage("Hello from Liquid SDK!");
         if (!result) {
           alert("Solana chain not available");
           return;
@@ -181,7 +181,7 @@ export function SDKActions() {
           alert("No Ethereum address found");
           return;
         }
-        const message = "Hello from Phantom SDK!";
+        const message = "Hello from Liquid SDK!";
         const prefixedMessage = "0x" + Buffer.from(message, "utf8").toString("hex");
         const result = await ethereum.signPersonalMessage(prefixedMessage, ethAddress.address);
         if (!result) {
@@ -253,7 +253,7 @@ export function SDKActions() {
             name: "Bob",
             wallet: ethAddress.address,
           },
-          contents: "Hello, Bob! This is a typed data message from Phantom React SDK Demo.",
+          contents: "Hello, Bob! This is a typed data message from Liquid React SDK Demo.",
         },
       };
 
@@ -674,7 +674,7 @@ export function SDKActions() {
       // Pre-sign the transaction with the stake account keypair
       transaction.sign([stakeAccountKeypair]);
 
-      // Sign and send transaction (Phantom will add user's signature)
+      // Sign and send transaction (Liquid will add user's signature)
       const result = await solana.signAndSendTransaction(transaction);
       if (!result) {
         alert("Transaction was rejected or Solana chain not available");
@@ -931,7 +931,7 @@ export function SDKActions() {
         <div className="section">
           <h3>Initializing SDK...</h3>
           <div className="status-card">
-            <p>Loading Phantom SDK...</p>
+            <p>Loading Liquid SDK...</p>
           </div>
         </div>
       )}
@@ -940,8 +940,8 @@ export function SDKActions() {
         <div className="section">
           <h3>Connection Options</h3>
           <div className="button-group">
-            <button className="primary" onClick={onConnectWithPhantom} disabled={isConnecting}>
-              {isConnecting ? "Connecting..." : "Login with Phantom"}
+            <button className="primary" onClick={onConnectWithLiquid} disabled={isConnecting}>
+              {isConnecting ? "Connecting..." : "Login with Liquid"}
             </button>
             <button className="primary" onClick={onConnectWithGoogle} disabled={isConnecting}>
               {isConnecting ? "Connecting..." : "Connect with Google"}

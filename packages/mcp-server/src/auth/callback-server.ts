@@ -383,7 +383,7 @@ export class CallbackServer {
       <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
     </svg>
     <h1>Authorization Successful!</h1>
-    <p>You have successfully connected your Phantom wallet.</p>
+    <p>You have successfully connected your Liquid wallet.</p>
     <p>You can close this window and return to your application.</p>
   </div>
 </body>

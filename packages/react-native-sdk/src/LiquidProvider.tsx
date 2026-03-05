@@ -1,23 +1,23 @@
 import type { ReactNode } from "react";
 import { useState, useEffect, useMemo, useCallback } from "react";
-import { EmbeddedProvider } from "@phantom/embedded-provider-core";
+import { EmbeddedProvider } from "@liquid/embedded-provider-core";
 import type {
   EmbeddedProviderConfig,
   PlatformAdapter,
   ConnectEventData,
   ConnectResult,
-} from "@phantom/embedded-provider-core";
-import type { PhantomSDKConfig, PhantomDebugConfig, WalletAddress } from "./types";
+} from "@liquid/embedded-provider-core";
+import type { LiquidSDKConfig, LiquidDebugConfig, WalletAddress } from "./types";
 import {
   ANALYTICS_HEADERS,
   DEFAULT_WALLET_API_URL,
   DEFAULT_EMBEDDED_WALLET_TYPE,
   DEFAULT_AUTH_URL,
   type SdkWalletType,
-} from "@phantom/constants";
-import { ThemeProvider, darkTheme, type PhantomTheme } from "@phantom/wallet-sdk-ui";
+} from "@liquid/constants";
+import { ThemeProvider, darkTheme, type LiquidTheme } from "@liquid/wallet-sdk-ui";
 import { ModalProvider } from "./ModalProvider";
-import { PhantomContext, type PhantomContextValue, type PhantomErrors } from "./PhantomContext";
+import { LiquidContext, type LiquidContextValue, type LiquidErrors } from "./LiquidContext";
 // Platform adapters for React Native/Expo
 import { ExpoSecureStorage } from "./providers/embedded/storage";
 import { ExpoAuthProvider } from "./providers/embedded/auth";
@@ -26,22 +26,22 @@ import { ExpoAuth2Stamper } from "./providers/embedded/ExpoAuth2Stamper";
 import { ExpoURLParamsAccessor } from "./providers/embedded/url-params";
 import { ReactNativeStamper } from "./providers/embedded/stamper";
 import { ExpoLogger } from "./providers/embedded/logger";
-import { ReactNativePhantomAppProvider } from "./providers/embedded/phantom-app";
+import { ReactNativeLiquidAppProvider } from "./providers/embedded/liquid-app";
 import { Platform } from "react-native";
 
-export interface PhantomProviderProps {
+export interface LiquidProviderProps {
   children: ReactNode;
-  config: PhantomSDKConfig;
-  debugConfig?: PhantomDebugConfig;
-  theme?: Partial<PhantomTheme>;
+  config: LiquidSDKConfig;
+  debugConfig?: LiquidDebugConfig;
+  theme?: Partial<LiquidTheme>;
   appIcon?: string;
   appName?: string;
 }
 
-export function PhantomProvider({ children, config, debugConfig, theme, appIcon, appName }: PhantomProviderProps) {
+export function LiquidProvider({ children, config, debugConfig, theme, appIcon, appName }: LiquidProviderProps) {
   const [isConnected, setIsConnected] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
-  const [errors, setErrors] = useState<PhantomErrors>({});
+  const [errors, setErrors] = useState<LiquidErrors>({});
   const [addresses, setAddresses] = useState<WalletAddress[]>([]);
   const [walletId, setWalletId] = useState<string | null>(null);
   const [user, setUser] = useState<ConnectResult | null>(null);
@@ -49,7 +49,7 @@ export function PhantomProvider({ children, config, debugConfig, theme, appIcon,
   // Memoized config to avoid unnecessary SDK recreation
   const memoizedConfig: EmbeddedProviderConfig = useMemo(() => {
     // Build redirect URL if not provided
-    const redirectUrl = config.authOptions?.redirectUrl || `${config.scheme}://phantom-auth-callback`;
+    const redirectUrl = config.authOptions?.redirectUrl || `${config.scheme}://liquid-auth-callback`;
 
     // Merge config with redirect URL
     return {
@@ -72,9 +72,9 @@ export function PhantomProvider({ children, config, debugConfig, theme, appIcon,
     const logger = new ExpoLogger(debugConfig?.enabled || false);
 
     const stamper = config.unstable__auth2Options
-      ? new ExpoAuth2Stamper(`phantom-auth2-${memoizedConfig.appId}`)
+      ? new ExpoAuth2Stamper(`liquid-auth2-${memoizedConfig.appId}`)
       : new ReactNativeStamper({
-          keyPrefix: `phantom-rn-${memoizedConfig.appId}`,
+          keyPrefix: `liquid-rn-${memoizedConfig.appId}`,
           appId: memoizedConfig.appId,
         });
 
@@ -106,7 +106,7 @@ export function PhantomProvider({ children, config, debugConfig, theme, appIcon,
       authProvider,
       urlParamsAccessor,
       stamper,
-      phantomAppProvider: new ReactNativePhantomAppProvider(),
+      liquidAppProvider: new ReactNativeLiquidAppProvider(),
       name: platformName,
       analyticsHeaders: {
         [ANALYTICS_HEADERS.SDK_TYPE]: "react-native",
@@ -127,7 +127,7 @@ export function PhantomProvider({ children, config, debugConfig, theme, appIcon,
     // Event handlers that need to be referenced for cleanup
     const handleConnectStart = () => {
       setIsConnecting(true);
-      setErrors((prev: PhantomErrors) => ({ ...prev, connect: undefined }));
+      setErrors((prev: LiquidErrors) => ({ ...prev, connect: undefined }));
     };
 
     const handleConnect = async (data: ConnectEventData) => {
@@ -154,7 +154,7 @@ export function PhantomProvider({ children, config, debugConfig, theme, appIcon,
 
     const handleConnectError = (errorData: any) => {
       setIsConnecting(false);
-      setErrors((prev: PhantomErrors) => ({ ...prev, connect: new Error(errorData.error || "Connection failed") }));
+      setErrors((prev: LiquidErrors) => ({ ...prev, connect: new Error(errorData.error || "Connection failed") }));
       setAddresses([]);
     };
 
@@ -168,7 +168,7 @@ export function PhantomProvider({ children, config, debugConfig, theme, appIcon,
     };
 
     const handleSpendingLimitReached = () => {
-      setErrors((prev: PhantomErrors) => ({ ...prev, spendingLimit: true }));
+      setErrors((prev: LiquidErrors) => ({ ...prev, spendingLimit: true }));
     };
 
     // Add event listeners to SDK
@@ -195,12 +195,12 @@ export function PhantomProvider({ children, config, debugConfig, theme, appIcon,
     });
   }, [sdk]);
 
-  const clearError = useCallback((key: keyof PhantomErrors) => {
-    setErrors(({ [key]: _, ...next }: PhantomErrors) => next);
+  const clearError = useCallback((key: keyof LiquidErrors) => {
+    setErrors(({ [key]: _, ...next }: LiquidErrors) => next);
   }, []);
 
   // Memoize context value to prevent unnecessary re-renders
-  const value: PhantomContextValue = useMemo(
+  const value: LiquidContextValue = useMemo(
     () => ({
       sdk,
       isConnected,
@@ -220,11 +220,11 @@ export function PhantomProvider({ children, config, debugConfig, theme, appIcon,
 
   return (
     <ThemeProvider theme={resolvedTheme}>
-      <PhantomContext.Provider value={value}>
+      <LiquidContext.Provider value={value}>
         <ModalProvider appIcon={appIcon} appName={appName}>
           {children}
         </ModalProvider>
-      </PhantomContext.Provider>
+      </LiquidContext.Provider>
     </ThemeProvider>
   );
 }

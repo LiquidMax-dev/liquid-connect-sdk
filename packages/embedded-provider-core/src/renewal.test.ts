@@ -1,11 +1,11 @@
 import { EmbeddedProvider } from "./embedded-provider";
 import type { EmbeddedProviderConfig, PlatformAdapter, Session } from "./interfaces";
-import type { StamperWithKeyManagement } from "@phantom/sdk-types";
-import type { PhantomClient } from "@phantom/client";
+import type { StamperWithKeyManagement } from "@liquid/sdk-types";
+import type { LiquidClient } from "@liquid/client";
 
 // Mock dependencies
-jest.mock("@phantom/client");
-jest.mock("@phantom/parsers", () => ({
+jest.mock("@liquid/client");
+jest.mock("@liquid/parsers", () => ({
   parseToKmsTransaction: jest.fn().mockResolvedValue({ base64url: "mock-base64url", originalFormat: "mock" }),
   parseSignMessageResponse: jest.fn().mockReturnValue({ signature: "mock-signature", rawSignature: "mock-raw" }),
   parseTransactionResponse: jest.fn().mockReturnValue({ rawTransaction: "mock-raw-tx" }),
@@ -17,14 +17,14 @@ jest.mock("bs58", () => ({
   decode: jest.fn((_input: string) => new Uint8Array(32).fill(1)), // Mock public key decode
 }));
 
-jest.mock("@phantom/base64url", () => ({
+jest.mock("@liquid/base64url", () => ({
   base64urlEncode: jest.fn((_input: Uint8Array) => "mock-base64url-encoded"),
 }));
 
 describe.skip("EmbeddedProvider Renewal Tests", () => {
   let provider: EmbeddedProvider;
   let mockStamper: jest.Mocked<StamperWithKeyManagement>;
-  let mockClient: jest.Mocked<PhantomClient>;
+  let mockClient: jest.Mocked<LiquidClient>;
   let mockStorage: { [key: string]: any };
   let originalDate: typeof Date;
 

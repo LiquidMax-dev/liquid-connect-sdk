@@ -1,10 +1,10 @@
 import { useCallback, useState, useEffect } from "react";
-import { usePhantom } from "../PhantomContext";
+import { useLiquid } from "../LiquidContext";
 import type {
   AutoConfirmEnableParams,
   AutoConfirmResult,
   AutoConfirmSupportedChainsResult,
-} from "@phantom/browser-sdk";
+} from "@liquid/browser-sdk";
 
 export interface UseAutoConfirmResult {
   enable: (params: AutoConfirmEnableParams) => Promise<AutoConfirmResult>;
@@ -17,7 +17,7 @@ export interface UseAutoConfirmResult {
 }
 
 export function useAutoConfirm(): UseAutoConfirmResult {
-  const { sdk, user } = usePhantom();
+  const { sdk, user } = useLiquid();
   const [status, setStatus] = useState<AutoConfirmResult | null>(null);
   const [supportedChains, setSupportedChains] = useState<AutoConfirmSupportedChainsResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);

@@ -51,41 +51,41 @@ describe("OAuthFlow", () => {
       expect(oauthFlow).toBeInstanceOf(OAuthFlow);
     });
 
-    it("should use PHANTOM_AUTH_BASE_URL env var when set", () => {
-      const originalEnv = process.env.PHANTOM_AUTH_BASE_URL;
-      process.env.PHANTOM_AUTH_BASE_URL = "https://staging-auth.phantom.app";
+    it("should use LIQUID_AUTH_BASE_URL env var when set", () => {
+      const originalEnv = process.env.LIQUID_AUTH_BASE_URL;
+      process.env.LIQUID_AUTH_BASE_URL = "https://staging-auth.phantom.app";
 
       oauthFlow = new OAuthFlow();
       expect(oauthFlow).toBeInstanceOf(OAuthFlow);
 
       // Clean up
       if (originalEnv !== undefined) {
-        process.env.PHANTOM_AUTH_BASE_URL = originalEnv;
+        process.env.LIQUID_AUTH_BASE_URL = originalEnv;
       } else {
-        delete process.env.PHANTOM_AUTH_BASE_URL;
+        delete process.env.LIQUID_AUTH_BASE_URL;
       }
     });
 
-    it("should use PHANTOM_CONNECT_BASE_URL env var when set", () => {
-      const originalEnv = process.env.PHANTOM_CONNECT_BASE_URL;
-      process.env.PHANTOM_CONNECT_BASE_URL = "https://staging-connect.phantom.app";
+    it("should use LIQUID_CONNECT_BASE_URL env var when set", () => {
+      const originalEnv = process.env.LIQUID_CONNECT_BASE_URL;
+      process.env.LIQUID_CONNECT_BASE_URL = "https://staging-connect.phantom.app";
 
       oauthFlow = new OAuthFlow();
       expect(oauthFlow).toBeInstanceOf(OAuthFlow);
 
       // Clean up
       if (originalEnv !== undefined) {
-        process.env.PHANTOM_CONNECT_BASE_URL = originalEnv;
+        process.env.LIQUID_CONNECT_BASE_URL = originalEnv;
       } else {
-        delete process.env.PHANTOM_CONNECT_BASE_URL;
+        delete process.env.LIQUID_CONNECT_BASE_URL;
       }
     });
 
     it("should prioritize options parameter over env vars", () => {
-      const originalAuthEnv = process.env.PHANTOM_AUTH_BASE_URL;
-      const originalConnectEnv = process.env.PHANTOM_CONNECT_BASE_URL;
-      process.env.PHANTOM_AUTH_BASE_URL = "https://staging-auth.phantom.app";
-      process.env.PHANTOM_CONNECT_BASE_URL = "https://staging-connect.phantom.app";
+      const originalAuthEnv = process.env.LIQUID_AUTH_BASE_URL;
+      const originalConnectEnv = process.env.LIQUID_CONNECT_BASE_URL;
+      process.env.LIQUID_AUTH_BASE_URL = "https://staging-auth.phantom.app";
+      process.env.LIQUID_CONNECT_BASE_URL = "https://staging-connect.phantom.app";
 
       oauthFlow = new OAuthFlow({
         authBaseUrl: "https://custom-auth.example.com",
@@ -94,29 +94,29 @@ describe("OAuthFlow", () => {
 
       // Clean up
       if (originalAuthEnv !== undefined) {
-        process.env.PHANTOM_AUTH_BASE_URL = originalAuthEnv;
+        process.env.LIQUID_AUTH_BASE_URL = originalAuthEnv;
       } else {
-        delete process.env.PHANTOM_AUTH_BASE_URL;
+        delete process.env.LIQUID_AUTH_BASE_URL;
       }
       if (originalConnectEnv !== undefined) {
-        process.env.PHANTOM_CONNECT_BASE_URL = originalConnectEnv;
+        process.env.LIQUID_CONNECT_BASE_URL = originalConnectEnv;
       } else {
-        delete process.env.PHANTOM_CONNECT_BASE_URL;
+        delete process.env.LIQUID_CONNECT_BASE_URL;
       }
     });
 
-    it("should use valid PHANTOM_CALLBACK_PORT env var when set", () => {
-      const originalEnv = process.env.PHANTOM_CALLBACK_PORT;
-      process.env.PHANTOM_CALLBACK_PORT = "9090";
+    it("should use valid LIQUID_CALLBACK_PORT env var when set", () => {
+      const originalEnv = process.env.LIQUID_CALLBACK_PORT;
+      process.env.LIQUID_CALLBACK_PORT = "9090";
 
       oauthFlow = new OAuthFlow();
       expect(oauthFlow).toBeInstanceOf(OAuthFlow);
 
       // Clean up
       if (originalEnv !== undefined) {
-        process.env.PHANTOM_CALLBACK_PORT = originalEnv;
+        process.env.LIQUID_CALLBACK_PORT = originalEnv;
       } else {
-        delete process.env.PHANTOM_CALLBACK_PORT;
+        delete process.env.LIQUID_CALLBACK_PORT;
       }
     });
 
@@ -124,66 +124,66 @@ describe("OAuthFlow", () => {
       expect(() => new OAuthFlow({ provider: "invalid" as any })).toThrow("Unsupported SSO provider: invalid");
     });
 
-    it("should throw error for invalid PHANTOM_CALLBACK_PORT (NaN)", () => {
-      const originalEnv = process.env.PHANTOM_CALLBACK_PORT;
-      process.env.PHANTOM_CALLBACK_PORT = "invalid-port";
+    it("should throw error for invalid LIQUID_CALLBACK_PORT (NaN)", () => {
+      const originalEnv = process.env.LIQUID_CALLBACK_PORT;
+      process.env.LIQUID_CALLBACK_PORT = "invalid-port";
 
       expect(() => new OAuthFlow()).toThrow(
-        'Invalid PHANTOM_CALLBACK_PORT: "invalid-port". Must be a valid port number between 1 and 65535.',
+        'Invalid LIQUID_CALLBACK_PORT: "invalid-port". Must be a valid port number between 1 and 65535.',
       );
 
       // Clean up
       if (originalEnv !== undefined) {
-        process.env.PHANTOM_CALLBACK_PORT = originalEnv;
+        process.env.LIQUID_CALLBACK_PORT = originalEnv;
       } else {
-        delete process.env.PHANTOM_CALLBACK_PORT;
+        delete process.env.LIQUID_CALLBACK_PORT;
       }
     });
 
-    it("should throw error for invalid PHANTOM_CALLBACK_PORT (negative)", () => {
-      const originalEnv = process.env.PHANTOM_CALLBACK_PORT;
-      process.env.PHANTOM_CALLBACK_PORT = "-1";
+    it("should throw error for invalid LIQUID_CALLBACK_PORT (negative)", () => {
+      const originalEnv = process.env.LIQUID_CALLBACK_PORT;
+      process.env.LIQUID_CALLBACK_PORT = "-1";
 
       expect(() => new OAuthFlow()).toThrow(
-        'Invalid PHANTOM_CALLBACK_PORT: "-1". Must be a valid port number between 1 and 65535.',
+        'Invalid LIQUID_CALLBACK_PORT: "-1". Must be a valid port number between 1 and 65535.',
       );
 
       // Clean up
       if (originalEnv !== undefined) {
-        process.env.PHANTOM_CALLBACK_PORT = originalEnv;
+        process.env.LIQUID_CALLBACK_PORT = originalEnv;
       } else {
-        delete process.env.PHANTOM_CALLBACK_PORT;
+        delete process.env.LIQUID_CALLBACK_PORT;
       }
     });
 
-    it("should throw error for invalid PHANTOM_CALLBACK_PORT (out of range)", () => {
-      const originalEnv = process.env.PHANTOM_CALLBACK_PORT;
-      process.env.PHANTOM_CALLBACK_PORT = "99999";
+    it("should throw error for invalid LIQUID_CALLBACK_PORT (out of range)", () => {
+      const originalEnv = process.env.LIQUID_CALLBACK_PORT;
+      process.env.LIQUID_CALLBACK_PORT = "99999";
 
       expect(() => new OAuthFlow()).toThrow(
-        'Invalid PHANTOM_CALLBACK_PORT: "99999". Must be a valid port number between 1 and 65535.',
+        'Invalid LIQUID_CALLBACK_PORT: "99999". Must be a valid port number between 1 and 65535.',
       );
 
       // Clean up
       if (originalEnv !== undefined) {
-        process.env.PHANTOM_CALLBACK_PORT = originalEnv;
+        process.env.LIQUID_CALLBACK_PORT = originalEnv;
       } else {
-        delete process.env.PHANTOM_CALLBACK_PORT;
+        delete process.env.LIQUID_CALLBACK_PORT;
       }
     });
 
-    it("should prioritize options.callbackPort over PHANTOM_CALLBACK_PORT env var", () => {
-      const originalEnv = process.env.PHANTOM_CALLBACK_PORT;
-      process.env.PHANTOM_CALLBACK_PORT = "9090";
+    it("should prioritize options.callbackPort over LIQUID_CALLBACK_PORT env var", () => {
+      const originalEnv = process.env.LIQUID_CALLBACK_PORT;
+      process.env.LIQUID_CALLBACK_PORT = "9090";
 
       oauthFlow = new OAuthFlow({ callbackPort: 7070 });
       expect(oauthFlow).toBeInstanceOf(OAuthFlow);
 
       // Clean up
       if (originalEnv !== undefined) {
-        process.env.PHANTOM_CALLBACK_PORT = originalEnv;
+        process.env.LIQUID_CALLBACK_PORT = originalEnv;
       } else {
-        delete process.env.PHANTOM_CALLBACK_PORT;
+        delete process.env.LIQUID_CALLBACK_PORT;
       }
     });
   });
@@ -247,7 +247,7 @@ describe("OAuthFlow", () => {
     it("should register OAuth client via DCR", async () => {
       await oauthFlow.authenticate();
 
-      expect(MockedDCRClient).toHaveBeenCalledWith("https://auth.phantom.app", "phantom-mcp");
+      expect(MockedDCRClient).toHaveBeenCalledWith("https://auth.phantom.app", "liquid-mcp");
       expect(mockDCRClient.register).toHaveBeenCalledWith("http://localhost:8080/callback");
     });
 
@@ -310,7 +310,7 @@ describe("OAuthFlow", () => {
 
       await customFlow.authenticate();
 
-      expect(MockedDCRClient).toHaveBeenCalledWith("https://custom-auth.example.com", "phantom-mcp");
+      expect(MockedDCRClient).toHaveBeenCalledWith("https://custom-auth.example.com", "liquid-mcp");
     });
 
     it("should work with custom connectBaseUrl", async () => {
@@ -358,10 +358,10 @@ describe("OAuthFlow", () => {
       expect(url.searchParams.get("app_id")).toBe(appId);
     });
 
-    it("should prioritize PHANTOM_APP_ID env var over options appId", async () => {
-      const originalAppId = process.env.PHANTOM_APP_ID;
+    it("should prioritize LIQUID_APP_ID env var over options appId", async () => {
+      const originalAppId = process.env.LIQUID_APP_ID;
       const envAppId = "123e4567-e89b-12d3-a456-426614174001";
-      process.env.PHANTOM_APP_ID = envAppId;
+      process.env.LIQUID_APP_ID = envAppId;
 
       try {
         const customFlow = new OAuthFlow({
@@ -376,9 +376,9 @@ describe("OAuthFlow", () => {
         expect(url.searchParams.get("app_id")).toBe(envAppId);
       } finally {
         if (originalAppId !== undefined) {
-          process.env.PHANTOM_APP_ID = originalAppId;
+          process.env.LIQUID_APP_ID = originalAppId;
         } else {
-          delete process.env.PHANTOM_APP_ID;
+          delete process.env.LIQUID_APP_ID;
         }
       }
     });
@@ -397,26 +397,26 @@ describe("OAuthFlow", () => {
       expect(logOutput).toContain("Callback received successfully");
     });
 
-    it("should use PHANTOM_AUTH_BASE_URL env var for DCR", async () => {
-      const originalEnv = process.env.PHANTOM_AUTH_BASE_URL;
-      process.env.PHANTOM_AUTH_BASE_URL = "https://staging-auth.phantom.app";
+    it("should use LIQUID_AUTH_BASE_URL env var for DCR", async () => {
+      const originalEnv = process.env.LIQUID_AUTH_BASE_URL;
+      process.env.LIQUID_AUTH_BASE_URL = "https://staging-auth.phantom.app";
 
       const stagingFlow = new OAuthFlow();
       await stagingFlow.authenticate();
 
-      expect(MockedDCRClient).toHaveBeenCalledWith("https://staging-auth.phantom.app", "phantom-mcp");
+      expect(MockedDCRClient).toHaveBeenCalledWith("https://staging-auth.phantom.app", "liquid-mcp");
 
       // Clean up
       if (originalEnv !== undefined) {
-        process.env.PHANTOM_AUTH_BASE_URL = originalEnv;
+        process.env.LIQUID_AUTH_BASE_URL = originalEnv;
       } else {
-        delete process.env.PHANTOM_AUTH_BASE_URL;
+        delete process.env.LIQUID_AUTH_BASE_URL;
       }
     });
 
-    it("should use PHANTOM_CONNECT_BASE_URL env var for authorization URL", async () => {
-      const originalEnv = process.env.PHANTOM_CONNECT_BASE_URL;
-      process.env.PHANTOM_CONNECT_BASE_URL = "https://staging-connect.phantom.app";
+    it("should use LIQUID_CONNECT_BASE_URL env var for authorization URL", async () => {
+      const originalEnv = process.env.LIQUID_CONNECT_BASE_URL;
+      process.env.LIQUID_CONNECT_BASE_URL = "https://staging-connect.phantom.app";
 
       const stagingFlow = new OAuthFlow();
       await stagingFlow.authenticate();
@@ -427,9 +427,9 @@ describe("OAuthFlow", () => {
 
       // Clean up
       if (originalEnv !== undefined) {
-        process.env.PHANTOM_CONNECT_BASE_URL = originalEnv;
+        process.env.LIQUID_CONNECT_BASE_URL = originalEnv;
       } else {
-        delete process.env.PHANTOM_CONNECT_BASE_URL;
+        delete process.env.LIQUID_CONNECT_BASE_URL;
       }
     });
   });
@@ -548,9 +548,9 @@ describe("OAuthFlow", () => {
       expect(logOutput).toContain("Token refresh successful");
     });
 
-    it("should use PHANTOM_AUTH_BASE_URL env var for token refresh", async () => {
-      const originalEnv = process.env.PHANTOM_AUTH_BASE_URL;
-      process.env.PHANTOM_AUTH_BASE_URL = "https://staging-auth.phantom.app";
+    it("should use LIQUID_AUTH_BASE_URL env var for token refresh", async () => {
+      const originalEnv = process.env.LIQUID_AUTH_BASE_URL;
+      process.env.LIQUID_AUTH_BASE_URL = "https://staging-auth.phantom.app";
 
       const stagingFlow = new OAuthFlow();
       await stagingFlow.refreshToken("old-refresh-token", mockClientConfig);
@@ -563,9 +563,9 @@ describe("OAuthFlow", () => {
 
       // Clean up
       if (originalEnv !== undefined) {
-        process.env.PHANTOM_AUTH_BASE_URL = originalEnv;
+        process.env.LIQUID_AUTH_BASE_URL = originalEnv;
       } else {
-        delete process.env.PHANTOM_AUTH_BASE_URL;
+        delete process.env.LIQUID_AUTH_BASE_URL;
       }
     });
   });

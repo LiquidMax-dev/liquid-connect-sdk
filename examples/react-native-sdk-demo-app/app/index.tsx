@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert, SafeAreaView } from "react-native";
 import { useRouter } from "expo-router";
-import { useConnect, useAccounts, useDisconnect, useModal } from "@phantom/react-native-sdk";
+import { useConnect, useAccounts, useDisconnect, useModal } from "@liquid/react-native-sdk";
 import { useThemeContext } from "./providers";
 
 export default function HomeScreen() {
@@ -40,7 +40,7 @@ export default function HomeScreen() {
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.header}>
-          <Text style={styles.title}>Phantom React Native SDK</Text>
+          <Text style={styles.title}>Liquid React Native SDK</Text>
           <Text style={styles.subtitle}>Demo Application</Text>
         </View>
 
@@ -119,7 +119,7 @@ export default function HomeScreen() {
         {!isConnected ? (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Connect Wallet</Text>
-            <Text style={styles.description}>Connect your Phantom wallet using various authentication methods:</Text>
+            <Text style={styles.description}>Connect your Liquid wallet using various authentication methods:</Text>
 
             <TouchableOpacity
               style={[styles.button, styles.primaryButton]}
@@ -173,7 +173,7 @@ export default function HomeScreen() {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>About</Text>
           <Text style={styles.description}>
-            This demo app showcases the Phantom React Native SDK integration. It demonstrates wallet connection,
+            This demo app showcases the Liquid React Native SDK integration. It demonstrates wallet connection,
             authentication flows, message signing, and transaction handling in a React Native/Expo environment.
           </Text>
         </View>

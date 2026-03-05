@@ -1,5 +1,5 @@
 /**
- * Self-contained UUID v4 implementation for Phantom Wallet SDK
+ * Self-contained UUID v4 implementation for Liquid Wallet SDK
  * No external dependencies to avoid ES module compatibility issues
  */
 

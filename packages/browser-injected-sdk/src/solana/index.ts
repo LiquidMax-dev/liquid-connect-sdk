@@ -1,9 +1,9 @@
 export { createSolanaPlugin } from "./plugin";
-export type { PhantomSolanaProvider, SolanaSignInData } from "./types";
-import type { ISolanaChain } from "@phantom/chain-interfaces";
+export type { LiquidSolanaProvider, SolanaSignInData } from "./types";
+import type { ISolanaChain } from "@liquid/chain-interfaces";
 
 declare module "../index" {
-  interface Phantom {
+  interface Liquid {
     solana: ISolanaChain;
   }
 }

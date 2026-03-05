@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, SafeAreaView, ActivityIndicator } from "react-native";
 import { useRouter } from "expo-router";
-import { useConnect, useAccounts } from "@phantom/react-native-sdk";
+import { useConnect, useAccounts } from "@liquid/react-native-sdk";
 
 interface AuthState {
   status: "loading" | "success" | "error";

@@ -1,14 +1,14 @@
 // Theme exports
 export { darkTheme, lightTheme, mergeTheme, mergeThemeNative } from "./themes/index";
-export type { PhantomTheme, ComputedPhantomTheme, HexColor } from "./themes/index";
+export type { LiquidTheme, ComputedLiquidTheme, HexColor } from "./themes/index";
 export { ThemeProvider, useTheme } from "./themes/ThemeContext";
 
 // Utility exports
 export { hexToRgba } from "./utils/index";
 
 // Component exports
-export { Button, LoginWithPhantomButton } from "./components/Button";
-export type { ButtonProps, LoginWithPhantomButtonProps } from "./components/Button";
+export { Button, LoginWithLiquidButton } from "./components/Button";
+export type { ButtonProps, LoginWithLiquidButtonProps } from "./components/Button";
 
 export { Text } from "./components/Text";
 export type { TextProps, TextVariant } from "./components/Text";

@@ -2,10 +2,10 @@ import { BrowserSDK } from "./BrowserSDK";
 import { InjectedProvider } from "./providers/injected";
 import { EmbeddedProvider } from "./providers/embedded";
 import { cleanupWindowMock } from "./test-utils/mockWindow";
-import { AddressType } from "@phantom/client";
+import { AddressType } from "@liquid/client";
 
 // Mock parsers to prevent ESM module parsing issues
-jest.mock("@phantom/parsers", () => ({
+jest.mock("@liquid/parsers", () => ({
   parseToKmsTransaction: jest.fn().mockResolvedValue({ base64url: "mock-base64url", originalFormat: "mock" }),
   parseSignMessageResponse: jest.fn().mockReturnValue({ signature: "mock-signature", rawSignature: "mock-raw" }),
   parseTransactionResponse: jest.fn().mockReturnValue({
@@ -50,7 +50,7 @@ describe("BrowserSDK", () => {
 
     it("should create SDK with embedded provider", () => {
       sdk = new BrowserSDK({
-        providers: ["google", "apple", "phantom"],
+        providers: ["google", "apple", "liquid"],
         addressTypes: [AddressType.solana],
         apiBaseUrl: "https://api.phantom.app/v1/wallets",
         appId: "app-123",
@@ -279,7 +279,7 @@ describe("BrowserSDK", () => {
       MockEmbeddedProvider.mockImplementation(() => mockProvider);
 
       sdk = new BrowserSDK({
-        providers: ["google", "apple", "phantom"],
+        providers: ["google", "apple", "liquid"],
         addressTypes: [AddressType.solana],
         apiBaseUrl: "https://api.phantom.app/v1/wallets",
         appId: "app-123",
@@ -303,7 +303,7 @@ describe("BrowserSDK", () => {
         };
         mockProvider.connect.mockResolvedValue(mockResult);
 
-        const result = await sdk.connect({ provider: "phantom" });
+        const result = await sdk.connect({ provider: "liquid" });
 
         expect(mockProvider.connect).toHaveBeenCalled();
         expect(result).toEqual(mockResult);
@@ -317,7 +317,7 @@ describe("BrowserSDK", () => {
           walletId: "wallet-123",
           addresses: [],
         });
-        await sdk.connect({ provider: "phantom" });
+        await sdk.connect({ provider: "liquid" });
 
         mockProvider.disconnect.mockResolvedValue(undefined);
 
@@ -334,7 +334,7 @@ describe("BrowserSDK", () => {
           walletId: "wallet-123",
           addresses: [],
         });
-        await sdk.connect({ provider: "phantom" });
+        await sdk.connect({ provider: "liquid" });
 
         const mockSignature = { signature: "mockSignature", rawSignature: "mockRaw" };
         mockProvider.solana.signMessage.mockResolvedValue(mockSignature);
@@ -353,7 +353,7 @@ describe("BrowserSDK", () => {
           walletId: "wallet-123",
           addresses: [],
         });
-        await sdk.connect({ provider: "phantom" });
+        await sdk.connect({ provider: "liquid" });
 
         const mockResult = { rawTransaction: "mockTxHash", hash: "0xmockHash" };
         mockProvider.ethereum.sendTransaction.mockResolvedValue(mockResult);

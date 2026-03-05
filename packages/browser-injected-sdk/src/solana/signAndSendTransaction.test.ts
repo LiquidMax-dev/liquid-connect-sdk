@@ -1,8 +1,8 @@
-import type { VersionedTransaction } from "@phantom/sdk-types";
+import type { VersionedTransaction } from "@liquid/sdk-types";
 import type { SolanaStrategy } from "./strategies/types";
 import { getProvider } from "./getProvider";
 import { signAndSendTransaction } from "./signAndSendTransaction";
-import type { PhantomSolanaProvider } from "./types";
+import type { LiquidSolanaProvider } from "./types";
 import { SOLANA_PROVIDER_NOT_FOUND } from "../errors";
 
 jest.mock("./getProvider", () => ({
@@ -14,7 +14,7 @@ const mockTransaction = {
 } as any as VersionedTransaction;
 
 describe("signAndSendTransaction", () => {
-  let mockProvider: Partial<PhantomSolanaProvider>;
+  let mockProvider: Partial<LiquidSolanaProvider>;
 
   beforeEach(() => {
     jest.clearAllMocks();

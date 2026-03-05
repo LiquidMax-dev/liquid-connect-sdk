@@ -30,7 +30,7 @@ export const getWalletAddressesTool: ToolHandler = {
     logger.info("Getting addresses for wallet");
 
     try {
-      // Call PhantomClient to get wallet addresses
+      // Call LiquidClient to get wallet addresses
       const addresses = await client.getWalletAddresses(
         session.walletId,
         undefined, // Use default derivation paths (Solana, Ethereum, Bitcoin, Sui)

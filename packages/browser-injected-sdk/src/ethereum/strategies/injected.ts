@@ -1,8 +1,8 @@
 import type { EthereumStrategy } from "./types";
-import type { PhantomEthereumProvider, EthereumTransaction, EthereumSignInData } from "../types";
+import type { LiquidEthereumProvider, EthereumTransaction, EthereumSignInData } from "../types";
 import { ProviderStrategy } from "../../types";
 import { createSiweMessage } from "../siwe";
-import { PHANTOM_NOT_DETECTED, ETHEREUM_PROVIDER_NOT_FOUND } from "../../errors";
+import { LIQUID_NOT_DETECTED, ETHEREUM_PROVIDER_NOT_FOUND } from "../../errors";
 import { isInstalled } from "../../extension/isInstalled";
 
 const MAX_RETRIES = 6;
@@ -26,7 +26,7 @@ export class InjectedEthereumStrategy implements EthereumStrategy {
         retryCount++;
         if (retryCount >= MAX_RETRIES) {
           if (!isInstalled()) {
-            reject(new Error(PHANTOM_NOT_DETECTED));
+            reject(new Error(LIQUID_NOT_DETECTED));
           } else {
             reject(new Error(ETHEREUM_PROVIDER_NOT_FOUND));
           }
@@ -41,14 +41,14 @@ export class InjectedEthereumStrategy implements EthereumStrategy {
     });
   }
 
-  #getProvider(): PhantomEthereumProvider | undefined {
+  #getProvider(): LiquidEthereumProvider | undefined {
     if (!isInstalled()) {
       return undefined;
     }
-    return (window as any).phantom.ethereum as PhantomEthereumProvider;
+    return (window as any).phantom.ethereum as LiquidEthereumProvider;
   }
 
-  public getProvider(): PhantomEthereumProvider | null {
+  public getProvider(): LiquidEthereumProvider | null {
     return this.#getProvider() || null;
   }
 

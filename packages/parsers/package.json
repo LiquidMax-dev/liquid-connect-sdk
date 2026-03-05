@@ -1,10 +1,10 @@
 {
-  "name": "@phantom/parsers",
+  "name": "@liquid/parsers",
   "version": "1.0.5",
-  "description": "Transaction and message parsers for Phantom Wallet SDK",
+  "description": "Transaction and message parsers for Liquid Wallet SDK",
   "repository": {
     "type": "git",
-    "url": "https://github.com/phantom/phantom-connect-sdk",
+    "url": "https://github.com/LiquidMax-dev/liquid-connect-sdk",
     "directory": "packages/parsers"
   },
   "main": "dist/index.js",
@@ -34,10 +34,10 @@
     "prettier": "prettier --write \"src/**/*.{ts}\""
   },
   "dependencies": {
-    "@phantom/base64url": "workspace:^",
-    "@phantom/constants": "workspace:^",
-    "@phantom/sdk-types": "workspace:^",
-    "@phantom/utils": "workspace:^",
+    "@liquid/base64url": "workspace:^",
+    "@liquid/constants": "workspace:^",
+    "@liquid/sdk-types": "workspace:^",
+    "@liquid/utils": "workspace:^",
     "@solana/transactions": "^2.0.0",
     "@solana/web3.js": "^1.95.0",
     "bs58": "^6.0.0",
@@ -64,7 +64,7 @@
     "typescript": "^5.0.4"
   },
   "keywords": [
-    "phantom",
+    "liquid",
     "parsers",
     "transaction",
     "message",

@@ -1,9 +1,9 @@
 {
-  "name": "@phantom/wallet-sdk-ui",
+  "name": "@liquid/wallet-sdk-ui",
   "version": "1.0.5",
   "repository": {
     "type": "git",
-    "url": "https://github.com/phantom/phantom-connect-sdk",
+    "url": "https://github.com/LiquidMax-dev/liquid-connect-sdk",
     "directory": "packages/ui"
   },
   "main": "dist/index.js",

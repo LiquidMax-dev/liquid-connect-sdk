@@ -3,8 +3,8 @@ import type { EthereumStrategy } from "./strategies/types";
 import { ProviderStrategy } from "../types";
 
 /**
- * Retrieves Phantom Ethereum provider and returns it if it exists.
- * @returns Phantom Ethereum provider or throws error if it doesn't exist.
+ * Retrieves Liquid Ethereum provider and returns it if it exists.
+ * @returns Liquid Ethereum provider or throws error if it doesn't exist.
  */
 export async function getProvider(strategy: ProviderStrategy = ProviderStrategy.INJECTED): Promise<EthereumStrategy> {
   if (strategy === "injected") {

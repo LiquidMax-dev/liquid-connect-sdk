@@ -1,11 +1,11 @@
-export { PhantomClient } from "./PhantomClient";
-export { generateKeyPair, type Keypair } from "@phantom/crypto";
+export { LiquidClient } from "./LiquidClient";
+export { generateKeyPair, type Keypair } from "@liquid/crypto";
 export * from "./types";
 export * from "./errors";
 export * from "./caip2-mappings";
 export { DerivationPath, getDerivationPathForNetwork, getNetworkConfig } from "./constants";
 export type { NetworkConfig } from "./constants";
-export { NetworkId } from "@phantom/constants";
+export { NetworkId } from "@liquid/constants";
 // Re-export enums from openapi-wallet-service
 export {
   DerivationInfoAddressFormatEnum as AddressType,

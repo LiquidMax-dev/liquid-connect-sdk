@@ -3,12 +3,12 @@ import { render, fireEvent } from "@testing-library/react-native";
 import { View } from "react-native";
 import { ModalProvider } from "./ModalProvider";
 import { useModal } from "./ModalContext";
-import { usePhantom } from "./PhantomContext";
+import { useLiquid } from "./LiquidContext";
 import type { ReactNode } from "react";
 
 // Mock dependencies
-jest.mock("./PhantomContext", () => ({
-  usePhantom: jest.fn(),
+jest.mock("./LiquidContext", () => ({
+  useLiquid: jest.fn(),
 }));
 
 jest.mock("./components/Modal", () => ({
@@ -60,11 +60,11 @@ jest.mock("./components/ConnectedModalContent", () => ({
 }));
 
 describe("ModalProvider", () => {
-  const mockUsePhantom = usePhantom as jest.MockedFunction<typeof usePhantom>;
+  const mockUseLiquid = useLiquid as jest.MockedFunction<typeof useLiquid>;
 
   beforeEach(() => {
     jest.clearAllMocks();
-    mockUsePhantom.mockReturnValue({
+    mockUseLiquid.mockReturnValue({
       isConnected: false,
       addresses: [],
       walletId: null,
@@ -114,8 +114,8 @@ describe("ModalProvider", () => {
     });
 
     it("should render ConnectedModalContent when connected", () => {
-      mockUsePhantom.mockReturnValue({
-        ...mockUsePhantom(),
+      mockUseLiquid.mockReturnValue({
+        ...mockUseLiquid(),
         isConnected: true,
       } as any);
 
@@ -229,8 +229,8 @@ describe("ModalProvider", () => {
       expect(queryByTestId("connected-content")).toBeNull();
 
       // Update connection status
-      mockUsePhantom.mockReturnValue({
-        ...mockUsePhantom(),
+      mockUseLiquid.mockReturnValue({
+        ...mockUseLiquid(),
         isConnected: true,
       } as any);
 

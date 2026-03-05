@@ -7,9 +7,9 @@ import type {
   SignedTransaction,
   EmbeddedProviderConfig,
   EmbeddedProviderAuthType,
-} from "@phantom/embedded-provider-core";
-import type { ISolanaChain, IEthereumChain } from "@phantom/chain-interfaces";
-import { AddressType } from "@phantom/client";
+} from "@liquid/embedded-provider-core";
+import type { ISolanaChain, IEthereumChain } from "@liquid/chain-interfaces";
+import { AddressType } from "@liquid/client";
 
 import type { DebugCallback, DebugLevel } from "./debug";
 import type { InjectedProviderConfig } from "./providers/injected";
@@ -28,7 +28,7 @@ export type BrowserSDKConfig = Prettify<
       // List of allowed authentication providers (REQUIRED)
       providers: AuthProviderType[];
 
-      // Optional configuration - appId is required when using embedded providers (google, apple, phantom, etc.)
+      // Optional configuration - appId is required when using embedded providers (google, apple, liquid, etc.)
       appId?: string;
       apiBaseUrl?: string;
       embeddedWalletType?: "app-wallet" | "user-wallet";
@@ -36,7 +36,7 @@ export type BrowserSDKConfig = Prettify<
         authUrl?: string;
         redirectUrl?: string;
       };
-      /** When also provided, the Auth2 PKCE flow is used instead of the legacy Phantom Connect flow. */
+      /** When also provided, the Auth2 PKCE flow is used instead of the legacy Liquid Connect flow. */
       unstable__auth2Options?: {
         authApiBaseUrl: string;
         clientId: string;

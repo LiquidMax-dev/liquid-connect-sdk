@@ -2,15 +2,15 @@ import {
   Configuration,
   KMSRPCApi,
   type KmsRpcRequest,
-  GetOrCreatePhantomOrganizationMethodEnum,
+  GetOrCreateLiquidOrganizationMethodEnum,
   GetOrganizationWalletsMethodEnum,
   CreateWalletMethodEnum,
 } from "@phantom/openapi-wallet-service";
 import axios from "axios";
 import bs58 from "bs58";
 import { Buffer } from "buffer";
-import { base64urlEncode } from "@phantom/base64url";
-import type { StamperWithKeyManagement } from "@phantom/sdk-types";
+import { base64urlEncode } from "@liquid/base64url";
+import type { StamperWithKeyManagement } from "@liquid/sdk-types";
 
 const DEFAULT_KMS_API_VERSION = "2025-11-24";
 
@@ -24,7 +24,7 @@ export type Auth2KmsClientOptions = {
  * Shared between browser and RN Auth2 providers.
  *
  * Uses KMSRPCApi from @phantom/openapi-wallet-service (the same client as
- * PhantomClient) so stamping, headers, and request serialization are handled
+ * LiquidClient) so stamping, headers, and request serialization are handled
  * consistently via axios interceptors rather than manual fetch calls.
  */
 export class Auth2KmsRpcClient {
@@ -44,7 +44,7 @@ export class Auth2KmsRpcClient {
       const requestBody =
         typeof config.data === "string" ? config.data : config.data === undefined ? "" : JSON.stringify(config.data);
       const stamp = await this.stamper.stamp({ data: Buffer.from(requestBody, "utf-8") });
-      config.headers["x-phantom-stamp"] = stamp;
+      config.headers["x-liquid-stamp"] = stamp;
       return config;
     });
 
@@ -103,7 +103,7 @@ export class Auth2KmsRpcClient {
 
     const created = await this.postKmsRpc(
       {
-        method: GetOrCreatePhantomOrganizationMethodEnum.getOrCreatePhantomOrganization,
+        method: GetOrCreateLiquidOrganizationMethodEnum.getOrCreateLiquidOrganization,
         params: { publicKey },
         timestampMs: Date.now(),
       } as KmsRpcRequest,

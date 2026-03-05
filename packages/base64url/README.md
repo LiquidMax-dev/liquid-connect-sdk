@@ -1,11 +1,11 @@
-# @phantom/base64url
+# @liquid/base64url
 
 Isomorphic base64url encoding/decoding utilities that work in both browser and Node.js environments.
 
 ## Installation
 
 ```bash
-npm install @phantom/base64url
+npm install @liquid/base64url
 ```
 
 ## Features
@@ -19,7 +19,7 @@ npm install @phantom/base64url
 ## Usage
 
 ```typescript
-import { base64urlEncode, base64urlDecode, stringToBase64url, base64urlDecodeToString } from "@phantom/base64url";
+import { base64urlEncode, base64urlDecode, stringToBase64url, base64urlDecodeToString } from "@liquid/base64url";
 
 // Encode string to base64url
 const encoded = stringToBase64url("Hello World");
@@ -89,7 +89,7 @@ Base64url is a URL-safe variant of Base64 encoding defined in RFC 4648:
 ### JWT Token Handling
 
 ```typescript
-import { stringToBase64url, base64urlDecodeToString } from "@phantom/base64url";
+import { stringToBase64url, base64urlDecodeToString } from "@liquid/base64url";
 
 const payload = JSON.stringify({
   sub: "1234567890",
@@ -107,7 +107,7 @@ console.log(JSON.parse(decodedPayload));
 ### Binary Data Encoding
 
 ```typescript
-import { base64urlEncode, base64urlDecode } from "@phantom/base64url";
+import { base64urlEncode, base64urlDecode } from "@liquid/base64url";
 
 // Encode binary data
 const binaryData = new Uint8Array([0xff, 0xfe, 0xfd, 0xfc]);
@@ -122,7 +122,7 @@ console.log(decoded); // Original Uint8Array
 ### API Integration
 
 ```typescript
-import { stringToBase64url } from "@phantom/base64url";
+import { stringToBase64url } from "@liquid/base64url";
 
 // Safe for URL parameters
 const userData = JSON.stringify({ userId: 123, action: "login" });

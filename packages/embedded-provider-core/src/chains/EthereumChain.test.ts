@@ -1,5 +1,5 @@
 import { EmbeddedEthereumChain } from "./EthereumChain";
-import { NetworkId } from "@phantom/constants";
+import { NetworkId } from "@liquid/constants";
 import type { EmbeddedProvider } from "../embedded-provider";
 
 describe("EmbeddedEthereumChain", () => {

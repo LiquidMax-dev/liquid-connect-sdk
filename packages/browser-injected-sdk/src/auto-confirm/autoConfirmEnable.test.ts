@@ -1,9 +1,9 @@
 import { autoConfirmEnable } from "./autoConfirmEnable";
-import { NetworkId } from "@phantom/constants";
-import { PHANTOM_NOT_DETECTED, APP_PROVIDER_NOT_FOUND } from "../errors";
+import { NetworkId } from "@liquid/constants";
+import { LIQUID_NOT_DETECTED, APP_PROVIDER_NOT_FOUND } from "../errors";
 
 describe("autoConfirmEnable", () => {
-  const originalPhantom = (window as any).phantom;
+  const originalLiquid = (window as any).phantom;
   let mockRequest: jest.Mock;
 
   beforeEach(() => {
@@ -12,7 +12,7 @@ describe("autoConfirmEnable", () => {
   });
 
   afterEach(() => {
-    (window as any).phantom = originalPhantom;
+    (window as any).phantom = originalLiquid;
   });
 
   it("should enable auto-confirm with chains parameter", async () => {
@@ -23,7 +23,7 @@ describe("autoConfirmEnable", () => {
     const result = await autoConfirmEnable({ chains: [NetworkId.SOLANA_DEVNET, NetworkId.ETHEREUM_MAINNET] });
 
     expect(mockRequest).toHaveBeenCalledWith({
-      method: "phantom_auto_confirm_enable",
+      method: "liquid_auto_confirm_enable",
       params: { chains: ["solana:103", "eip155:1"] },
     });
     expect(result).toEqual(expectedResult);
@@ -36,16 +36,16 @@ describe("autoConfirmEnable", () => {
     const result = await autoConfirmEnable();
 
     expect(mockRequest).toHaveBeenCalledWith({
-      method: "phantom_auto_confirm_enable",
+      method: "liquid_auto_confirm_enable",
       params: {},
     });
     expect(result).toEqual(mockResult);
   });
 
-  it("should throw when Phantom is not installed", async () => {
+  it("should throw when Liquid is not installed", async () => {
     (window as any).phantom = undefined;
 
-    await expect(autoConfirmEnable()).rejects.toThrow(PHANTOM_NOT_DETECTED);
+    await expect(autoConfirmEnable()).rejects.toThrow(LIQUID_NOT_DETECTED);
   });
 
   it("should throw when app provider is missing", async () => {

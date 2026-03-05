@@ -22,7 +22,7 @@ export default function RootLayout() {
         <Stack.Screen
           name="index"
           options={{
-            title: "Phantom React Native SDK Demo",
+            title: "Liquid React Native SDK Demo",
           }}
         />
         <Stack.Screen

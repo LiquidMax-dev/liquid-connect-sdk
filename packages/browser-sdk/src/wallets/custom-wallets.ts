@@ -1,4 +1,4 @@
-import { AddressType } from "@phantom/client";
+import { AddressType } from "@liquid/client";
 
 /**
  * Configuration for custom wallet discovery rules

@@ -1,11 +1,11 @@
 import { getProvider } from "./getProvider";
-import { type VersionedTransaction, type Transaction } from "@phantom/sdk-types";
+import { type VersionedTransaction, type Transaction } from "@liquid/sdk-types";
 
 /**
- * Signs and sends all transactions using the Phantom provider.
+ * Signs and sends all transactions using the Liquid provider.
  * @param transactions An array of transactions to sign and send (Web3.js format).
  * @returns A promise that resolves with an array of transaction signatures and optionally the public key.
- * @throws Error if Phantom provider is not found or if the operation fails.
+ * @throws Error if Liquid provider is not found or if the operation fails.
  */
 export async function signAndSendAllTransactions(
   transactions: (VersionedTransaction | Transaction)[],

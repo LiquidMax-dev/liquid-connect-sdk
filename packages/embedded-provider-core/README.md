@@ -1,10 +1,10 @@
-# @phantom/embedded-provider-core
+# @liquid/embedded-provider-core
 
-Platform-agnostic embedded provider core logic for Phantom Wallet SDK.
+Platform-agnostic embedded provider core logic for Liquid Wallet SDK.
 
 ## Overview
 
-This package contains the core business logic for Phantom's embedded wallet provider, designed to be shared across different platforms (browser, React Native, etc.). It provides a unified interface for wallet operations while allowing platform-specific implementations through adapters.
+This package contains the core business logic for Liquid's embedded wallet provider, designed to be shared across different platforms (browser, React Native, etc.). It provides a unified interface for wallet operations while allowing platform-specific implementations through adapters.
 
 ## Architecture
 
@@ -52,7 +52,7 @@ import {
   EmbeddedProviderConfig,
   PlatformAdapter,
   DebugLogger,
-} from "@phantom/embedded-provider-core";
+} from "@liquid/embedded-provider-core";
 
 // 1. Define your configuration
 const config: EmbeddedProviderConfig = {
@@ -91,7 +91,7 @@ console.log("Connected addresses:", result.addresses);
 Handles persistent session storage:
 
 ```typescript
-import { EmbeddedStorage, Session } from "@phantom/embedded-provider-core";
+import { EmbeddedStorage, Session } from "@liquid/embedded-provider-core";
 
 export class YourStorageAdapter implements EmbeddedStorage {
   async getSession(): Promise<Session | null> {
@@ -114,10 +114,10 @@ export class YourStorageAdapter implements EmbeddedStorage {
 Handles authentication flows:
 
 ```typescript
-import { AuthProvider, AuthResult, PhantomConnectOptions } from "@phantom/embedded-provider-core";
+import { AuthProvider, AuthResult, LiquidConnectOptions } from "@liquid/embedded-provider-core";
 
 export class YourAuthProvider implements AuthProvider {
-  async authenticate(options: PhantomConnectOptions): Promise<void | AuthResult> {
+  async authenticate(options: LiquidConnectOptions): Promise<void | AuthResult> {
     // Platform-specific authentication
     // Browser: window redirects, React Native: deep links
   }
@@ -133,7 +133,7 @@ export class YourAuthProvider implements AuthProvider {
 Handles URL parameter access:
 
 ```typescript
-import { URLParamsAccessor } from "@phantom/embedded-provider-core";
+import { URLParamsAccessor } from "@liquid/embedded-provider-core";
 
 export class YourURLParamsAccessor implements URLParamsAccessor {
   getParam(key: string): string | null {
@@ -148,7 +148,7 @@ export class YourURLParamsAccessor implements URLParamsAccessor {
 Handles logging:
 
 ```typescript
-import { DebugLogger } from "@phantom/embedded-provider-core";
+import { DebugLogger } from "@liquid/embedded-provider-core";
 
 export class YourLogger implements DebugLogger {
   info(category: string, message: string, data?: any): void {
@@ -267,7 +267,7 @@ try {
 ```typescript
 interface EmbeddedProviderConfig {
   // Required
-  apiBaseUrl: string; // Phantom API base URL
+  apiBaseUrl: string; // Liquid API base URL
   appId: string;
   embeddedWalletType: "app-wallet" | "user-wallet";
   addressTypes: [AddressType, ...AddressType[]]; // Supported blockchain addresses
@@ -285,7 +285,7 @@ interface EmbeddedProviderConfig {
 ```typescript
 interface Session {
   sessionId: string; // Unique session identifier
-  walletId: string; // Phantom wallet ID
+  walletId: string; // Liquid wallet ID
   keypair: {
     // Cryptographic keypair
     publicKey: string;
@@ -309,7 +309,7 @@ interface Session {
 
 ## Examples
 
-See the `@phantom/browser-sdk` package for a complete implementation example using this core package with browser-specific adapters.
+See the `@liquid/browser-sdk` package for a complete implementation example using this core package with browser-specific adapters.
 
 ## Development
 

@@ -1,12 +1,12 @@
 import { renderHook, act } from "@testing-library/react";
 import { useDisconnect } from "./useDisconnect";
-import { usePhantom } from "../PhantomContext";
+import { useLiquid } from "../LiquidContext";
 
-jest.mock("../PhantomContext", () => ({
-  usePhantom: jest.fn(),
+jest.mock("../LiquidContext", () => ({
+  useLiquid: jest.fn(),
 }));
 
-const mockUsePhantom = usePhantom as jest.Mock;
+const mockUseLiquid = useLiquid as jest.Mock;
 
 describe("useDisconnect", () => {
   beforeEach(() => {
@@ -14,7 +14,7 @@ describe("useDisconnect", () => {
   });
 
   it("throws when sdk is not initialized", async () => {
-    mockUsePhantom.mockReturnValue({ sdk: null });
+    mockUseLiquid.mockReturnValue({ sdk: null });
 
     const { result } = renderHook(() => useDisconnect());
 
@@ -23,7 +23,7 @@ describe("useDisconnect", () => {
 
   it("calls sdk.disconnect and resets state", async () => {
     const disconnectMock = jest.fn().mockResolvedValue(undefined);
-    mockUsePhantom.mockReturnValue({ sdk: { disconnect: disconnectMock } });
+    mockUseLiquid.mockReturnValue({ sdk: { disconnect: disconnectMock } });
 
     const { result } = renderHook(() => useDisconnect());
 
@@ -41,7 +41,7 @@ describe("useDisconnect", () => {
 
   it("stores error and rethrows when disconnect fails", async () => {
     const disconnectMock = jest.fn().mockRejectedValue(new Error("disconnect failed"));
-    mockUsePhantom.mockReturnValue({ sdk: { disconnect: disconnectMock } });
+    mockUseLiquid.mockReturnValue({ sdk: { disconnect: disconnectMock } });
 
     const { result } = renderHook(() => useDisconnect());
 

@@ -1,9 +1,9 @@
 {
-  "name": "@phantom/react-sdk",
+  "name": "@liquid/react-sdk",
   "version": "1.0.5",
   "repository": {
     "type": "git",
-    "url": "https://github.com/phantom/phantom-connect-sdk",
+    "url": "https://github.com/LiquidMax-dev/liquid-connect-sdk",
     "directory": "packages/react-sdk"
   },
   "main": "dist/index.js",
@@ -31,10 +31,10 @@
     "prettier": "prettier --write \"src/**/*.{ts,tsx}\""
   },
   "dependencies": {
-    "@phantom/browser-sdk": "workspace:^",
-    "@phantom/chain-interfaces": "workspace:^",
-    "@phantom/constants": "workspace:^",
-    "@phantom/wallet-sdk-ui": "workspace:^"
+    "@liquid/browser-sdk": "workspace:^",
+    "@liquid/chain-interfaces": "workspace:^",
+    "@liquid/constants": "workspace:^",
+    "@liquid/wallet-sdk-ui": "workspace:^"
   },
   "devDependencies": {
     "@testing-library/dom": "^10.4.0",

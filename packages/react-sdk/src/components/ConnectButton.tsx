@@ -1,8 +1,8 @@
 import { useMemo, type CSSProperties } from "react";
-import { usePhantom } from "../PhantomContext";
+import { useLiquid } from "../LiquidContext";
 import { useModal } from "../hooks";
-import { useTheme } from "@phantom/wallet-sdk-ui";
-import type { AddressType } from "@phantom/browser-sdk";
+import { useTheme } from "@liquid/wallet-sdk-ui";
+import type { AddressType } from "@liquid/browser-sdk";
 
 export interface ConnectButtonProps {
   addressType?: AddressType;
@@ -12,7 +12,7 @@ export interface ConnectButtonProps {
 export function ConnectButton({ addressType, fullWidth = false }: ConnectButtonProps) {
   const theme = useTheme();
   const { open } = useModal();
-  const { isConnected, addresses } = usePhantom();
+  const { isConnected, addresses } = useLiquid();
 
   const displayAddress = useMemo(() => {
     if (!addresses || addresses.length === 0) return null;

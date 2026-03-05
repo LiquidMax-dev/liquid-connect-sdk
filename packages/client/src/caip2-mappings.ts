@@ -1,4 +1,4 @@
-import { NetworkId } from "@phantom/constants";
+import { NetworkId } from "@liquid/constants";
 
 // Import SubmissionConfig interface
 interface SubmissionConfig {

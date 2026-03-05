@@ -1,20 +1,20 @@
-import { EmbeddedProvider as CoreEmbeddedProvider } from "@phantom/embedded-provider-core";
-import type { EmbeddedProviderConfig, PlatformAdapter } from "@phantom/embedded-provider-core";
-import { IndexedDbStamper } from "@phantom/indexed-db-stamper";
+import { EmbeddedProvider as CoreEmbeddedProvider } from "@liquid/embedded-provider-core";
+import type { EmbeddedProviderConfig, PlatformAdapter } from "@liquid/embedded-provider-core";
+import { IndexedDbStamper } from "@liquid/indexed-db-stamper";
 import {
   BrowserStorage,
   BrowserURLParamsAccessor,
   BrowserAuthProvider,
   Auth2AuthProvider,
   Auth2Stamper,
-  BrowserPhantomAppProvider,
+  BrowserLiquidAppProvider,
   BrowserLogger,
 } from "./adapters";
 import { debug, DebugCategory } from "../../debug";
 import { detectBrowser, getPlatformName } from "../../utils/browser-detection";
 import type { Provider } from "../../types";
-import { ANALYTICS_HEADERS, type SdkWalletType } from "@phantom/constants";
-import type { AddressType } from "@phantom/client";
+import { ANALYTICS_HEADERS, type SdkWalletType } from "@liquid/constants";
+import type { AddressType } from "@liquid/client";
 
 export class EmbeddedProvider extends CoreEmbeddedProvider implements Provider {
   private addressTypes: AddressType[];
@@ -26,7 +26,7 @@ export class EmbeddedProvider extends CoreEmbeddedProvider implements Provider {
     const storage = new BrowserStorage();
 
     const stamper = config.unstable__auth2Options
-      ? new Auth2Stamper(`phantom-auth2-${config.appId}`)
+      ? new Auth2Stamper(`liquid-auth2-${config.appId}`)
       : new IndexedDbStamper({
           dbName: `phantom-embedded-sdk-${config.appId}`,
           storeName: "crypto-keys",
@@ -61,7 +61,7 @@ export class EmbeddedProvider extends CoreEmbeddedProvider implements Provider {
     const platform: PlatformAdapter = {
       storage,
       authProvider,
-      phantomAppProvider: new BrowserPhantomAppProvider(),
+      liquidAppProvider: new BrowserLiquidAppProvider(),
       urlParamsAccessor,
       stamper,
       name: platformName, // Use detected browser name and version for identification

@@ -22,7 +22,7 @@ const mockSubtle = {
   importKey: jest.fn().mockResolvedValue(mockPrivateKey),
 };
 
-jest.mock("@phantom/base64url", () => ({
+jest.mock("@liquid/base64url", () => ({
   base64urlEncode: jest.fn((data: Uint8Array) => Buffer.from(data).toString("base64url")),
 }));
 
@@ -44,7 +44,7 @@ beforeEach(() => {
   jest.clearAllMocks();
 });
 
-function makeStamper(storageKey = `phantom-auth2-test-${Math.random()}`) {
+function makeStamper(storageKey = `liquid-auth2-test-${Math.random()}`) {
   return new ExpoAuth2Stamper(storageKey);
 }
 
@@ -96,7 +96,7 @@ describe("ExpoAuth2Stamper", () => {
 
     it("exports PKCS#8 private key and persists to SecureStore", async () => {
       (SecureStore.getItemAsync as jest.Mock).mockResolvedValueOnce(null);
-      const storageKey = "phantom-auth2-app-1";
+      const storageKey = "liquid-auth2-app-1";
       const stamper = new ExpoAuth2Stamper(storageKey);
 
       await stamper.init();
@@ -192,7 +192,7 @@ describe("ExpoAuth2Stamper", () => {
 
     it("persists the token to SecureStore alongside the key record", async () => {
       (SecureStore.getItemAsync as jest.Mock).mockResolvedValueOnce(null);
-      const storageKey = "phantom-auth2-persist-test";
+      const storageKey = "liquid-auth2-persist-test";
       const stamper = new ExpoAuth2Stamper(storageKey);
       await stamper.init();
 

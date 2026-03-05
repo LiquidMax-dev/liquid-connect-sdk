@@ -1,25 +1,25 @@
-# @phantom/client
+# @liquid/client
 
-HTTP client for Phantom Wallet API.
+HTTP client for Liquid Wallet API.
 
 ## Installation
 
 ```bash
-npm install @phantom/client
+npm install @liquid/client
 # or
-yarn add @phantom/client
+yarn add @liquid/client
 ```
 
 ## Usage
 
-The `PhantomClient` class provides a fully typed HTTP client for interacting with Phantom's wallet service API.
+The `LiquidClient` class provides a fully typed HTTP client for interacting with Liquid's wallet service API.
 
 ### Basic Usage (Without Authentication)
 
 ```typescript
-import { PhantomClient } from "@phantom/client";
+import { LiquidClient } from "@liquid/client";
 
-const client = new PhantomClient({
+const client = new LiquidClient({
   apiBaseUrl: "https://api.phantom.app/v1/wallets",
   organizationId: "your-org-id",
 });
@@ -30,11 +30,11 @@ const wallets = await client.getWallets();
 
 ### With Authentication (Using a Stamper)
 
-The client accepts an optional `stamper` parameter that can be used to sign requests. You can use the `@phantom/api-key-stamper` package for API key authentication:
+The client accepts an optional `stamper` parameter that can be used to sign requests. You can use the `@liquid/api-key-stamper` package for API key authentication:
 
 ```typescript
-import { PhantomClient } from "@phantom/client";
-import { ApiKeyStamper } from "@phantom/api-key-stamper";
+import { LiquidClient } from "@liquid/client";
+import { ApiKeyStamper } from "@liquid/api-key-stamper";
 
 // Create a stamper for authentication
 const stamper = new ApiKeyStamper({
@@ -42,7 +42,7 @@ const stamper = new ApiKeyStamper({
 });
 
 // Create client with authentication
-const client = new PhantomClient(
+const client = new LiquidClient(
   {
     apiBaseUrl: "https://api.phantom.app/v1/wallets",
     organizationId: "your-org-id",
@@ -100,7 +100,7 @@ await client.signAndSendTransaction({
 The client supports multiple blockchain networks through CAIP-2 identifiers. For a complete list of supported networks including Solana, Ethereum, Polygon, Base, Arbitrum, Monad, and more, see the [Network Support section in the main README](../../README.md#network-support).
 
 ```typescript
-import { NetworkId } from "@phantom/client";
+import { NetworkId } from "@liquid/client";
 
 // Example: Solana
 await client.signAndSendTransaction({
@@ -130,7 +130,7 @@ class CustomStamper {
   }
 }
 
-const client = new PhantomClient(config, new CustomStamper());
+const client = new LiquidClient(config, new CustomStamper());
 ```
 
 ### Organization and Authentication Examples

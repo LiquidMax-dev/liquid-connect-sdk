@@ -3,5 +3,5 @@ export * from "./url-params";
 export * from "./auth";
 export * from "./Auth2AuthProvider";
 export * from "./Auth2Stamper";
-export * from "./phantom-app";
+export * from "./liquid-app";
 export * from "./logger";

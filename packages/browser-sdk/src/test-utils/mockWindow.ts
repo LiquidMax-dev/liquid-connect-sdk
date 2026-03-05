@@ -1,6 +1,6 @@
 // Mock window.phantom for testing
 export interface MockSolanaProvider {
-  isPhantom: boolean;
+  isLiquid: boolean;
   publicKey: { toString: () => string } | null;
   isConnected: boolean;
   connect: jest.Mock;
@@ -16,7 +16,7 @@ export interface MockSolanaProvider {
 }
 
 export interface MockEthereumProvider {
-  isPhantom: boolean;
+  isLiquid: boolean;
   selectedAddress: string | null;
   request: jest.Mock;
   on?: jest.Mock;
@@ -27,7 +27,7 @@ export interface MockEthereumProvider {
 
 export function createMockSolanaProvider(overrides?: Partial<MockSolanaProvider>): MockSolanaProvider {
   return {
-    isPhantom: true,
+    isLiquid: true,
     publicKey: null,
     isConnected: false,
     connect: jest.fn(),
@@ -46,7 +46,7 @@ export function createMockSolanaProvider(overrides?: Partial<MockSolanaProvider>
 
 export function createMockEthereumProvider(overrides?: Partial<MockEthereumProvider>): MockEthereumProvider {
   return {
-    isPhantom: true,
+    isLiquid: true,
     selectedAddress: null,
     request: jest.fn(),
     on: jest.fn(),

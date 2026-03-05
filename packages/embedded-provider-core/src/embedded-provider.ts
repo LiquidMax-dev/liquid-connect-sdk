@@ -1,20 +1,20 @@
-import { base64urlEncode, stringToBase64url } from "@phantom/base64url";
-import { AddressType, PhantomClient, SpendingLimitError, isAuthenticationError } from "@phantom/client";
-import type { NetworkId } from "@phantom/constants";
+import { base64urlEncode, stringToBase64url } from "@liquid/base64url";
+import { AddressType, LiquidClient, SpendingLimitError, isAuthenticationError } from "@liquid/client";
+import type { NetworkId } from "@liquid/constants";
 import {
   parseSignMessageResponse,
   parseTransactionResponse,
   parseToKmsTransaction,
   type ParsedSignatureResult,
   type ParsedTransactionResult,
-} from "@phantom/parsers";
-import { randomUUID } from "@phantom/utils";
+} from "@liquid/parsers";
+import { randomUUID } from "@liquid/utils";
 import { Buffer } from "buffer";
 import bs58 from "bs58";
 import { AUTHENTICATOR_EXPIRATION_TIME_MS, EMBEDDED_PROVIDER_AUTH_TYPES } from "./constants";
 
-import type { IEthereumChain, ISolanaChain } from "@phantom/chain-interfaces";
-import type { StamperWithKeyManagement } from "@phantom/sdk-types";
+import type { IEthereumChain, ISolanaChain } from "@liquid/chain-interfaces";
+import type { StamperWithKeyManagement } from "@liquid/sdk-types";
 import { EmbeddedEthereumChain, EmbeddedSolanaChain } from "./chains";
 import type {
   AuthProvider,
@@ -22,7 +22,7 @@ import type {
   DebugLogger,
   EmbeddedStorage,
   PlatformAdapter,
-  PhantomAppProvider,
+  LiquidAppProvider,
   Session,
   StamperInfo,
   URLParamsAccessor,
@@ -89,14 +89,14 @@ export class EmbeddedProvider {
   private config: EmbeddedProviderConfig;
   private platform: PlatformAdapter;
   private storage: EmbeddedStorage;
-  // Phantom Connect Provider (handles redirects, auth flows, etc.)
+  // Liquid Connect Provider (handles redirects, auth flows, etc.)
   private authProvider: AuthProvider;
-  // Phantom App (mobile and extension provider) deeplinks to our wallet for phantom connect
-  private phantomAppProvider: PhantomAppProvider;
+  // Liquid App (mobile and extension provider) deeplinks to our wallet for liquid connect
+  private liquidAppProvider: LiquidAppProvider;
   private urlParamsAccessor: URLParamsAccessor;
   private stamper: StamperWithKeyManagement;
   private logger: DebugLogger;
-  private client: PhantomClient | null = null;
+  private client: LiquidClient | null = null;
   private walletId: string | null = null;
   private addresses: WalletAddress[] = [];
 
@@ -118,7 +118,7 @@ export class EmbeddedProvider {
     this.platform = platform;
     this.storage = platform.storage;
     this.authProvider = platform.authProvider;
-    this.phantomAppProvider = platform.phantomAppProvider;
+    this.liquidAppProvider = platform.liquidAppProvider;
     this.urlParamsAccessor = platform.urlParamsAccessor;
     this.stamper = platform.stamper;
 
@@ -519,7 +519,7 @@ export class EmbeddedProvider {
   private async createOrganizationForAppWallet(stamperInfo: StamperInfo, expiresInMs: number): Promise<string> {
     // Create temporary client to make API call
     // This client is used only for organization creation (doesn't need stamper since it's creating the org)
-    const tempClient = new PhantomClient({
+    const tempClient = new LiquidClient({
       apiBaseUrl: this.config.apiBaseUrl,
       headers: {
         ...(this.platform.analyticsHeaders || {}),
@@ -897,7 +897,7 @@ export class EmbeddedProvider {
     }
 
     // Get raw response from client
-    // PhantomClient will handle EVM transaction formatting internally
+    // LiquidClient will handle EVM transaction formatting internally
     const rawResponse = await this.client
       .signTransaction({
         walletId: this.walletId,
@@ -955,7 +955,7 @@ export class EmbeddedProvider {
     }
 
     // Get raw response from client
-    // PhantomClient will handle EVM transaction formatting internally
+    // LiquidClient will handle EVM transaction formatting internally
     const rawResponse = await this.client
       .signAndSendTransaction({
         walletId: this.walletId,
@@ -1001,8 +1001,8 @@ export class EmbeddedProvider {
         authProvider: authOptions.provider,
       });
 
-      if (authOptions.provider === "phantom") {
-        return await this.handlePhantomAuth(publicKey, stamperInfo, expiresInMs);
+      if (authOptions.provider === "liquid") {
+        return await this.handleLiquidAuth(publicKey, stamperInfo, expiresInMs);
       } else {
         // This will redirect in browser, so we don't return a session
         // In react-native this will return an auth result
@@ -1021,7 +1021,7 @@ export class EmbeddedProvider {
       const organizationId = await this.createOrganizationForAppWallet(stamperInfo, expiresInMs);
 
       // Create app-wallet directly
-      const tempClient = new PhantomClient(
+      const tempClient = new LiquidClient(
         {
           apiBaseUrl: this.config.apiBaseUrl,
           organizationId: organizationId,
@@ -1061,43 +1061,43 @@ export class EmbeddedProvider {
   }
 
   /*
-   * We use this method to handle Phantom app-based authentication for user-wallets.
-   * This method uses the PhantomAppProvider to authenticate via the browser extension or mobile app.
+   * We use this method to handle Liquid app-based authentication for user-wallets.
+   * This method uses the LiquidAppProvider to authenticate via the browser extension or mobile app.
    *
    * NOTE: Mobile deeplink support is not yet implemented. If we wanted to support mobile deeplinks,
    * we would:
-   * 1. Check if the app provider is available using phantomAppProvider.isAvailable()
-   * 2. If not available, generate a deeplink (phantom://auth?...)
+   * 1. Check if the app provider is available using liquidAppProvider.isAvailable()
+   * 2. If not available, generate a deeplink (liquid://auth?...)
    * 3. Save a pending session before opening the deeplink
    * 4. Start a polling mechanism to check for auth completion
    * 5. Update the session when the mobile app completes the auth
    */
-  private async handlePhantomAuth(publicKey: string, stamperInfo: StamperInfo, expiresInMs: number): Promise<Session> {
-    this.logger.info("EMBEDDED_PROVIDER", "Starting Phantom authentication flow");
+  private async handleLiquidAuth(publicKey: string, stamperInfo: StamperInfo, expiresInMs: number): Promise<Session> {
+    this.logger.info("EMBEDDED_PROVIDER", "Starting Liquid authentication flow");
 
-    // Check if Phantom app is available (extension or mobile)
-    const isAvailable = this.phantomAppProvider.isAvailable();
+    // Check if Liquid app is available (extension or mobile)
+    const isAvailable = this.liquidAppProvider.isAvailable();
 
     if (!isAvailable) {
-      this.logger.error("EMBEDDED_PROVIDER", "Phantom app not available");
+      this.logger.error("EMBEDDED_PROVIDER", "Liquid app not available");
       // NOTE: If we wanted to support mobile deeplinks, we would generate a deeplink here
       // and start a polling mechanism. For now, we just throw an error.
       throw new Error(
-        "Phantom app is not available. Please install the Phantom browser extension or mobile app to use this authentication method.",
+        "Liquid app is not available. Please install the Liquid browser extension or mobile app to use this authentication method.",
       );
     }
 
-    this.logger.info("EMBEDDED_PROVIDER", "Phantom app detected, proceeding with authentication");
+    this.logger.info("EMBEDDED_PROVIDER", "Liquid app detected, proceeding with authentication");
 
     const sessionId = generateSessionId();
 
-    const authResult = await this.phantomAppProvider.authenticate({
+    const authResult = await this.liquidAppProvider.authenticate({
       publicKey,
       appId: this.config.appId,
       sessionId,
     });
 
-    this.logger.info("EMBEDDED_PROVIDER", "Phantom authentication completed", {
+    this.logger.info("EMBEDDED_PROVIDER", "Liquid authentication completed", {
       walletId: authResult.walletId,
       organizationId: authResult.organizationId,
     });
@@ -1113,7 +1113,7 @@ export class EmbeddedProvider {
       organizationId: authResult.organizationId,
       appId: this.config.appId,
       stamperInfo,
-      authProvider: "phantom",
+      authProvider: "liquid",
       accountDerivationIndex: authResult.accountDerivationIndex,
       status: "completed" as const,
       createdAt: now,
@@ -1124,7 +1124,7 @@ export class EmbeddedProvider {
       authUserId: authResult.authUserId,
     };
 
-    this.logger.log("EMBEDDED_PROVIDER", "Saving Phantom session");
+    this.logger.log("EMBEDDED_PROVIDER", "Saving Liquid session");
     await this.storage.saveSession(session);
 
     return session;
@@ -1140,13 +1140,13 @@ export class EmbeddedProvider {
     stamperInfo: StamperInfo,
     authOptions: AuthOptions,
   ): Promise<Session | null> {
-    this.logger.info("EMBEDDED_PROVIDER", "Using Phantom Connect authentication flow (redirect-based)", {
+    this.logger.info("EMBEDDED_PROVIDER", "Using Liquid Connect authentication flow (redirect-based)", {
       provider: authOptions.provider,
       hasRedirectUrl: !!this.config.authOptions.redirectUrl,
       authUrl: this.config.authOptions.authUrl,
     });
 
-    // Use Phantom Connect authentication flow (redirect-based)
+    // Use Liquid Connect authentication flow (redirect-based)
     // Store session before redirect so we can restore it after redirect
     const now = Date.now();
     const sessionId = generateSessionId();
@@ -1177,7 +1177,7 @@ export class EmbeddedProvider {
     // Check if user explicitly logged out (requires clearing previous OAuth session)
     const shouldClearPreviousSession = await this.storage.getShouldClearPreviousSession();
 
-    this.logger.info("EMBEDDED_PROVIDER", "Starting Phantom Connect redirect", {
+    this.logger.info("EMBEDDED_PROVIDER", "Starting Liquid Connect redirect", {
       publicKey,
       appId: this.config.appId,
       provider: authOptions?.provider,
@@ -1327,16 +1327,16 @@ export class EmbeddedProvider {
       throw new Error("Authenticator expired");
     }
 
-    // TODO: Here we would renew the authenticator if needed. It was disabled at PR https://github.com/phantom/wallet-sdk/pull/283
+    // TODO: Here we would renew the authenticator if needed. It was disabled at PR https://github.com/LiquidMax-dev/liquid-connect-sdk/pull/283
   }
 
   /*
-   * We use this method to initialize the PhantomClient and fetch wallet addresses from a completed session.
+   * We use this method to initialize the LiquidClient and fetch wallet addresses from a completed session.
    * This is the final step that sets up the provider's client state and retrieves available addresses.
    */
   private async initializeClientFromSession(session: Session): Promise<void> {
     // Create client from session
-    this.logger.log("EMBEDDED_PROVIDER", "Initializing PhantomClient from session", {
+    this.logger.log("EMBEDDED_PROVIDER", "Initializing LiquidClient from session", {
       organizationId: session.organizationId,
       walletId: session.walletId,
       appId: session.appId,
@@ -1347,8 +1347,8 @@ export class EmbeddedProvider {
       await this.stamper.init();
     }
 
-    // Create PhantomClient with organizationId from auth flow
-    this.client = new PhantomClient(
+    // Create LiquidClient with organizationId from auth flow
+    this.client = new LiquidClient(
       {
         apiBaseUrl: this.config.apiBaseUrl,
         organizationId: session.organizationId,

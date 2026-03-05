@@ -10,7 +10,7 @@ describe("SessionStorage", () => {
 
   beforeEach(() => {
     // Create a unique temp directory for each test
-    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "phantom-mcp-test-"));
+    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "liquid-mcp-test-"));
     storage = new SessionStorage(tempDir);
   });
 
@@ -154,9 +154,9 @@ describe("SessionStorage", () => {
   });
 
   describe("default session directory", () => {
-    it("should use ~/.phantom-mcp by default", () => {
+    it("should use ~/.liquid-mcp by default", () => {
       const defaultStorage = new SessionStorage();
-      const expectedPath = path.join(os.homedir(), ".phantom-mcp");
+      const expectedPath = path.join(os.homedir(), ".liquid-mcp");
 
       // Access private field for testing
       const actualPath = (defaultStorage as any).sessionDir;

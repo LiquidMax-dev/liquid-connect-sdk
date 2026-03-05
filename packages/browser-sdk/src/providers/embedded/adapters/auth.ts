@@ -2,11 +2,11 @@ import type {
   AuthProvider,
   AuthResult,
   EmbeddedProviderAuthType,
-  PhantomConnectOptions,
+  LiquidConnectOptions,
   URLParamsAccessor,
-} from "@phantom/embedded-provider-core";
+} from "@liquid/embedded-provider-core";
 import { debug, DebugCategory } from "../../../debug";
-import { DEFAULT_AUTH_URL, DEFAULT_AUTHENTICATOR_ALGORITHM } from "@phantom/constants";
+import { DEFAULT_AUTH_URL, DEFAULT_AUTHENTICATOR_ALGORITHM } from "@liquid/constants";
 import { detectBrowser } from "../../../utils/browser-detection";
 
 declare const __SDK_VERSION__: string;
@@ -26,73 +26,73 @@ export class BrowserAuthProvider implements AuthProvider {
     return currentUrl;
   }
 
-  authenticate(options: PhantomConnectOptions): Promise<void | AuthResult> {
+  authenticate(options: LiquidConnectOptions): Promise<void | AuthResult> {
     return new Promise<void>(resolve => {
       // Check if this is JWT auth
       if ("jwtToken" in options) {
         throw new Error("JWT authentication should be handled by the core JWTAuth class");
       }
 
-      const phantomOptions = options as PhantomConnectOptions;
+      const liquidOptions = options as LiquidConnectOptions;
 
-      debug.info(DebugCategory.PHANTOM_CONNECT_AUTH, "Starting Phantom Connect authentication", {
-        publicKey: phantomOptions.publicKey,
-        appId: phantomOptions.appId,
-        provider: phantomOptions.provider,
-        authUrl: phantomOptions.authUrl,
+      debug.info(DebugCategory.PHANTOM_CONNECT_AUTH, "Starting Liquid Connect authentication", {
+        publicKey: liquidOptions.publicKey,
+        appId: liquidOptions.appId,
+        provider: liquidOptions.provider,
+        authUrl: liquidOptions.authUrl,
       });
 
-      const baseUrl = phantomOptions.authUrl || DEFAULT_AUTH_URL;
+      const baseUrl = liquidOptions.authUrl || DEFAULT_AUTH_URL;
       debug.log(DebugCategory.PHANTOM_CONNECT_AUTH, "Using auth URL", { baseUrl });
 
       const params = new URLSearchParams({
-        public_key: phantomOptions.publicKey,
-        app_id: phantomOptions.appId,
+        public_key: liquidOptions.publicKey,
+        app_id: liquidOptions.appId,
         redirect_uri:
-          phantomOptions.redirectUrl || (typeof window !== "undefined" ? this.getValidatedCurrentUrl() : ""),
-        session_id: phantomOptions.sessionId,
+          liquidOptions.redirectUrl || (typeof window !== "undefined" ? this.getValidatedCurrentUrl() : ""),
+        session_id: liquidOptions.sessionId,
         // OAuth session management - defaults to allow refresh unless explicitly clearing after logout
-        clear_previous_session: (phantomOptions.clearPreviousSession ?? false).toString(),
-        allow_refresh: (phantomOptions.allowRefresh ?? true).toString(),
+        clear_previous_session: (liquidOptions.clearPreviousSession ?? false).toString(),
+        allow_refresh: (liquidOptions.allowRefresh ?? true).toString(),
         sdk_version: __SDK_VERSION__,
         sdk_type: "browser",
         platform: detectBrowser().name,
-        algorithm: phantomOptions.algorithm || DEFAULT_AUTHENTICATOR_ALGORITHM,
+        algorithm: liquidOptions.algorithm || DEFAULT_AUTHENTICATOR_ALGORITHM,
       });
 
       // Add provider if specified (will skip provider selection)
-      if (phantomOptions.provider) {
+      if (liquidOptions.provider) {
         debug.log(DebugCategory.PHANTOM_CONNECT_AUTH, "Provider specified, will skip selection", {
-          provider: phantomOptions.provider,
+          provider: liquidOptions.provider,
         });
-        params.append("provider", phantomOptions.provider);
+        params.append("provider", liquidOptions.provider);
       } else {
         // Default to Google if no provider specified
         debug.log(DebugCategory.PHANTOM_CONNECT_AUTH, "No provider specified, defaulting to Google");
-        // Note: Phantom Connect currently defaults to Google if no provider is specified
+        // Note: Liquid Connect currently defaults to Google if no provider is specified
         params.append("provider", "google");
       }
 
       // Store auth context in session storage for validation after redirect
       const authContext = {
-        publicKey: phantomOptions.publicKey,
-        appId: phantomOptions.appId,
-        provider: phantomOptions.provider,
-        sessionId: phantomOptions.sessionId,
+        publicKey: liquidOptions.publicKey,
+        appId: liquidOptions.appId,
+        provider: liquidOptions.provider,
+        sessionId: liquidOptions.sessionId,
       };
 
       sessionStorage.setItem("phantom-auth-context", JSON.stringify(authContext));
       debug.log(DebugCategory.PHANTOM_CONNECT_AUTH, "Stored auth context in session storage", { authContext });
 
       const authUrl = `${baseUrl}?${params.toString()}`;
-      debug.info(DebugCategory.PHANTOM_CONNECT_AUTH, "Redirecting to Phantom Connect", { authUrl });
+      debug.info(DebugCategory.PHANTOM_CONNECT_AUTH, "Redirecting to Liquid Connect", { authUrl });
 
       // Validate auth URL before redirect
       if (!authUrl.startsWith("https:") && !authUrl.startsWith("http://localhost")) {
         throw new Error("Invalid auth URL - only HTTPS URLs are allowed for authentication");
       }
 
-      // Redirect to Phantom Connect
+      // Redirect to Liquid Connect
       window.location.href = authUrl;
 
       // The page will redirect, so execution stops here

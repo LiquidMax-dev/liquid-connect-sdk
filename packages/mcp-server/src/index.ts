@@ -9,5 +9,5 @@ export type { SessionData } from "./session/types.js";
 export { tools } from "./tools/index.js";
 export type { ToolHandler, ToolContext } from "./tools/types.js";
 
-// Re-export PhantomClient type for convenience
-export type { PhantomClient } from "@phantom/client";
+// Re-export LiquidClient type for convenience
+export type { LiquidClient } from "@liquid/client";

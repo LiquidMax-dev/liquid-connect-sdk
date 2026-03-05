@@ -12,7 +12,7 @@ describe("Logger", () => {
 
     // Reset env vars
     delete process.env.DEBUG;
-    delete process.env.PHANTOM_MCP_DEBUG;
+    delete process.env.LIQUID_MCP_DEBUG;
   });
 
   afterEach(() => {
@@ -160,8 +160,8 @@ describe("Logger", () => {
       expect(output).toContain("debug message");
     });
 
-    it("should log when PHANTOM_MCP_DEBUG env var is set", () => {
-      process.env.PHANTOM_MCP_DEBUG = "true";
+    it("should log when LIQUID_MCP_DEBUG env var is set", () => {
+      process.env.LIQUID_MCP_DEBUG = "true";
 
       const testLogger = new Logger();
       testLogger.debug("debug message");
@@ -172,9 +172,9 @@ describe("Logger", () => {
       expect(output).toContain("debug message");
     });
 
-    it("should log when either DEBUG or PHANTOM_MCP_DEBUG is set", () => {
+    it("should log when either DEBUG or LIQUID_MCP_DEBUG is set", () => {
       process.env.DEBUG = "1";
-      process.env.PHANTOM_MCP_DEBUG = "true";
+      process.env.LIQUID_MCP_DEBUG = "true";
 
       const testLogger = new Logger();
       testLogger.debug("debug message");

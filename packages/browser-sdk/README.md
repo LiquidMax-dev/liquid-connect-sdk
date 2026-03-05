@@ -1,19 +1,19 @@
-# @phantom/browser-sdk
+# @liquid/browser-sdk
 
-Browser SDK for Phantom Wallet supporting both injected and embedded non-custodial wallets with chain-specific APIs.
+Browser SDK for Liquid Wallet supporting both injected and embedded non-custodial wallets with chain-specific APIs.
 
 ## Quick Start
 
 ```bash
-npm install @phantom/browser-sdk
+npm install @liquid/browser-sdk
 ```
 
 ### Injected Provider (Browser Extension)
 
 ```typescript
-import { BrowserSDK, AddressType } from "@phantom/browser-sdk";
+import { BrowserSDK, AddressType } from "@liquid/browser-sdk";
 
-// Connect to Phantom browser extension
+// Connect to Liquid browser extension
 const sdk = new BrowserSDK({
   providers: ["injected"], // Only allow browser extension
   addressTypes: [AddressType.solana, AddressType.ethereum],
@@ -23,7 +23,7 @@ const { addresses } = await sdk.connect({ provider: "injected" });
 console.log("Connected addresses:", addresses);
 
 // Chain-specific operations
-const message = "Hello from Phantom!";
+const message = "Hello from Liquid!";
 const solanaSignature = await sdk.solana.signMessage(message);
 
 // Encode the message as hex for EVM
@@ -38,16 +38,16 @@ const ethResult = await sdk.ethereum.sendTransaction(myEthTransaction);
 ### Embedded Provider (Multiple Auth Methods)
 
 ```typescript
-import { BrowserSDK, AddressType } from "@phantom/browser-sdk";
+import { BrowserSDK, AddressType } from "@liquid/browser-sdk";
 
 // Create embedded non-custodial wallet with multiple auth providers
 const sdk = new BrowserSDK({
-  providers: ["google", "apple", "phantom"], // Allow Google, Apple, and Phantom Login
+  providers: ["google", "apple", "liquid"], // Allow Google, Apple, and Liquid Login
   addressTypes: [AddressType.solana, AddressType.ethereum],
   appId: "your-app-id", // Get your app ID from phantom.com/portal
 });
 
-const { addresses } = await sdk.connect({ provider: "phantom" });
+const { addresses } = await sdk.connect({ provider: "liquid" });
 console.log("Addresses:", addresses);
 
 // Use chain-specific APIs
@@ -58,7 +58,7 @@ const ethResult = await sdk.ethereum.sendTransaction(myEthTransaction);
 ## Features
 
 - **🔒 Non-Custodial**: Full user control of private keys for both injected and embedded wallets
-- **🌐 Dual Provider Support**: Works with Phantom browser extension or creates embedded wallets
+- **🌐 Dual Provider Support**: Works with Liquid browser extension or creates embedded wallets
 - **⛓️ Chain-Specific APIs**: Dedicated interfaces for Solana and Ethereum operations
 - **🛠️ Native Transactions**: Work with blockchain-native objects, not base64url strings
 - **🔗 Multi-Chain**: Solana and Ethereum support with dedicated methods
@@ -70,11 +70,11 @@ const ethResult = await sdk.ethereum.sendTransaction(myEthTransaction);
 After instantiating the SDK, use `sdk.connect()` to establish a connection to the wallet:
 
 ```typescript
-import { BrowserSDK, AddressType } from "@phantom/browser-sdk";
+import { BrowserSDK, AddressType } from "@liquid/browser-sdk";
 
 // 1. Create SDK instance with allowed providers
 const sdk = new BrowserSDK({
-  providers: ["google", "apple", "phantom", "injected"], // Allowed auth providers
+  providers: ["google", "apple", "liquid", "injected"], // Allowed auth providers
   addressTypes: [AddressType.solana, AddressType.ethereum],
   appId: "your-app-id", // Required when using embedded providers
 });
@@ -97,7 +97,7 @@ const ethResult = await sdk.ethereum.sendTransaction({
 The `connect()` method requires a `provider` parameter and automatically switches between providers based on the authentication method you specify:
 
 ```typescript
-// Connect with injected provider (Phantom extension)
+// Connect with injected provider (Liquid extension)
 // Automatically switches to injected provider if not already using it
 const result = await sdk.connect({
   provider: "injected",
@@ -115,11 +115,11 @@ const result = await sdk.connect({
   provider: "apple",
 });
 
-// Connect with Phantom authentication (embedded provider)
-// Uses Phantom extension or mobile app for authentication
+// Connect with Liquid authentication (embedded provider)
+// Uses Liquid extension or mobile app for authentication
 // Automatically switches to embedded provider if not already using it
 const result = await sdk.connect({
-  provider: "phantom",
+  provider: "liquid",
 });
 
 // Connect with JWT authentication (embedded provider)
@@ -189,11 +189,11 @@ The SDK supports multiple authentication providers that you configure via the `p
 
 ### Available Providers
 
-- **`"injected"`** - Phantom browser extension
+- **`"injected"`** - Liquid browser extension
 - **`"google"`** - Google OAuth
 - **`"apple"`** - Apple ID
-- **`"phantom"`** - Phantom Login
-- **`"deeplink"`** - Deeplink to Phantom mobile app (only renders on mobile devices)
+- **`"liquid"`** - Liquid Login
+- **`"deeplink"`** - Deeplink to Liquid mobile app (only renders on mobile devices)
 
 ### Configuration Examples
 
@@ -210,9 +210,9 @@ const sdk = new BrowserSDK({
 
 ```typescript
 const sdk = new BrowserSDK({
-  providers: ["google", "apple", "phantom", "injected", "deeplink"], // Allow all methods
+  providers: ["google", "apple", "liquid", "injected", "deeplink"], // Allow all methods
   addressTypes: [AddressType.solana, AddressType.ethereum],
-  appId: "your-app-id", // Required for embedded providers (google, apple, phantom, deeplink)
+  appId: "your-app-id", // Required for embedded providers (google, apple, liquid, deeplink)
   authOptions: {
     authUrl: "https://connect.phantom.app/login", // optional
     redirectUrl: "https://yourapp.com/callback", // optional, defaults to current page
@@ -223,11 +223,11 @@ const sdk = new BrowserSDK({
 
 **Mobile Deeplink Support**
 
-The `"deeplink"` provider enables a button that opens the Phantom mobile app on mobile devices. This button only appears on mobile devices when the Phantom browser extension is not installed. When clicked, it redirects users to the Phantom mobile app to complete authentication.
+The `"deeplink"` provider enables a button that opens the Liquid mobile app on mobile devices. This button only appears on mobile devices when the Liquid browser extension is not installed. When clicked, it redirects users to the Liquid mobile app to complete authentication.
 
 ```typescript
 const sdk = new BrowserSDK({
-  providers: ["google", "apple", "phantom", "deeplink"], // Include deeplink for mobile support
+  providers: ["google", "apple", "liquid", "deeplink"], // Include deeplink for mobile support
   addressTypes: [AddressType.solana, AddressType.ethereum],
   appId: "your-app-id", // Required for deeplink
   authOptions: {
@@ -239,18 +239,18 @@ const sdk = new BrowserSDK({
 
 ### Embedded Wallet Type
 
-When using embedded providers (google, apple, phantom, etc.), you can specify the wallet type:
+When using embedded providers (google, apple, liquid, etc.), you can specify the wallet type:
 
 #### User Wallet (`'user-wallet'`) - Default
 
-- **Uses Phantom authentication** - user logs in with existing Phantom account
+- **Uses Liquid authentication** - user logs in with existing Liquid account
 - **Potentially funded** - brings in user's existing wallet balance
-- **Connected** to user's Phantom ecosystem
+- **Connected** to user's Liquid ecosystem
 - **Perfect for**: All embedded wallet use cases
 
 ```typescript
 const sdk = new BrowserSDK({
-  providers: ["google", "apple", "phantom"],
+  providers: ["google", "apple", "liquid"],
   appId: "your-app-id",
   addressTypes: [AddressType.solana, AddressType.ethereum],
   embeddedWalletType: "user-wallet", // default, can be omitted
@@ -270,7 +270,7 @@ The SDK can automatically reconnect to existing sessions when instantiated, prov
 
 ```typescript
 const sdk = new BrowserSDK({
-  providers: ["google", "apple", "phantom"],
+  providers: ["google", "apple", "liquid"],
   appId: "your-app-id",
   addressTypes: [AddressType.solana],
   autoConnect: true, // Default: true when embedded providers are used, false for injected-only
@@ -293,7 +293,7 @@ if (sdk.isConnected()) {
 
 ```typescript
 const sdk = new BrowserSDK({
-  providers: ["google", "apple", "phantom"],
+  providers: ["google", "apple", "liquid"],
   appId: "your-app-id",
   addressTypes: [AddressType.solana],
   autoConnect: false, // Disable auto-connect
@@ -316,15 +316,15 @@ new BrowserSDK(config: BrowserSDKConfig)
 ```typescript
 interface BrowserSDKConfig {
   // List of allowed authentication providers (REQUIRED)
-  providers: AuthProviderType[]; // e.g., ["google", "apple", "phantom", "injected", "deeplink"]
+  providers: AuthProviderType[]; // e.g., ["google", "apple", "liquid", "injected", "deeplink"]
 
   addressTypes?: [AddressType, ...AddressType[]]; // Networks to enable (e.g., [AddressType.solana])
 
-  // Required when using embedded providers (google, apple, phantom)
+  // Required when using embedded providers (google, apple, liquid)
   appId?: string; // Your app ID from phantom.com/portal
 
   // Optional configuration
-  apiBaseUrl?: string; // Phantom API base URL (optional, has default)
+  apiBaseUrl?: string; // Liquid API base URL (optional, has default)
   authOptions?: {
     authUrl?: string; // Custom auth URL (optional, defaults to "https://connect.phantom.app/login")
     redirectUrl?: string; // Custom redirect URL after authentication (optional)
@@ -334,41 +334,41 @@ interface BrowserSDKConfig {
 }
 
 // Valid provider types
-type AuthProviderType = "google" | "apple" | "phantom" | "injected" | "deeplink";
+type AuthProviderType = "google" | "apple" | "liquid" | "injected" | "deeplink";
 ```
 
 ### Extension Detection
 
-#### waitForPhantomExtension
+#### waitForLiquidExtension
 
-Check if the Phantom extension is installed:
+Check if the Liquid extension is installed:
 
 ```typescript
-import { waitForPhantomExtension } from "@phantom/browser-sdk";
+import { waitForLiquidExtension } from "@liquid/browser-sdk";
 
-const isAvailable = await waitForPhantomExtension(5000);
+const isAvailable = await waitForLiquidExtension(5000);
 
 if (isAvailable) {
-  console.log("Phantom extension is available!");
+  console.log("Liquid extension is available!");
 } else {
-  console.log("Phantom extension not found");
+  console.log("Liquid extension not found");
 }
 ```
 
-#### isPhantomLoginAvailable
+#### isLiquidLoginAvailable
 
-Check if Phantom Login is available (requires extension to be installed and support the `phantom_login` feature):
+Check if Liquid Login is available (requires extension to be installed and support the `liquid_login` feature):
 
 ```typescript
-import { isPhantomLoginAvailable } from "@phantom/browser-sdk";
+import { isLiquidLoginAvailable } from "@liquid/browser-sdk";
 
-const isAvailable = await isPhantomLoginAvailable();
+const isAvailable = await isLiquidLoginAvailable();
 
 if (isAvailable) {
-  console.log("Phantom Login is available!");
-  // Can use provider: "phantom" in connect()
+  console.log("Liquid Login is available!");
+  // Can use provider: "liquid" in connect()
 } else {
-  console.log("Phantom Login is not available");
+  console.log("Liquid Login is not available");
 }
 ```
 
@@ -381,7 +381,7 @@ Connect to wallet and get addresses for configured AddressTypes.
 **Parameters:**
 
 - `options: AuthOptions` (required) - Authentication options
-  - `provider: "google" | "apple" | "jwt" | "phantom" | "injected"` (required) - Authentication provider to use
+  - `provider: "google" | "apple" | "jwt" | "liquid" | "injected"` (required) - Authentication provider to use
   - `jwtToken?: string` (optional) - JWT token (required when `provider` is "jwt")
   - `customAuthData?: Record<string, any>` (optional) - Custom authentication data
 
@@ -389,8 +389,8 @@ Connect to wallet and get addresses for configured AddressTypes.
 // Connect with injected provider
 const result = await sdk.connect({ provider: "injected" });
 
-// Connect with Phantom authentication
-const result = await sdk.connect({ provider: "phantom" });
+// Connect with Liquid authentication
+const result = await sdk.connect({ provider: "liquid" });
 
 // Connect with Google authentication
 const result = await sdk.connect({ provider: "google" });
@@ -682,13 +682,13 @@ const wallets = sdk.getDiscoveredWallets();
 
 console.log("Available wallets:", wallets);
 // Returns wallets that match the configured addressTypes
-// Also includes Phantom if available and matches addressTypes
+// Also includes Liquid if available and matches addressTypes
 ```
 
 **Behavior:**
 
 - Returns wallets from the internal registry that match `config.addressTypes`
-- Includes Phantom wallet if `window.phantom` is available and matches configured address types
+- Includes Liquid wallet if `window.phantom` is available and matches configured address types
 - Returns empty array if no wallets are discovered or if an error occurs
 - This is a synchronous read operation - it does not trigger new discovery
 
@@ -711,16 +711,16 @@ The SDK provides typed event handlers that allow you to listen for connection st
 #### Available Events
 
 ```typescript
-import { BrowserSDK, AddressType } from "@phantom/browser-sdk";
+import { BrowserSDK, AddressType } from "@liquid/browser-sdk";
 import type {
   ConnectEventData,
   ConnectStartEventData,
   ConnectErrorEventData,
   DisconnectEventData,
-} from "@phantom/browser-sdk";
+} from "@liquid/browser-sdk";
 
 const sdk = new BrowserSDK({
-  providers: ["google", "apple", "phantom"],
+  providers: ["google", "apple", "liquid"],
   appId: "your-app-id",
   addressTypes: [AddressType.solana],
 });
@@ -779,7 +779,7 @@ Event handlers are especially useful with `autoConnect()` since it doesn't retur
 
 ```typescript
 const sdk = new BrowserSDK({
-  providers: ["google", "apple", "phantom"],
+  providers: ["google", "apple", "liquid"],
   appId: "your-app-id",
   addressTypes: [AddressType.solana],
   autoConnect: true,
@@ -807,14 +807,14 @@ await sdk.autoConnect();
 
 ### Auto-Confirm Methods (Injected Provider Only)
 
-The SDK provides auto-confirm functionality that allows automatic transaction confirmation for specified chains. This feature is only available when using the injected provider (Phantom browser extension).
+The SDK provides auto-confirm functionality that allows automatic transaction confirmation for specified chains. This feature is only available when using the injected provider (Liquid browser extension).
 
 #### enableAutoConfirm(params?)
 
 Enable auto-confirm for specific chains or all supported chains.
 
 ```typescript
-import { NetworkId } from "@phantom/browser-sdk";
+import { NetworkId } from "@liquid/browser-sdk";
 
 // Enable auto-confirm for specific chains
 const result = await sdk.enableAutoConfirm({
@@ -865,7 +865,7 @@ console.log("Supported chains:", supportedChains.chains);
 For a complete list of supported networks including Solana, Ethereum, Polygon, Base, Arbitrum, Monad, and more, see the [Network Support section in the main README](../../README.md#network-support).
 
 ```typescript
-import { NetworkId } from "@phantom/browser-sdk";
+import { NetworkId } from "@liquid/browser-sdk";
 
 // Example: Use NetworkId for auto-confirm
 await sdk.enableAutoConfirm({
@@ -875,10 +875,10 @@ await sdk.enableAutoConfirm({
 
 **Important Notes:**
 
-- Auto-confirm methods are **only available for injected providers** (Phantom browser extension)
+- Auto-confirm methods are **only available for injected providers** (Liquid browser extension)
 - Calling these methods on embedded providers will throw an error
 - Auto-confirm applies to transaction confirmations, not initial connection prompts
-- Users can override auto-confirm settings directly in the Phantom extension UI
+- Users can override auto-confirm settings directly in the Liquid extension UI
 
 ## Debug Configuration
 
@@ -915,7 +915,7 @@ sdk.configureDebug({
 ### Debug Levels
 
 ```typescript
-import { DebugLevel } from "@phantom/browser-sdk";
+import { DebugLevel } from "@liquid/browser-sdk";
 
 // Available debug levels (in order of verbosity)
 DebugLevel.ERROR; // 0 - Only error messages
@@ -941,10 +941,10 @@ interface DebugMessage {
 ### Example: Debug Console Implementation
 
 ```typescript
-import { BrowserSDK, DebugLevel, AddressType } from "@phantom/browser-sdk";
+import { BrowserSDK, DebugLevel, AddressType } from "@liquid/browser-sdk";
 
 const sdk = new BrowserSDK({
-  providers: ["google", "apple", "phantom"],
+  providers: ["google", "apple", "liquid"],
   appId: "your-app-id",
   addressTypes: [AddressType.solana],
 });
@@ -1008,7 +1008,7 @@ import {
   LAMPORTS_PER_SOL,
   Connection,
 } from "@solana/web3.js";
-import { BrowserSDK, AddressType } from "@phantom/browser-sdk";
+import { BrowserSDK, AddressType } from "@liquid/browser-sdk";
 
 const sdk = new BrowserSDK({
   providers: ["injected"],
@@ -1062,7 +1062,7 @@ import {
   address,
   compileTransaction,
 } from "@solana/kit";
-import { BrowserSDK, AddressType } from "@phantom/browser-sdk";
+import { BrowserSDK, AddressType } from "@liquid/browser-sdk";
 
 const sdk = new BrowserSDK({
   providers: ["injected"],
@@ -1093,7 +1093,7 @@ console.log("Transaction signature:", result.hash);
 ### Ethereum Transactions
 
 ```typescript
-import { BrowserSDK, AddressType } from "@phantom/browser-sdk";
+import { BrowserSDK, AddressType } from "@liquid/browser-sdk";
 
 const sdk = new BrowserSDK({
   providers: ["injected"],
@@ -1127,10 +1127,10 @@ console.log("Transaction hash:", result.hash);
 
 ```typescript
 import { parseEther, parseGwei, encodeFunctionData } from "viem";
-import { BrowserSDK, AddressType } from "@phantom/browser-sdk";
+import { BrowserSDK, AddressType } from "@liquid/browser-sdk";
 
 const sdk = new BrowserSDK({
-  providers: ["google", "apple", "phantom"],
+  providers: ["google", "apple", "liquid"],
   appId: "your-app-id",
   addressTypes: [AddressType.ethereum],
 });

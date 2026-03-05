@@ -1,17 +1,17 @@
 import type { EthereumEventType } from "./types";
 
-export type PhantomEthereumEventCallback = (data: any) => void;
+export type LiquidEthereumEventCallback = (data: any) => void;
 
 // Store event listeners
-const eventListeners: Map<EthereumEventType, Set<PhantomEthereumEventCallback>> = new Map();
+const eventListeners: Map<EthereumEventType, Set<LiquidEthereumEventCallback>> = new Map();
 
 /**
- * Add an event listener for Phantom Ethereum events.
+ * Add an event listener for Liquid Ethereum events.
  * @param event The event type to listen for.
  * @param callback The callback function to execute when the event is triggered.
  * @returns A function to remove the event listener.
  */
-export function addEventListener(event: EthereumEventType, callback: PhantomEthereumEventCallback): () => void {
+export function addEventListener(event: EthereumEventType, callback: LiquidEthereumEventCallback): () => void {
   if (!eventListeners.has(event)) {
     eventListeners.set(event, new Set());
   }
@@ -24,11 +24,11 @@ export function addEventListener(event: EthereumEventType, callback: PhantomEthe
 }
 
 /**
- * Remove an event listener for Phantom Ethereum events.
+ * Remove an event listener for Liquid Ethereum events.
  * @param event The event type.
  * @param callback The callback function to remove.
  */
-export function removeEventListener(event: EthereumEventType, callback: PhantomEthereumEventCallback): void {
+export function removeEventListener(event: EthereumEventType, callback: LiquidEthereumEventCallback): void {
   const listeners = eventListeners.get(event);
   if (listeners) {
     listeners.delete(callback);

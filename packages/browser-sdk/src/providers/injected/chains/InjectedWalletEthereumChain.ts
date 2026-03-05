@@ -1,5 +1,5 @@
 import { EventEmitter } from "eventemitter3";
-import type { IEthereumChain, EthTransactionRequest } from "@phantom/chain-interfaces";
+import type { IEthereumChain, EthTransactionRequest } from "@liquid/chain-interfaces";
 import { debug, DebugCategory } from "../../../debug";
 
 /**

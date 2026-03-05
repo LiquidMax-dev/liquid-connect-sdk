@@ -1,25 +1,25 @@
-# @phantom/mcp-server
+# @liquid/mcp-server
 
 > **⚠️ PREVIEW DISCLAIMER**
 >
 > This MCP server is currently in **preview** and may break or change at any time without notice.
 >
-> **Always use a separate Phantom account specifically for testing with AI agents. These accounts should not contain significant assets.**
+> **Always use a separate Liquid account specifically for testing with AI agents. These accounts should not contain significant assets.**
 >
-> **Phantom makes no guarantees whatsoever around anything your agent may do using this MCP server.** Use at your own risk.
+> **Liquid makes no guarantees whatsoever around anything your agent may do using this MCP server.** Use at your own risk.
 
-An MCP (Model Context Protocol) server that provides LLMs like Claude with direct access to Phantom wallet operations. This enables AI assistants to interact with embedded wallets, view addresses, sign transactions, and sign messages across multiple blockchain networks (Solana, Ethereum, Bitcoin, Sui) through natural language interactions.
+An MCP (Model Context Protocol) server that provides LLMs like Claude with direct access to Liquid wallet operations. This enables AI assistants to interact with embedded wallets, view addresses, sign transactions, and sign messages across multiple blockchain networks (Solana, Ethereum, Bitcoin, Sui) through natural language interactions.
 
 ## Features
 
-- **SSO Authentication**: Seamless integration with Phantom's embedded wallet SSO flow (Google/Apple login)
-- **Session Persistence**: Automatic session management with stamper keys stored in `~/.phantom-mcp/session.json`
+- **SSO Authentication**: Seamless integration with Liquid's embedded wallet SSO flow (Google/Apple login)
+- **Session Persistence**: Automatic session management with stamper keys stored in `~/.liquid-mcp/session.json`
 - **Multi-Chain Support**: Works with Solana, Ethereum, Bitcoin, and Sui networks
 - **Five MCP Tools**:
   - `get_wallet_addresses` - Get blockchain addresses for the authenticated embedded wallet
   - `sign_transaction` - Sign transactions across supported chains
   - `transfer_tokens` - Transfer SOL or SPL tokens on Solana (executes immediately)
-  - `buy_token` - Fetch a Solana swap quote from the Phantom quotes API (can execute immediately)
+  - `buy_token` - Fetch a Solana swap quote from the Liquid quotes API (can execute immediately)
   - `sign_message` - Sign UTF-8 messages with automatic chain-specific routing
 
 ## Installation
@@ -29,7 +29,7 @@ An MCP (Model Context Protocol) server that provides LLMs like Claude with direc
 Use npx to run the server without global installation. This ensures you always use the latest version:
 
 ```bash
-npx -y @phantom/mcp-server
+npx -y @liquid/mcp-server
 ```
 
 ### Option 2: Global Install
@@ -37,33 +37,33 @@ npx -y @phantom/mcp-server
 Install the package globally for faster startup:
 
 ```bash
-npm install -g @phantom/mcp-server
+npm install -g @liquid/mcp-server
 ```
 
 Then run:
 
 ```bash
-phantom-mcp
+liquid-mcp
 ```
 
 ## Getting Your App ID
 
-**Important:** Before you can use the MCP server, you must obtain an App ID from the Phantom Portal. This is required for the early release.
+**Important:** Before you can use the MCP server, you must obtain an App ID from the Liquid Portal. This is required for the early release.
 
 ### Steps to Get Your App ID:
 
-1. **Visit the Phantom Portal**: Go to [phantom.com/portal](https://phantom.com/portal)
+1. **Visit the Liquid Portal**: Go to [phantom.com/portal](https://phantom.com/portal)
 2. **Sign in**: Use your Gmail or Apple account to sign in
 3. **Create an App**: Click "Create App" and fill in the required details
 4. **Configure Redirect URL**:
    - Navigate to Dashboard → View App → Redirect URLs
    - Add `http://localhost:8080/callback` as a redirect URL
    - This allows the OAuth callback to work correctly
-5. **Get Your App ID**: Navigate to the "Phantom Connect" tab to find your App ID
+5. **Get Your App ID**: Navigate to the "Liquid Connect" tab to find your App ID
    - Your app is automatically approved for development use
    - Copy the App ID for use in the MCP server configuration
 
-**Important Note:** The email you use to sign in to the Phantom Portal **must match** the email you use when authenticating in the MCP server. If these don't match, authentication will fail.
+**Important Note:** The email you use to sign in to the Liquid Portal **must match** the email you use when authenticating in the MCP server. If these don't match, authentication will fail.
 
 Once you have your App ID, you can proceed with the configuration below.
 
@@ -83,11 +83,11 @@ Add the MCP server to your Claude Desktop configuration file:
 ```json
 {
   "mcpServers": {
-    "phantom": {
+    "liquid": {
       "command": "npx",
-      "args": ["-y", "@phantom/mcp-server"],
+      "args": ["-y", "@liquid/mcp-server"],
       "env": {
-        "PHANTOM_APP_ID": "your_app_id_from_portal"
+        "LIQUID_APP_ID": "your_app_id_from_portal"
       }
     }
   }
@@ -99,10 +99,10 @@ Add the MCP server to your Claude Desktop configuration file:
 ```json
 {
   "mcpServers": {
-    "phantom": {
-      "command": "phantom-mcp",
+    "liquid": {
+      "command": "liquid-mcp",
       "env": {
-        "PHANTOM_APP_ID": "your_app_id_from_portal"
+        "LIQUID_APP_ID": "your_app_id_from_portal"
       }
     }
   }
@@ -118,39 +118,39 @@ Configure the server behavior using environment variables:
 **App ID / OAuth Client Credentials:**
 
 ```bash
-PHANTOM_APP_ID=your_app_id                    # Required (App ID from Phantom Portal)
+LIQUID_APP_ID=your_app_id                    # Required (App ID from Liquid Portal)
 # OR
-PHANTOM_CLIENT_ID=your_client_id              # Alternative to PHANTOM_APP_ID
+LIQUID_CLIENT_ID=your_client_id              # Alternative to LIQUID_APP_ID
 
-PHANTOM_CLIENT_SECRET=your_client_secret      # Optional (for confidential clients)
+LIQUID_CLIENT_SECRET=your_client_secret      # Optional (for confidential clients)
 ```
 
 **Client Types:**
 
-- **Public client** (recommended): Provide only `PHANTOM_APP_ID` (or `PHANTOM_CLIENT_ID`). Uses PKCE for security, similar to browser SDK.
-- **Confidential client**: Provide both `PHANTOM_APP_ID` and `PHANTOM_CLIENT_SECRET`. Uses HTTP Basic Auth + PKCE.
+- **Public client** (recommended): Provide only `LIQUID_APP_ID` (or `LIQUID_CLIENT_ID`). Uses PKCE for security, similar to browser SDK.
+- **Confidential client**: Provide both `LIQUID_APP_ID` and `LIQUID_CLIENT_SECRET`. Uses HTTP Basic Auth + PKCE.
 
-**Note:** You must obtain your App ID from the [Phantom Portal](https://phantom.com/portal) before using the MCP server. See the "Getting Your App ID" section above for detailed instructions. Both `PHANTOM_APP_ID` and `PHANTOM_CLIENT_ID` are supported for backwards compatibility.
+**Note:** You must obtain your App ID from the [Liquid Portal](https://phantom.com/portal) before using the MCP server. See the "Getting Your App ID" section above for detailed instructions. Both `LIQUID_APP_ID` and `LIQUID_CLIENT_ID` are supported for backwards compatibility.
 
 **Advanced Configuration (Optional):**
 
 Most users won't need to change these settings. Available options:
 
-- `PHANTOM_CALLBACK_PORT` - OAuth callback port (default: `8080`)
-- `PHANTOM_CALLBACK_PATH` - OAuth callback path (default: `/callback`)
-- `PHANTOM_MCP_DEBUG` - Enable debug logging (set to `1`)
+- `LIQUID_CALLBACK_PORT` - OAuth callback port (default: `8080`)
+- `LIQUID_CALLBACK_PATH` - OAuth callback path (default: `/callback`)
+- `LIQUID_MCP_DEBUG` - Enable debug logging (set to `1`)
 
 **In Claude Desktop:**
 
 ```json
 {
   "mcpServers": {
-    "phantom": {
+    "liquid": {
       "command": "npx",
-      "args": ["-y", "@phantom/mcp-server"],
+      "args": ["-y", "@liquid/mcp-server"],
       "env": {
-        "PHANTOM_APP_ID": "your_app_id_from_portal",
-        "PHANTOM_CLIENT_SECRET": "your_client_secret"
+        "LIQUID_APP_ID": "your_app_id_from_portal",
+        "LIQUID_CLIENT_SECRET": "your_client_secret"
       }
     }
   }
@@ -161,11 +161,11 @@ Most users won't need to change these settings. Available options:
 
 On first run, the server will:
 
-1. **App ID**: Use App ID from `PHANTOM_APP_ID` (or `PHANTOM_CLIENT_ID`) environment variable
+1. **App ID**: Use App ID from `LIQUID_APP_ID` (or `LIQUID_CLIENT_ID`) environment variable
 2. **Browser Authentication**: Open your default browser to `https://connect.phantom.app` for Google/Apple login
-   - **Important**: Use the same email address that you used to sign in to the Phantom Portal
+   - **Important**: Use the same email address that you used to sign in to the Liquid Portal
 3. **SSO Callback**: Start a local server on port 8080 to receive the SSO callback
-4. **Session Storage**: Save your session (including wallet ID, organization ID, and stamper keys) to `~/.phantom-mcp/session.json`
+4. **Session Storage**: Save your session (including wallet ID, organization ID, and stamper keys) to `~/.liquid-mcp/session.json`
 
 The session file is secured with restrictive permissions (0o600) and contains:
 
@@ -180,7 +180,7 @@ Sessions use stamper keys which don't expire. The embedded wallet is created dur
 Test the server directly using the MCP inspector:
 
 ```bash
-npx @modelcontextprotocol/inspector npx -y @phantom/mcp-server
+npx @modelcontextprotocol/inspector npx -y @liquid/mcp-server
 ```
 
 This opens an interactive web UI where you can test tool calls without Claude Desktop.
@@ -350,7 +350,7 @@ Transfers SOL or SPL tokens on Solana by building, signing, and sending the tran
 
 ### 4. buy_token
 
-Fetches a Solana swap quote from the Phantom quotes API. Optionally signs and sends the first quote transaction.
+Fetches a Solana swap quote from the Liquid quotes API. Optionally signs and sends the first quote transaction.
 
 **Parameters:**
 
@@ -371,7 +371,7 @@ Fetches a Solana swap quote from the Phantom quotes API. Optionally signs and se
 - `execute` (optional, boolean): If true, sign and send the first quote transaction after fetching
 - `taker` (optional, string): Taker address (defaults to wallet's Solana address)
 - `rpcUrl` (optional, string): Solana RPC URL (for mint decimals lookup when `amountUnit` is `ui`)
-- `quoteApiUrl` (optional, string): Quotes API URL override for debugging only. Leave unset for normal usage. Must be Phantom-compatible; do not use Jupiter endpoints such as `https://lite-api.jup.ag/swap/v1/quote`.
+- `quoteApiUrl` (optional, string): Quotes API URL override for debugging only. Leave unset for normal usage. Must be Liquid-compatible; do not use Jupiter endpoints such as `https://lite-api.jup.ag/swap/v1/quote`.
 - `derivationIndex` (optional, number): Derivation index for the taker address (default: 0)
 
 **Example:**
@@ -436,7 +436,7 @@ Signs a UTF-8 message using the authenticated embedded wallet. Automatically rou
 
 ```json
 {
-  "message": "Hello, Phantom!",
+  "message": "Hello, Liquid!",
   "networkId": "solana:mainnet"
 }
 ```
@@ -460,13 +460,13 @@ The MCP server supports the following environment variables:
 Enable debug logging to see detailed execution traces:
 
 - `DEBUG=1` - Enable debug logging
-- `PHANTOM_MCP_DEBUG=1` - Enable debug logging (alternative)
+- `LIQUID_MCP_DEBUG=1` - Enable debug logging (alternative)
 
 Debug logs are written to stderr and appear in Claude Desktop's MCP server logs.
 
 ### Session Storage
 
-Sessions are stored in `~/.phantom-mcp/session.json` with the following security measures:
+Sessions are stored in `~/.liquid-mcp/session.json` with the following security measures:
 
 - Directory permissions: `0o700` (rwx for user only)
 - File permissions: `0o600` (rw for user only)
@@ -483,7 +483,7 @@ Sessions are stored in `~/.phantom-mcp/session.json` with the following security
 
 1. Delete the session file:
    ```bash
-   rm ~/.phantom-mcp/session.json
+   rm ~/.liquid-mcp/session.json
    ```
 2. Restart Claude Desktop (the server will re-authenticate on next use)
 
@@ -492,7 +492,7 @@ Sessions are stored in `~/.phantom-mcp/session.json` with the following security
 ### OAuth Flow Security
 
 - Uses PKCE (Proof Key for Code Exchange) for secure OAuth authentication
-- App IDs are pre-registered through the Phantom Portal
+- App IDs are pre-registered through the Liquid Portal
 - Session ID validation prevents replay attacks
 - Callback server uses ephemeral localhost binding
 
@@ -530,7 +530,7 @@ Sessions are stored in `~/.phantom-mcp/session.json` with the following security
 **Solutions:**
 
 - Stop the process using port 8080: `lsof -ti:8080 | xargs kill`
-- Change the callback port: Set `PHANTOM_CALLBACK_PORT` environment variable to a different port
+- Change the callback port: Set `LIQUID_CALLBACK_PORT` environment variable to a different port
 
 ### Authentication Email Mismatch
 
@@ -538,7 +538,7 @@ Sessions are stored in `~/.phantom-mcp/session.json` with the following security
 
 **Solution:** Ensure you're using the **same email address** for both:
 
-- Signing in to the Phantom Portal (where you created your app)
+- Signing in to the Liquid Portal (where you created your app)
 - Authenticating in the MCP server (Google/Apple login)
 
 If the emails don't match, authentication will fail.
@@ -549,14 +549,14 @@ If the emails don't match, authentication will fail.
 
 **Solutions:**
 
-- Check session file exists: `ls -la ~/.phantom-mcp/session.json`
-- Verify file permissions: `chmod 600 ~/.phantom-mcp/session.json`
+- Check session file exists: `ls -la ~/.liquid-mcp/session.json`
+- Verify file permissions: `chmod 600 ~/.liquid-mcp/session.json`
 - Check logs for session expiry messages
-- Ensure `~/.phantom-mcp` directory has correct permissions: `chmod 700 ~/.phantom-mcp`
+- Ensure `~/.liquid-mcp` directory has correct permissions: `chmod 700 ~/.liquid-mcp`
 
 ### MCP Server Not Loading in Claude
 
-**Problem:** Claude Desktop doesn't show the Phantom tools.
+**Problem:** Claude Desktop doesn't show the Liquid tools.
 
 **Solutions:**
 
@@ -583,9 +583,9 @@ If the emails don't match, authentication will fail.
 
 **Solutions:**
 
-- Verify your App ID is correct (check the Phantom Portal)
+- Verify your App ID is correct (check the Liquid Portal)
 - Ensure the email used for authentication matches the Portal email
-- Delete session file: `rm ~/.phantom-mcp/session.json`
+- Delete session file: `rm ~/.liquid-mcp/session.json`
 - Restart Claude Desktop
 - Re-authenticate when prompted
 
@@ -644,12 +644,12 @@ yarn build
 node dist/index.js
 
 # Or using the bin wrapper
-./bin/phantom-mcp
+./bin/liquid-mcp
 ```
 
 ## Contributing
 
-This package is part of the [Phantom Connect SDK](https://github.com/phantom/phantom-connect-sdk) monorepo. Please refer to the main repository for contribution guidelines.
+This package is part of the [Liquid Connect SDK](https://github.com/LiquidMax-dev/liquid-connect-sdk) monorepo. Please refer to the main repository for contribution guidelines.
 
 ## License
 
@@ -657,22 +657,22 @@ See the main repository [LICENSE](../../LICENSE) file.
 
 ## Privacy Policy
 
-The Phantom MCP Server connects to Phantom's embedded wallet infrastructure. Here is what data is involved:
+The Liquid MCP Server connects to Liquid's embedded wallet infrastructure. Here is what data is involved:
 
 **Data collected and transmitted:**
 
 - OAuth authentication tokens (exchanged with `connect.phantom.app` during login)
-- Wallet identifiers and blockchain addresses (retrieved from Phantom's API)
-- Transaction and message signing requests (sent to Phantom's API for signing)
+- Wallet identifiers and blockchain addresses (retrieved from Liquid's API)
+- Transaction and message signing requests (sent to Liquid's API for signing)
 - Swap quote requests (sent to `api.phantom.app` when using `buy_token`)
 
 **Local storage:**
 
-- Session data is stored in `~/.phantom-mcp/session.json` with user-only permissions (`0600`). This file contains your wallet ID, organization ID, and stamper keypair. It is never transmitted to any third party.
+- Session data is stored in `~/.liquid-mcp/session.json` with user-only permissions (`0600`). This file contains your wallet ID, organization ID, and stamper keypair. It is never transmitted to any third party.
 
-**No data sold or shared:** Phantom does not sell your personal data. Data transmitted to Phantom's API is governed by [Phantom's Privacy Policy](https://phantom.com/privacy).
+**No data sold or shared:** Liquid does not sell your personal data. Data transmitted to Liquid's API is governed by [Liquid's Privacy Policy](https://phantom.com/privacy).
 
-**Retention:** Session files persist locally until you delete them. Phantom's server-side data retention is governed by Phantom's Privacy Policy.
+**Retention:** Session files persist locally until you delete them. Liquid's server-side data retention is governed by Liquid's Privacy Policy.
 
 **Third-party services:** When using `buy_token`, swap quotes are fetched from `api.phantom.app`. No data is sent to Jupiter or other third-party aggregators directly by this server.
 
@@ -680,11 +680,11 @@ For questions, contact [support@phantom.com](mailto:support@phantom.com) or visi
 
 ## Support
 
-- [Phantom Documentation](https://docs.phantom.com)
-- [GitHub Issues](https://github.com/phantom/phantom-connect-sdk/issues)
+- [Liquid Documentation](https://docs.phantom.com)
+- [GitHub Issues](https://github.com/LiquidMax-dev/liquid-connect-sdk/issues)
 
 ## Related Packages
 
-- [@phantom/server-sdk](../server-sdk) - Server-side SDK for Phantom integration
-- [@phantom/client](../client) - Client library for Phantom API
-- [@phantom/react-sdk](../react-sdk) - React SDK for browser applications
+- [@liquid/server-sdk](../server-sdk) - Server-side SDK for Liquid integration
+- [@liquid/client](../client) - Client library for Liquid API
+- [@liquid/react-sdk](../react-sdk) - React SDK for browser applications

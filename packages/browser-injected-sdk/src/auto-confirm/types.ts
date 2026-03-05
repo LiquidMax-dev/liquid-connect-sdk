@@ -1,4 +1,4 @@
-import type { NetworkId, InternalNetworkCaip } from "@phantom/constants";
+import type { NetworkId, InternalNetworkCaip } from "@liquid/constants";
 
 export type AutoConfirmEnableParams = {
   chains?: NetworkId[];
@@ -19,19 +19,19 @@ export type AutoConfirmSupportedChainsResult = {
 };
 
 type AutoConfirmEnableRequest = {
-  method: "phantom_auto_confirm_enable";
+  method: "liquid_auto_confirm_enable";
   params: InternalAutoConfirmEnableParams;
 };
 type AutoConfirmDisableRequest = {
-  method: "phantom_auto_confirm_disable";
+  method: "liquid_auto_confirm_disable";
   params: Record<string, never>;
 };
 type AutoConfirmStatusRequest = {
-  method: "phantom_auto_confirm_status";
+  method: "liquid_auto_confirm_status";
   params: Record<string, never>;
 };
 type AutoConfirmSupportRequest = {
-  method: "phantom_auto_confirm_supported_chains";
+  method: "liquid_auto_confirm_supported_chains";
   params: Record<string, never>;
 };
 
@@ -50,7 +50,7 @@ type AutoConfirmSupportResponse = {
   chains: Array<InternalNetworkCaip>;
 };
 
-export interface PhantomProvider {
+export interface LiquidProvider {
   request: <Req extends AutoConfirmRequests>(
     args: Req,
   ) => Promise<

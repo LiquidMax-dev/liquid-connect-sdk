@@ -1,29 +1,29 @@
-import { isPhantomExtensionInstalled } from "@phantom/browser-injected-sdk";
+import { isLiquidExtensionInstalled } from "@liquid/browser-injected-sdk";
 
 /**
- * Wait for Phantom extension to be available with retry logic
+ * Wait for Liquid extension to be available with retry logic
  *
  * @param timeoutMs - Maximum time to wait in milliseconds (default: 3000)
- * @returns Promise<boolean> - true if Phantom extension is available, false if timeout reached
+ * @returns Promise<boolean> - true if Liquid extension is available, false if timeout reached
  *
  * Usage:
  * ```typescript
- * const isAvailable = await waitForPhantomExtension(5000);
+ * const isAvailable = await waitForLiquidExtension(5000);
  * if (isAvailable) {
- *   console.log("Phantom extension is available!");
+ *   console.log("Liquid extension is available!");
  * } else {
- *   console.log("Phantom extension not found or timed out");
+ *   console.log("Liquid extension not found or timed out");
  * }
  * ```
  */
-export async function waitForPhantomExtension(timeoutMs: number = 3000): Promise<boolean> {
+export async function waitForLiquidExtension(timeoutMs: number = 3000): Promise<boolean> {
   return new Promise(resolve => {
     const startTime = Date.now();
     const checkInterval = 100; // Check every 100ms
 
     const checkForExtension = () => {
       try {
-        if (isPhantomExtensionInstalled()) {
+        if (isLiquidExtensionInstalled()) {
           resolve(true);
           return;
         }

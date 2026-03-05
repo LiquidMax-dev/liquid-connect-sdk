@@ -3,7 +3,7 @@ import Svg, { Path, G, Mask, Rect, Defs, ClipPath } from "react-native-svg";
 import type { ReactElement } from "react";
 
 export type IconType =
-  | "phantom"
+  | "liquid"
   | "google"
   | "apple"
   | "wallet"
@@ -25,7 +25,7 @@ export interface IconProps {
 }
 
 const ICONS: Record<IconType, { viewBox: string; element: ReactElement }> = {
-  phantom: {
+  liquid: {
     viewBox: "0 0 20 20",
     element: (
       <Path

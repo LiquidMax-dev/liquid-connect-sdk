@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { parseToKmsTransaction } from "./index";
-import { base64urlDecode } from "@phantom/base64url";
+import { base64urlDecode } from "@liquid/base64url";
 
 // Load environment variables
 try {

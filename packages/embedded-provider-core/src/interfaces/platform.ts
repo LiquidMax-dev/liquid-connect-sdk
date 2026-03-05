@@ -1,8 +1,8 @@
 import type { EmbeddedStorage } from "./storage";
-import type { AuthProvider, PhantomAppProvider } from "./auth";
+import type { AuthProvider, LiquidAppProvider } from "./auth";
 import type { URLParamsAccessor } from "./url-params";
-import type { StamperWithKeyManagement } from "@phantom/sdk-types";
-import type { ClientSideSdkHeaders } from "@phantom/constants";
+import type { StamperWithKeyManagement } from "@liquid/sdk-types";
+import type { ClientSideSdkHeaders } from "@liquid/constants";
 
 export interface PlatformAdapter {
   name: string; // Platform identifier like "web", "ios", "android", "react-native", etc.
@@ -10,7 +10,7 @@ export interface PlatformAdapter {
   // "{platformName}-{shortPubKey}-{timestamp}"
   storage: EmbeddedStorage;
   authProvider: AuthProvider;
-  phantomAppProvider: PhantomAppProvider;
+  liquidAppProvider: LiquidAppProvider;
   urlParamsAccessor: URLParamsAccessor;
   stamper: StamperWithKeyManagement;
   analyticsHeaders?: Partial<ClientSideSdkHeaders>;

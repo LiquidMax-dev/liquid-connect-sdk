@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { ServerSDK } from "@phantom/server-sdk";
+import { ServerSDK } from "@liquid/server-sdk";
 import * as dotenv from "dotenv";
 import * as path from "path";
 
@@ -35,7 +35,7 @@ function formatDate(dateString: string): string {
 
 // List all wallets with pagination
 async function listAllWallets() {
-  console.log("🔍 Phantom Wallet Lister\n");
+  console.log("🔍 Liquid Wallet Lister\n");
 
   validateConfig();
 

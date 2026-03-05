@@ -1,5 +1,5 @@
-import { base64urlEncode } from "@phantom/base64url";
-import { sha256 } from "@phantom/crypto";
+import { base64urlEncode } from "@liquid/base64url";
+import { sha256 } from "@liquid/crypto";
 import { createAuth2RequestJar, type Auth2RequestJarPayload } from "./jar";
 
 export { Auth2KmsRpcClient, type Auth2KmsClientOptions } from "./Auth2KmsRpcClient";
@@ -65,7 +65,7 @@ export async function createConnectStartUrl({
     code_challenge: codeChallenge,
     code_challenge_method: "S256",
     ...(provider &&
-      provider !== "phantom" &&
+      provider !== "liquid" &&
       provider !== "device" && {
         login_hint: `${provider}:auth2`,
       }),

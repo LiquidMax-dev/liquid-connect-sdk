@@ -1,7 +1,7 @@
 import type { CSSProperties, ReactElement } from "react";
 
 export type IconType =
-  | "phantom"
+  | "liquid"
   | "google"
   | "apple"
   | "wallet"
@@ -23,7 +23,7 @@ export interface IconProps {
 }
 
 const ICONS: Record<IconType, { viewBox: string; path: string | ReactElement }> = {
-  phantom: {
+  liquid: {
     viewBox: "0 0 20 20",
     path: (
       <path

@@ -1,5 +1,5 @@
 import { DerivationPath, getDerivationPathForNetwork, getNetworkConfig } from "./constants";
-import { NetworkId } from "@phantom/constants";
+import { NetworkId } from "@liquid/constants";
 import { DerivationInfoCurveEnum, DerivationInfoAddressFormatEnum, Algorithm } from "@phantom/openapi-wallet-service";
 
 describe("DerivationPath", () => {

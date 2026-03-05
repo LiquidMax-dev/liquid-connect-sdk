@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { Modal as RNModal, View, StyleSheet, SafeAreaView } from "react-native";
-import { useTheme } from "@phantom/wallet-sdk-ui";
+import { useTheme } from "@liquid/wallet-sdk-ui";
 
 export interface ModalProps {
   appIcon?: string;

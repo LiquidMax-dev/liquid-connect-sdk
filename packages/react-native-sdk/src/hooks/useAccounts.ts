@@ -1,7 +1,7 @@
-import { usePhantom } from "../PhantomContext";
+import { useLiquid } from "../LiquidContext";
 
 export function useAccounts() {
-  const { addresses, isConnected, walletId } = usePhantom();
+  const { addresses, isConnected, walletId } = useLiquid();
 
   return {
     addresses,

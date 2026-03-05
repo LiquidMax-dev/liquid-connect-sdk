@@ -1,15 +1,15 @@
 "use client";
-import { PhantomProvider, AddressType } from "@phantom/react-sdk";
+import { LiquidProvider, AddressType } from "@liquid/react-sdk";
 
 export function ClientProvider({ children }: { children: React.ReactNode }) {
   return (
-    <PhantomProvider
+    <LiquidProvider
       config={{
         providers: ["injected"],
         addressTypes: [AddressType.solana],
       }}
     >
       {children}
-    </PhantomProvider>
+    </LiquidProvider>
   );
 }

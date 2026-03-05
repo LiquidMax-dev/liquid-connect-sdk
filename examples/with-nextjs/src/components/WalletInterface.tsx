@@ -1,5 +1,5 @@
 "use client";
-import { useAccounts, useConnect, useDisconnect, useSolana } from "@phantom/react-sdk";
+import { useAccounts, useConnect, useDisconnect, useSolana } from "@liquid/react-sdk";
 import { useState } from "react";
 import bs58 from "bs58";
 
@@ -15,7 +15,7 @@ export function WalletInterface() {
   const handleSignMessage = async () => {
     if (!solana || !isConnected) return;
     try {
-      const message = "Hello from Phantom SDK with Next.js!";
+      const message = "Hello from Liquid SDK with Next.js!";
       const result = await solana.signMessage(message);
       setSignatureResult(`Message signed! Signature: ${bs58.encode(result.signature)}...`);
     } catch (error) {
@@ -31,7 +31,7 @@ export function WalletInterface() {
           onClick={() => connect({ provider: "injected" })}
           className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-4 rounded-lg transition-colors"
         >
-          Connect Phantom Wallet
+          Connect Liquid Wallet
         </button>
       ) : (
         <div className="space-y-4">

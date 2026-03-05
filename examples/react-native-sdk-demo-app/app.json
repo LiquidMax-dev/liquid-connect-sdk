@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Phantom React Native SDK Demo",
-    "slug": "phantom-react-native-sdk-demo",
+    "name": "Liquid React Native SDK Demo",
+    "slug": "liquid-react-native-sdk-demo",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -14,7 +14,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.phantom.reactnativesdkdemo"
+      "bundleIdentifier": "com.liquid.reactnativesdkdemo"
     },
     "android": {
       "adaptiveIcon": {
@@ -22,12 +22,12 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.phantom.reactnativesdkdemo"
+      "package": "com.liquid.reactnativesdkdemo"
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
     },
-    "scheme": "phantom-rn-demo",
+    "scheme": "liquid-rn-demo",
     "plugins": ["expo-router", "expo-secure-store", "expo-web-browser"]
   }
 }

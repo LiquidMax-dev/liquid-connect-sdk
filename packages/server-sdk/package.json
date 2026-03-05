@@ -1,10 +1,10 @@
 {
-  "name": "@phantom/server-sdk",
+  "name": "@liquid/server-sdk",
   "version": "1.0.5",
-  "description": "Server SDK for Phantom Wallet",
+  "description": "Server SDK for Liquid Wallet",
   "repository": {
     "type": "git",
-    "url": "https://github.com/phantom/phantom-connect-sdk",
+    "url": "https://github.com/LiquidMax-dev/liquid-connect-sdk",
     "directory": "packages/server-sdk"
   },
   "main": "dist/index.js",
@@ -42,13 +42,13 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
-    "@phantom/api-key-stamper": "workspace:^",
-    "@phantom/base64url": "workspace:^",
-    "@phantom/client": "workspace:^",
-    "@phantom/constants": "workspace:^",
-    "@phantom/parsers": "workspace:^",
-    "@phantom/sdk-types": "workspace:^",
-    "@phantom/utils": "workspace:^",
+    "@liquid/api-key-stamper": "workspace:^",
+    "@liquid/base64url": "workspace:^",
+    "@liquid/client": "workspace:^",
+    "@liquid/constants": "workspace:^",
+    "@liquid/parsers": "workspace:^",
+    "@liquid/sdk-types": "workspace:^",
+    "@liquid/utils": "workspace:^",
     "bs58": "^6.0.0"
   },
   "files": [

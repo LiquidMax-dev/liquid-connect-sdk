@@ -1,12 +1,12 @@
 // Common analytics header names that SDKs can use
 export const ANALYTICS_HEADERS = {
-  SDK_TYPE: "x-phantom-sdk-type", // server, browser-sdk, react-native-sdk
-  SDK_VERSION: "x-phantom-sdk-version", // SDK version, e.g. 1.0.0
-  PLATFORM: "x-phantom-platform", // ext-sdk for all SDK requests
-  WALLET_TYPE: "x-phantom-wallet-type", // app-wallet, user-wallet
+  SDK_TYPE: "x-liquid-sdk-type", // server, browser-sdk, react-native-sdk
+  SDK_VERSION: "x-liquid-sdk-version", // SDK version, e.g. 1.0.0
+  PLATFORM: "x-liquid-platform", // ext-sdk for all SDK requests
+  WALLET_TYPE: "x-liquid-wallet-type", // app-wallet, user-wallet
   APP_ID: "x-app-id", // Your application ID for identifying your app in analytics
-  PLATFORM_VERSION: "x-phantom-platform-version", // OS version, device model, etc.
-  CLIENT: "x-phantom-client", // mcp, chrome, firefox, safari, node, ios, android, etc.
+  PLATFORM_VERSION: "x-liquid-platform-version", // OS version, device model, etc.
+  CLIENT: "x-liquid-client", // mcp, chrome, firefox, safari, node, ios, android, etc.
 } as const;
 
 // Platform value sent in all SDK API requests

@@ -1,20 +1,20 @@
 import type { Plugin } from "../index";
 import { connect as connectOriginal } from "./connect";
 import { disconnect } from "./disconnect";
-import { addEventListener, removeEventListener, triggerEvent, type PhantomEventCallback } from "./eventListeners";
+import { addEventListener, removeEventListener, triggerEvent, type LiquidEventCallback } from "./eventListeners";
 import { signAndSendTransaction } from "./signAndSendTransaction";
 import { signAndSendAllTransactions } from "./signAndSendAllTransactions";
 import { signTransaction } from "./signTransaction";
 import { signAllTransactions } from "./signAllTransactions";
 import { signMessage } from "./signMessage";
 import { getProvider } from "./getProvider";
-import type { PhantomEventType } from "./types";
-import type { ISolanaChain } from "@phantom/chain-interfaces";
-import type { Transaction, VersionedTransaction } from "@phantom/sdk-types";
+import type { LiquidEventType } from "./types";
+import type { ISolanaChain } from "@liquid/chain-interfaces";
+import type { Transaction, VersionedTransaction } from "@liquid/sdk-types";
 
 /**
- * Phantom Solana chain implementation that implements ISolanaChain
- * This wraps Phantom's Solana provider with event listeners and state management
+ * Liquid Solana chain implementation that implements ISolanaChain
+ * This wraps Liquid's Solana provider with event listeners and state management
  */
 export class Solana implements ISolanaChain {
   private _publicKey: string | null = null;
@@ -83,11 +83,11 @@ export class Solana implements ISolanaChain {
     return Promise.resolve();
   }
 
-  on(event: PhantomEventType, listener: PhantomEventCallback): void {
+  on(event: LiquidEventType, listener: LiquidEventCallback): void {
     addEventListener(event, listener);
   }
 
-  off(event: PhantomEventType, listener: PhantomEventCallback): void {
+  off(event: LiquidEventType, listener: LiquidEventCallback): void {
     removeEventListener(event, listener);
   }
 

@@ -1,24 +1,24 @@
 import { useState, useMemo, useEffect } from "react";
 import {
-  PhantomProvider,
-  type PhantomSDKConfig,
+  LiquidProvider,
+  type LiquidSDKConfig,
   AddressType,
   darkTheme,
   lightTheme,
   mergeTheme,
-  type PhantomTheme,
+  type LiquidTheme,
   useModal,
-  usePhantom,
+  useLiquid,
   useTheme,
   isMobileDevice,
-} from "@phantom/react-sdk";
+} from "@liquid/react-sdk";
 
-type AuthProviderType = "google" | "apple" | "phantom" | "injected" | "deeplink";
+type AuthProviderType = "google" | "apple" | "liquid" | "injected" | "deeplink";
 import ConnectExample from "./ConnectExample";
 import Sidebar from "./Sidebar";
 
-const initialConfig: PhantomSDKConfig = {
-  providers: ["google", "apple", "phantom", "injected"],
+const initialConfig: LiquidSDKConfig = {
+  providers: ["google", "apple", "liquid", "injected"],
   addressTypes: [AddressType.solana, AddressType.ethereum] as const,
   appId: "aaacb3a9-e45c-45b2-b53a-09d4e956f1ec",
 };
@@ -28,7 +28,7 @@ const APP_NAME = "React SDK Demo";
 
 function MobileFixedButton() {
   const { open } = useModal();
-  const { isConnected } = usePhantom();
+  const { isConnected } = useLiquid();
   const theme = useTheme();
   const isMobile = isMobileDevice();
 
@@ -67,7 +67,7 @@ function MobileFixedButton() {
           e.currentTarget.style.opacity = "1";
         }}
       >
-        Open Phantom
+        Open Liquid
       </button>
       {isConnected && (
         <div
@@ -90,11 +90,11 @@ function App() {
   const [enabledProviders, setEnabledProviders] = useState<AuthProviderType[]>([
     "google",
     "apple",
-    "phantom",
+    "liquid",
     "injected",
   ]);
   const [themeMode, setThemeMode] = useState<"auto" | "dark" | "light" | "custom">("dark");
-  const [customTheme, setCustomTheme] = useState<Partial<PhantomTheme>>({});
+  const [customTheme, setCustomTheme] = useState<Partial<LiquidTheme>>({});
   const [systemPrefersDark, setSystemPrefersDark] = useState(
     typeof window !== "undefined" ? window.matchMedia("(prefers-color-scheme: dark)").matches : true,
   );
@@ -127,7 +127,7 @@ function App() {
   }, [themeMode, customTheme, systemPrefersDark]);
 
   // Create config with current providers (filter out deeplink as it's UI-only)
-  const config: PhantomSDKConfig = useMemo(
+  const config: LiquidSDKConfig = useMemo(
     () => ({
       ...initialConfig,
       providers:
@@ -139,7 +139,7 @@ function App() {
   );
 
   return (
-    <PhantomProvider config={config} theme={resolvedTheme} appIcon={APP_ICON} appName={APP_NAME}>
+    <LiquidProvider config={config} theme={resolvedTheme} appIcon={APP_ICON} appName={APP_NAME}>
       <style>
         {`
           @media (max-width: 768px) {
@@ -214,7 +214,7 @@ function App() {
         </div>
         <MobileFixedButton />
       </div>
-    </PhantomProvider>
+    </LiquidProvider>
   );
 }
 

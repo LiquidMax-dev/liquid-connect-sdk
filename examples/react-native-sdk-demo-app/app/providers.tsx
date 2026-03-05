@@ -1,19 +1,19 @@
 import { useState, createContext, useContext, type ReactNode } from "react";
 import {
-  PhantomProvider,
+  LiquidProvider,
   AddressType,
-  type PhantomSDKConfig,
-  type PhantomDebugConfig,
+  type LiquidSDKConfig,
+  type LiquidDebugConfig,
   darkTheme,
   lightTheme,
-  type PhantomTheme,
-} from "@phantom/react-native-sdk";
+  type LiquidTheme,
+} from "@liquid/react-native-sdk";
 
 // Theme Context
 interface ThemeContextType {
   currentTheme: "dark" | "light" | "custom";
   setTheme: (theme: "dark" | "light" | "custom") => void;
-  theme: Partial<PhantomTheme>;
+  theme: Partial<LiquidTheme>;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -29,7 +29,7 @@ export function useThemeContext() {
 function ThemeContextProvider({ children }: { children: ReactNode }) {
   const [currentTheme, setCurrentTheme] = useState<"dark" | "light" | "custom">("dark");
 
-  const customTheme: Partial<PhantomTheme> = {
+  const customTheme: Partial<LiquidTheme> = {
     background: "#ff6b35",
     text: "#ffffff",
     secondary: "#ffe5d9",
@@ -40,7 +40,7 @@ function ThemeContextProvider({ children }: { children: ReactNode }) {
     brand: "#fbbf24",
   };
 
-  const getTheme = (): Partial<PhantomTheme> => {
+  const getTheme = (): Partial<LiquidTheme> => {
     switch (currentTheme) {
       case "light":
         return lightTheme;
@@ -60,9 +60,9 @@ function ThemeContextProvider({ children }: { children: ReactNode }) {
 }
 
 // SDK configuration
-const config: PhantomSDKConfig = {
+const config: LiquidSDKConfig = {
   appId: process.env.EXPO_PUBLIC_APP_ID || "57b8172b-8583-4c13-a800-49f8553eb259",
-  scheme: process.env.EXPO_PUBLIC_APP_SCHEME || "phantom-rn-demo",
+  scheme: process.env.EXPO_PUBLIC_APP_SCHEME || "liquid-rn-demo",
   providers: ["google", "apple"],
   embeddedWalletType: isEmbeddedWalletType(process.env.EXPO_PUBLIC_EMBEDDED_WALLET_TYPE)
     ? process.env.EXPO_PUBLIC_EMBEDDED_WALLET_TYPE
@@ -70,41 +70,41 @@ const config: PhantomSDKConfig = {
   addressTypes: [AddressType.solana],
   authOptions: {
     authUrl: process.env.EXPO_PUBLIC_AUTH_URL,
-    redirectUrl: process.env.EXPO_PUBLIC_REDIRECT_URL || "phantom-rn-demo://phantom-auth-callback",
+    redirectUrl: process.env.EXPO_PUBLIC_REDIRECT_URL || "liquid-rn-demo://liquid-auth-callback",
   },
   apiBaseUrl: process.env.EXPO_PUBLIC_WALLET_API || "https://api.phantom.app/v1/wallets",
 };
 
 function isEmbeddedWalletType(
   embeddedWalletType: typeof process.env.EXPO_PUBLIC_EMBEDDED_WALLET_TYPE,
-): embeddedWalletType is PhantomSDKConfig["embeddedWalletType"] {
+): embeddedWalletType is LiquidSDKConfig["embeddedWalletType"] {
   return embeddedWalletType === "user-wallet" || embeddedWalletType === "app-wallet";
 }
 
-const debugConfig: PhantomDebugConfig = {
+const debugConfig: LiquidDebugConfig = {
   enabled: process.env.EXPO_PUBLIC_DEBUG === "true",
 };
 
-function PhantomProviderWrapper({ children }: { children: ReactNode }) {
+function LiquidProviderWrapper({ children }: { children: ReactNode }) {
   const { theme } = useThemeContext();
 
   return (
-    <PhantomProvider
+    <LiquidProvider
       config={config}
       debugConfig={debugConfig}
       appIcon="https://picsum.photos/seed/picsum/200"
-      appName="Phantom React Native SDK Demo"
+      appName="Liquid React Native SDK Demo"
       theme={theme}
     >
       {children}
-    </PhantomProvider>
+    </LiquidProvider>
   );
 }
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
     <ThemeContextProvider>
-      <PhantomProviderWrapper>{children}</PhantomProviderWrapper>
+      <LiquidProviderWrapper>{children}</LiquidProviderWrapper>
     </ThemeContextProvider>
   );
 }

@@ -31,7 +31,7 @@ interface DCRRegistrationResponse {
 
 /**
  * Dynamic Client Registration (DCR) client for registering OAuth clients
- * with the Phantom authorization server.
+ * with the Liquid authorization server.
  */
 export class DCRClient {
   private readonly authBaseUrl: string;
@@ -41,12 +41,12 @@ export class DCRClient {
   /**
    * Creates a new DCR client
    *
-   * @param authBaseUrl - Base URL of the authorization server (default: https://auth.phantom.app or PHANTOM_AUTH_BASE_URL env var)
-   * @param appId - Application identifier prefix (default: phantom-mcp)
+   * @param authBaseUrl - Base URL of the authorization server (default: https://auth.phantom.app or LIQUID_AUTH_BASE_URL env var)
+   * @param appId - Application identifier prefix (default: liquid-mcp)
    */
   constructor(
-    authBaseUrl: string = process.env.PHANTOM_AUTH_BASE_URL ?? "https://auth.phantom.app",
-    appId: string = "phantom-mcp",
+    authBaseUrl: string = process.env.LIQUID_AUTH_BASE_URL ?? "https://auth.phantom.app",
+    appId: string = "liquid-mcp",
   ) {
     this.authBaseUrl = authBaseUrl;
     this.appId = appId;

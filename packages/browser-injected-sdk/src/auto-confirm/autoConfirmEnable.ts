@@ -1,6 +1,6 @@
 import { getProvider } from "./getProvider";
 import type { AutoConfirmEnableParams, AutoConfirmResult } from "./types";
-import { networkIdToInternalCaip, internalCaipToNetworkId } from "@phantom/constants";
+import { networkIdToInternalCaip, internalCaipToNetworkId } from "@liquid/constants";
 
 export async function autoConfirmEnable(params?: AutoConfirmEnableParams): Promise<AutoConfirmResult> {
   const provider = getProvider();
@@ -9,7 +9,7 @@ export async function autoConfirmEnable(params?: AutoConfirmEnableParams): Promi
   const transformedParams = params?.chains ? { chains: params.chains.map(networkIdToInternalCaip) } : {};
 
   const result = await provider.request({
-    method: "phantom_auto_confirm_enable",
+    method: "liquid_auto_confirm_enable",
     params: transformedParams,
   });
 

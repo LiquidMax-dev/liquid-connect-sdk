@@ -1,8 +1,8 @@
-import { base64urlEncode } from "@phantom/base64url";
-import { DEFAULT_AUTHENTICATOR_ALGORITHM } from "@phantom/constants";
+import { base64urlEncode } from "@liquid/base64url";
+import { DEFAULT_AUTHENTICATOR_ALGORITHM } from "@liquid/constants";
 import type { Buffer } from "buffer";
 import bs58 from "bs58";
-import { type StamperWithKeyManagement, type StamperKeyInfo, Algorithm } from "@phantom/sdk-types";
+import { type StamperWithKeyManagement, type StamperKeyInfo, Algorithm } from "@liquid/sdk-types";
 
 // Note: the order of the algorithms is important, the first algorithm that is supported will be used
 const WEB_CRYPTO_ALGORITHM_CONFIGS = {
@@ -69,7 +69,7 @@ export class IndexedDbStamper implements StamperWithKeyManagement {
       throw new Error("IndexedDbStamper requires a browser environment with IndexedDB support");
     }
 
-    this.dbName = config.dbName || "phantom-indexed-db-stamper";
+    this.dbName = config.dbName || "liquid-indexed-db-stamper";
     this.storeName = config.storeName || "crypto-keys";
     this.keyName = config.keyName || "signing-key";
     this.type = config.type || "PKI";
@@ -138,9 +138,9 @@ export class IndexedDbStamper implements StamperWithKeyManagement {
   }
 
   /**
-   * Create X-Phantom-Stamp header value using stored private key
+   * Create X-Liquid-Stamp header value using stored private key
    * @param params - Parameters object with data and optional type/options
-   * @returns Complete X-Phantom-Stamp header value
+   * @returns Complete X-Liquid-Stamp header value
    */
   async stamp(
     params:

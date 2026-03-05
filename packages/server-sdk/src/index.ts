@@ -1,20 +1,20 @@
 import {
-  PhantomClient,
+  LiquidClient,
   type NetworkId,
   type CreateWalletResult,
   type GetWalletsResult,
   type AddressType,
   type Organization,
-} from "@phantom/client";
-import { randomUUID, getSecureTimestampSync, isEthereumChain } from "@phantom/utils";
+} from "@liquid/client";
+import { randomUUID, getSecureTimestampSync, isEthereumChain } from "@liquid/utils";
 import {
   ANALYTICS_HEADERS,
   DEFAULT_WALLET_API_URL,
   DEFAULT_AUTHENTICATOR_ALGORITHM,
   type ServerSdkHeaders,
-} from "@phantom/constants";
-import { ApiKeyStamper } from "@phantom/api-key-stamper";
-import { base64urlEncode, stringToBase64url } from "@phantom/base64url";
+} from "@liquid/constants";
+import { ApiKeyStamper } from "@liquid/api-key-stamper";
+import { base64urlEncode, stringToBase64url } from "@liquid/base64url";
 import bs58 from "bs58";
 import packageJson from "../package.json";
 import {
@@ -23,7 +23,7 @@ import {
   parseTransactionResponse,
   type ParsedSignatureResult,
   type ParsedTransactionResult,
-} from "@phantom/parsers";
+} from "@liquid/parsers";
 
 export interface ServerSDKConfig {
   organizationId: string;
@@ -88,7 +88,7 @@ function createServerSdkHeaders(appId: string): ServerSdkHeaders {
 
 export class ServerSDK {
   private config: ServerSDKConfig;
-  client: PhantomClient;
+  client: LiquidClient;
 
   constructor(config: ServerSDKConfig) {
     this.config = config;
@@ -100,8 +100,8 @@ export class ServerSDK {
     // Create analytics headers
     const headers = createServerSdkHeaders(config.appId);
 
-    // Initialize the parent PhantomClient with the stamper and analytics headers
-    this.client = new PhantomClient(
+    // Initialize the parent LiquidClient with the stamper and analytics headers
+    this.client = new LiquidClient(
       {
         apiBaseUrl: config.apiBaseUrl || DEFAULT_WALLET_API_URL,
         organizationId: config.organizationId,
@@ -147,7 +147,7 @@ export class ServerSDK {
     }
 
     // Get raw response from client
-    // PhantomClient will handle EVM transaction formatting internally
+    // LiquidClient will handle EVM transaction formatting internally
     const rawResponse = await this.client.signTransaction({
       walletId: params.walletId,
       transaction: transactionPayload,
@@ -176,7 +176,7 @@ export class ServerSDK {
     }
 
     // Get raw response from client
-    // PhantomClient will handle EVM transaction formatting internally
+    // LiquidClient will handle EVM transaction formatting internally
     const rawResponse = await this.client.signAndSendTransaction({
       walletId: params.walletId,
       transaction: transactionPayload,
@@ -193,8 +193,8 @@ export class ServerSDK {
     // Create analytics headers for the temporary client
     const headers = createServerSdkHeaders(this.config.appId);
 
-    // Create a temporary PhantomClient instance with the stamper and analytics headers
-    const tempClient = new PhantomClient(
+    // Create a temporary LiquidClient instance with the stamper and analytics headers
+    const tempClient = new LiquidClient(
       {
         apiBaseUrl: this.config.apiBaseUrl || DEFAULT_WALLET_API_URL,
         organizationId: this.config.organizationId,
@@ -244,7 +244,7 @@ export class ServerSDK {
 
 // Re-export specific items from client
 export {
-  PhantomClient,
+  LiquidClient,
   deriveSubmissionConfig,
   supportsTransactionSubmission,
   getNetworkDescription,
@@ -261,12 +261,12 @@ export {
   type GetWalletsResult,
   type Wallet,
   generateKeyPair,
-} from "@phantom/client";
+} from "@liquid/client";
 
 // Re-export NetworkId from constants
-export { NetworkId } from "@phantom/constants";
+export { NetworkId } from "@liquid/constants";
 
-export { ApiKeyStamper } from "@phantom/api-key-stamper";
+export { ApiKeyStamper } from "@liquid/api-key-stamper";
 export {
   parseToKmsTransaction,
   parseSignMessageResponse,
@@ -274,5 +274,5 @@ export {
   type ParsedTransaction,
   type ParsedSignatureResult,
   type ParsedTransactionResult,
-} from "@phantom/parsers";
+} from "@liquid/parsers";
 export * from "./types";

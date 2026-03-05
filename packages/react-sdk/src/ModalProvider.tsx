@@ -1,9 +1,9 @@
 import type { ReactNode } from "react";
 import { useState, useCallback, useMemo } from "react";
 import { ModalContext, type ModalContextValue } from "./ModalContext";
-import { isMobileDevice } from "@phantom/browser-sdk";
-import { Modal } from "@phantom/wallet-sdk-ui";
-import { usePhantom } from "./PhantomContext";
+import { isMobileDevice } from "@liquid/browser-sdk";
+import { Modal } from "@liquid/wallet-sdk-ui";
+import { useLiquid } from "./LiquidContext";
 import { ConnectModalContent } from "./components/ConnectModalContent";
 import { ConnectedModalContent } from "./components/ConnectedModalContent";
 import { SpendingLimitModalContent } from "./components/SpendingLimitModalContent";
@@ -18,7 +18,7 @@ export interface ModalProviderProps {
  * Provider that manages modal state and renders the Modal component.
  */
 export function ModalProvider({ children, appIcon, appName }: ModalProviderProps) {
-  const { isConnected, errors, clearError } = usePhantom();
+  const { isConnected, errors, clearError } = useLiquid();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const isMobile = useMemo(() => isMobileDevice(), []);
 

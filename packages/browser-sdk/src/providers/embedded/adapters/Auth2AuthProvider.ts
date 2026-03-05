@@ -2,11 +2,11 @@ import type {
   AuthProvider,
   AuthResult,
   EmbeddedStorage,
-  PhantomConnectOptions,
+  LiquidConnectOptions,
   URLParamsAccessor,
   EmbeddedProviderAuthType,
-} from "@phantom/embedded-provider-core";
-import type { StamperWithKeyManagement } from "@phantom/sdk-types";
+} from "@liquid/embedded-provider-core";
+import type { StamperWithKeyManagement } from "@liquid/sdk-types";
 import {
   createCodeVerifier,
   createConnectStartUrl,
@@ -14,7 +14,7 @@ import {
   Auth2KmsRpcClient,
   type Auth2AuthProviderOptions,
   type Auth2KmsClientOptions,
-} from "@phantom/auth2";
+} from "@liquid/auth2";
 
 /** Stampers used with Auth2 must be able to expose their CryptoKeyPair for JAR signing. */
 interface Auth2StamperLike extends StamperWithKeyManagement {
@@ -50,7 +50,7 @@ export class Auth2AuthProvider implements AuthProvider {
    * We store the PKCE code_verifier into that session so it survives the page
    * redirect without ever touching sessionStorage.
    */
-  async authenticate(options: PhantomConnectOptions): Promise<void> {
+  async authenticate(options: LiquidConnectOptions): Promise<void> {
     // Ensure the stamper has an active key loaded (may already be initialized).
     if (!this.stamper.getKeyInfo()) {
       await this.stamper.init();

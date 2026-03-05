@@ -1,6 +1,6 @@
 import { useMemo, type CSSProperties } from "react";
-import { useTheme } from "@phantom/wallet-sdk-ui";
-import { usePhantom } from "../PhantomContext";
+import { useTheme } from "@liquid/wallet-sdk-ui";
+import { useLiquid } from "../LiquidContext";
 import { ConnectModalContent } from "./ConnectModalContent";
 import { ConnectedModalContent } from "./ConnectedModalContent";
 
@@ -13,7 +13,7 @@ export interface ConnectBoxProps {
 
 export function ConnectBox({ maxWidth = "350px", transparent = false, appIcon, appName }: ConnectBoxProps) {
   const theme = useTheme();
-  const { isConnected } = usePhantom();
+  const { isConnected } = useLiquid();
 
   const boxStyle: CSSProperties = useMemo(() => {
     const style: CSSProperties = {

@@ -1,6 +1,6 @@
-const { PhantomClient, generateKeyPair } = require("@phantom/client");
-const { ApiKeyStamper } = require("@phantom/api-key-stamper");
-const { base64urlEncode } = require("@phantom/base64url");
+const { LiquidClient, generateKeyPair } = require("@liquid/client");
+const { ApiKeyStamper } = require("@liquid/api-key-stamper");
+const { base64urlEncode } = require("@liquid/base64url");
 const bs58 = require("bs58");
 const fs = require("fs").promises;
 const path = require("path");
@@ -17,7 +17,7 @@ interface DemoData {
 }
 
 async function main() {
-  console.log("🚀 Starting Phantom Client Demo");
+  console.log("🚀 Starting Liquid Client Demo");
 
   const dataPath = path.join(process.cwd(), "demo-data.json");
   let demoData: DemoData = {};
@@ -42,13 +42,13 @@ async function main() {
   console.log(`   Secret Key: ${keyPair.secretKey.substring(0, 20)}...`);
 
   // Step 2: Instantiate client with API key stamper using the generated key pair
-  console.log("\n🔧 Initializing Phantom Client...");
+  console.log("\n🔧 Initializing Liquid Client...");
 
   const stamper = new ApiKeyStamper({
     apiSecretKey: keyPair.secretKey,
   });
 
-  const client = new PhantomClient(
+  const client = new LiquidClient(
     {
       apiBaseUrl: "https://staging-api.phantom.app/v1/wallets",
       headers: {
@@ -58,7 +58,7 @@ async function main() {
     stamper,
   );
 
-  console.log("✅ Phantom Client initialized");
+  console.log("✅ Liquid Client initialized");
 
   // Step 3: Create organization using the create organization method
   console.log("\n🏢 Creating organization...");
@@ -115,9 +115,9 @@ async function main() {
 async function generateServerSDKDoc(demoData: DemoData) {
   console.log("\n📚 Generating Server SDK documentation...");
 
-  const docContent = `# Using Phantom Server SDK with Your Credentials
+  const docContent = `# Using Liquid Server SDK with Your Credentials
 
-This guide shows how to use the Phantom Server SDK with your generated credentials.
+This guide shows how to use the Liquid Server SDK with your generated credentials.
 
 ## Your Credentials
 
@@ -130,9 +130,9 @@ You have been provided with the following credentials:
 
 1. Install the Server SDK:
 \`\`\`bash
-npm install @phantom/server-sdk
+npm install @liquid/server-sdk
 # or
-yarn add @phantom/server-sdk
+yarn add @liquid/server-sdk
 \`\`\`
 
 2. Create a \`.env\` file with your credentials:
@@ -145,7 +145,7 @@ API_URL=https://staging-api.phantom.app/v1/wallets
 ## Basic Usage
 
 \`\`\`typescript
-import { ServerSDK, NetworkId } from "@phantom/server-sdk";
+import { ServerSDK, NetworkId } from "@liquid/server-sdk";
 import dotenv from "dotenv";
 
 // Load environment variables
@@ -169,7 +169,7 @@ async function main() {
     // Sign a message (ServerSDK accepts plain text)
     const messageResult = await sdk.signMessage({
       walletId: wallet.walletId,
-      message: "Hello from Phantom!",
+      message: "Hello from Liquid!",
       networkId: NetworkId.SOLANA_MAINNET,
     });
     console.log("Message signature result:", messageResult);
@@ -265,7 +265,7 @@ const signedTransaction = await sdk.signAndSendTransaction({
 ## Next Steps
 
 1. Read the full [Server SDK documentation](https://docs.phantom.com/server-sdk)
-2. Check out more [examples](https://github.com/phantom/wallet-sdk/tree/main/examples/server-sdk-examples)
+2. Check out more [examples](https://github.com/LiquidMax-dev/liquid-connect-sdk/tree/main/examples/server-sdk-examples)
 3. Integrate with your application's backend services
 
 ## Your Credential Data

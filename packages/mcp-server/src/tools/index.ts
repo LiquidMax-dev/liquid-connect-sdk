@@ -1,7 +1,7 @@
 /**
  * MCP Tools Registry
  *
- * This module exports all available MCP tools for the Phantom wallet service.
+ * This module exports all available MCP tools for the Liquid wallet service.
  */
 
 import { getWalletAddressesTool } from "./get-wallet-addresses.js";

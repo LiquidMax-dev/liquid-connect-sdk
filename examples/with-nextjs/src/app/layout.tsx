@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Phantom SDK Next.js Example",
-  description: "Example app using Phantom React SDK with Next.js - Server Side Rendered",
+  title: "Liquid SDK Next.js Example",
+  description: "Example app using Liquid React SDK with Next.js - Server Side Rendered",
 };
 
 // This layout is server-side rendered

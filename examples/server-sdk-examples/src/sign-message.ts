@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { ServerSDK, NetworkId } from "@phantom/server-sdk";
+import { ServerSDK, NetworkId } from "@liquid/server-sdk";
 import * as dotenv from "dotenv";
 import * as path from "path";
 
@@ -134,7 +134,7 @@ async function getOrCreateWallet(
 
 // Main function
 async function signMessage() {
-  console.log("✍️  Phantom Message Signer\n");
+  console.log("✍️  Liquid Message Signer\n");
 
   // Parse arguments
   const { message, walletId, walletName } = parseArgs();

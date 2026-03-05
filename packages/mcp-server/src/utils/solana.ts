@@ -2,7 +2,7 @@
  * Solana utility functions
  */
 
-import { AddressType } from "@phantom/client";
+import { AddressType } from "@liquid/client";
 import type { ToolContext } from "../tools/types.js";
 
 /**

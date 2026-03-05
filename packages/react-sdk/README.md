@@ -1,11 +1,11 @@
-# @phantom/react-sdk
+# @liquid/react-sdk
 
-React hooks for integrating Phantom wallet functionality into React applications with chain-specific operations.
+React hooks for integrating Liquid wallet functionality into React applications with chain-specific operations.
 
 ## Installation
 
 ```bash
-npm install @phantom/react-sdk
+npm install @liquid/react-sdk
 ```
 
 ## Dependencies
@@ -20,13 +20,13 @@ Install additional dependencies based on the networks you want to support:
 **Example for Solana + Ethereum support (using @solana/web3.js):**
 
 ```bash
-npm install @phantom/react-sdk @solana/web3.js viem
+npm install @liquid/react-sdk @solana/web3.js viem
 ```
 
 **Example for Solana + Ethereum support (using @solana/kit):**
 
 ```bash
-npm install @phantom/react-sdk @solana/kit viem
+npm install @liquid/react-sdk @solana/kit viem
 ```
 
 ## Quick Start
@@ -34,19 +34,19 @@ npm install @phantom/react-sdk @solana/kit viem
 ### Basic Setup with Chain-Specific Operations
 
 ```tsx
-import { PhantomProvider, useConnect, useSolana, useEthereum } from "@phantom/react-sdk";
-import { AddressType } from "@phantom/browser-sdk";
+import { LiquidProvider, useConnect, useSolana, useEthereum } from "@liquid/react-sdk";
+import { AddressType } from "@liquid/browser-sdk";
 
 function App() {
   return (
-    <PhantomProvider
+    <LiquidProvider
       config={{
-        providers: ["injected"], // Only allow Phantom browser extension
+        providers: ["injected"], // Only allow Liquid browser extension
         addressTypes: [AddressType.solana, AddressType.ethereum],
       }}
     >
       <WalletComponent />
-    </PhantomProvider>
+    </LiquidProvider>
   );
 }
 
@@ -86,41 +86,41 @@ function WalletComponent() {
 ### Multiple Authentication Methods
 
 ```tsx
-import { PhantomProvider } from "@phantom/react-sdk";
-import { AddressType } from "@phantom/browser-sdk";
+import { LiquidProvider } from "@liquid/react-sdk";
+import { AddressType } from "@liquid/browser-sdk";
 
 function App() {
   return (
-    <PhantomProvider
+    <LiquidProvider
       config={{
-        providers: ["google", "apple", "phantom", "injected"], // Allow all auth methods
+        providers: ["google", "apple", "liquid", "injected"], // Allow all auth methods
         appId: "your-app-id", // Get your app ID from phantom.com/portal (required for embedded providers)
         addressTypes: [AddressType.solana, AddressType.ethereum],
       }}
     >
       <YourApp />
-    </PhantomProvider>
+    </LiquidProvider>
   );
 }
 ```
 
 ## Connection Modal
 
-The SDK includes a built-in connection modal UI that provides a user-friendly interface for connecting to Phantom. The modal supports multiple connection methods (Google, Apple, Phantom Login, browser extension) and handles all connection logic automatically.
+The SDK includes a built-in connection modal UI that provides a user-friendly interface for connecting to Liquid. The modal supports multiple connection methods (Google, Apple, Liquid Login, browser extension) and handles all connection logic automatically.
 
 ### Using the Modal
 
-To use the modal, pass a `theme` prop to `PhantomProvider` and use the `useModal()` hook to control visibility:
+To use the modal, pass a `theme` prop to `LiquidProvider` and use the `useModal()` hook to control visibility:
 
 ```tsx
-import { PhantomProvider, useModal, darkTheme, usePhantom } from "@phantom/react-sdk";
-import { AddressType } from "@phantom/browser-sdk";
+import { LiquidProvider, useModal, darkTheme, useLiquid } from "@liquid/react-sdk";
+import { AddressType } from "@liquid/browser-sdk";
 
 function App() {
   return (
-    <PhantomProvider
+    <LiquidProvider
       config={{
-        providers: ["google", "apple", "phantom", "injected"],
+        providers: ["google", "apple", "liquid", "injected"],
         appId: "your-app-id",
         addressTypes: [AddressType.solana, AddressType.ethereum],
       }}
@@ -129,13 +129,13 @@ function App() {
       appName="Your App Name"
     >
       <WalletComponent />
-    </PhantomProvider>
+    </LiquidProvider>
   );
 }
 
 function WalletComponent() {
   const { open, close, isOpened } = useModal();
-  const { isConnected, user } = usePhantom();
+  const { isConnected, user } = useLiquid();
 
   if (isConnected) {
     return (
@@ -151,9 +151,9 @@ function WalletComponent() {
 
 **Modal Features:**
 
-- **Multiple Auth Providers**: Google, Apple, Phantom Login, browser extension
-- **Automatic Provider Detection**: Shows browser extension option when Phantom is installed
-- **Mobile Support**: Displays deeplink option for Phantom mobile app on mobile devices
+- **Multiple Auth Providers**: Google, Apple, Liquid Login, browser extension
+- **Automatic Provider Detection**: Shows browser extension option when Liquid is installed
+- **Mobile Support**: Displays deeplink option for Liquid mobile app on mobile devices
 - **Error Handling**: Clear error messages displayed in the modal
 - **Loading States**: Visual feedback during connection attempts
 - **Responsive Design**: Optimized for both mobile and desktop
@@ -163,7 +163,7 @@ function WalletComponent() {
 Control the connection modal visibility:
 
 ```tsx
-import { useModal } from "@phantom/react-sdk";
+import { useModal } from "@liquid/react-sdk";
 
 function ConnectButton() {
   const { open, close, isOpened } = useModal();
@@ -189,7 +189,7 @@ function ConnectButton() {
 A ready-to-use button component that handles the complete connection flow. When disconnected, it shows a "Connect Wallet" button that opens the connection modal. When connected, it displays the truncated wallet address and opens the wallet management modal on click.
 
 ```tsx
-import { ConnectButton, AddressType } from "@phantom/react-sdk";
+import { ConnectButton, AddressType } from "@liquid/react-sdk";
 
 function Header() {
   return (
@@ -215,7 +215,7 @@ function Header() {
 
 **Features:**
 
-- **When disconnected**: Opens connection modal with auth provider options (Google, Apple, Phantom Login, browser extension)
+- **When disconnected**: Opens connection modal with auth provider options (Google, Apple, Liquid Login, browser extension)
 - **When connected**: Displays truncated address (e.g., "5Gv8r2...k3Hn") and opens wallet management modal on click
 - **Wallet modal**: Shows all connected addresses and provides a disconnect button
 - Uses theme styling for consistent appearance
@@ -226,12 +226,12 @@ function Header() {
 An inline embedded component that displays the connection UI directly in your page layout (without a modal backdrop). Perfect for auth callback pages or when you want a more integrated connection experience. The component automatically handles all connection states including loading, error, and success during the auth callback flow.
 
 ```tsx
-import { ConnectBox } from "@phantom/react-sdk";
+import { ConnectBox } from "@liquid/react-sdk";
 
 function AuthCallbackPage() {
   return (
     <div>
-      <h1>Connecting to Phantom...</h1>
+      <h1>Connecting to Liquid...</h1>
       <ConnectBox />
     </div>
   );
@@ -242,13 +242,13 @@ function AuthCallbackPage() {
 
 - `maxWidth?: string | number` - Maximum width of the box. Can be a string (e.g., `"500px"`) or number (e.g., `500`). Default: `"350px"`
 - `transparent?: boolean` - When `true`, removes background, border, and shadow for a transparent appearance. Default: `false`
-- `appIcon?: string` - URL to your app icon (optional, can also be set via `PhantomProvider`)
-- `appName?: string` - Your app name (optional, can also be set via `PhantomProvider`)
+- `appIcon?: string` - URL to your app icon (optional, can also be set via `LiquidProvider`)
+- `appName?: string` - Your app name (optional, can also be set via `LiquidProvider`)
 
 **Usage Examples:**
 
 ```tsx
-import { ConnectBox } from "@phantom/react-sdk";
+import { ConnectBox } from "@liquid/react-sdk";
 
 // Default usage
 <ConnectBox />
@@ -280,17 +280,17 @@ import { ConnectBox } from "@phantom/react-sdk";
 
 ### Handling Auth Callback Pages
 
-When using embedded authentication providers (Google, Apple, Phantom Login, etc.), users are redirected to your app's callback URL after authentication. The SDK automatically handles the callback and completes the connection. Here's how to build a callback page if you're not using `ConnectBox`:
+When using embedded authentication providers (Google, Apple, Liquid Login, etc.), users are redirected to your app's callback URL after authentication. The SDK automatically handles the callback and completes the connection. Here's how to build a callback page if you're not using `ConnectBox`:
 
 **Basic Auth Callback Page:**
 
 ```tsx
-import { usePhantom, useConnect, useAccounts } from "@phantom/react-sdk";
+import { useLiquid, useConnect, useAccounts } from "@liquid/react-sdk";
 import { useNavigate } from "react-router-dom"; // or your router
 
 function AuthCallbackPage() {
   const navigate = useNavigate();
-  const { isConnected } = usePhantom();
+  const { isConnected } = useLiquid();
   const { isConnecting, error: connectError } = useConnect();
   const addresses = useAccounts();
 
@@ -353,7 +353,7 @@ function AuthCallbackPage() {
 
 - The SDK's `autoConnect()` automatically processes the callback URL parameters when the page loads
 - Use `useConnect()` to access `isConnecting` and `error` states during the callback flow
-- Use `usePhantom()` to check `isConnected` status
+- Use `useLiquid()` to check `isConnected` status
 - Use `useAccounts()` to get connected wallet addresses
 - The connection state will automatically update as the SDK processes the callback
 - You can monitor `connectError` to handle authentication failures
@@ -364,16 +364,16 @@ Make sure your callback route is configured in your router:
 
 ```tsx
 import { Routes, Route } from "react-router-dom";
-import { PhantomProvider } from "@phantom/react-sdk";
+import { LiquidProvider } from "@liquid/react-sdk";
 
 function App() {
   return (
-    <PhantomProvider config={config} theme={darkTheme}>
+    <LiquidProvider config={config} theme={darkTheme}>
       <Routes>
         <Route path="/auth/callback" element={<AuthCallbackPage />} />
         <Route path="/" element={<MainApp />} />
       </Routes>
-    </PhantomProvider>
+    </LiquidProvider>
   );
 }
 ```
@@ -382,22 +382,22 @@ function App() {
 
 ## Theming
 
-Customize the modal appearance by passing a theme object to the `PhantomProvider`. The SDK includes two built-in themes: `darkTheme` (default) and `lightTheme`.
+Customize the modal appearance by passing a theme object to the `LiquidProvider`. The SDK includes two built-in themes: `darkTheme` (default) and `lightTheme`.
 
 ### Using Built-in Themes
 
 ```tsx
-import { PhantomProvider, darkTheme, lightTheme } from "@phantom/react-sdk";
+import { LiquidProvider, darkTheme, lightTheme } from "@liquid/react-sdk";
 
 // Use dark theme (default)
-<PhantomProvider config={config} theme={darkTheme}>
+<LiquidProvider config={config} theme={darkTheme}>
   <App />
-</PhantomProvider>
+</LiquidProvider>
 
 // Use light theme
-<PhantomProvider config={config} theme={lightTheme}>
+<LiquidProvider config={config} theme={lightTheme}>
   <App />
-</PhantomProvider>
+</LiquidProvider>
 ```
 
 ### Custom Theme
@@ -405,7 +405,7 @@ import { PhantomProvider, darkTheme, lightTheme } from "@phantom/react-sdk";
 You can pass a partial theme object to customize specific properties:
 
 ```tsx
-import { PhantomProvider } from "@phantom/react-sdk";
+import { LiquidProvider } from "@liquid/react-sdk";
 
 const customTheme = {
   background: "#1a1a1a",
@@ -418,9 +418,9 @@ const customTheme = {
   overlay: "rgba(0, 0, 0, 0.8)",
 };
 
-<PhantomProvider config={config} theme={customTheme} appIcon="https://your-app.com/icon.png" appName="Your App">
+<LiquidProvider config={config} theme={customTheme} appIcon="https://your-app.com/icon.png" appName="Your App">
   <App />
-</PhantomProvider>;
+</LiquidProvider>;
 ```
 
 ### Theme Properties
@@ -443,7 +443,7 @@ const customTheme = {
 If you need to access the current theme in your own components, use the `useTheme()` hook:
 
 ```tsx
-import { useTheme } from "@phantom/react-sdk";
+import { useTheme } from "@liquid/react-sdk";
 
 function CustomComponent() {
   const theme = useTheme();
@@ -456,7 +456,7 @@ function CustomComponent() {
 
 The React SDK follows a clear connection pattern:
 
-1. **Provider Setup**: Wrap your app with `PhantomProvider`
+1. **Provider Setup**: Wrap your app with `LiquidProvider`
 2. **Connection**: Use `useConnect()` to establish wallet connection
 3. **Chain Operations**: Use chain-specific hooks (`useSolana()`, `useEthereum()`) for transactions and signing
 
@@ -489,7 +489,7 @@ The `connect()` method requires a `provider` parameter and automatically switche
 ```tsx
 const { connect } = useConnect();
 
-// Connect with injected provider (Phantom extension)
+// Connect with injected provider (Liquid extension)
 // Automatically switches to injected provider if not already using it
 await connect({
   provider: "injected",
@@ -507,11 +507,11 @@ await connect({
   provider: "apple",
 });
 
-// Connect with Phantom authentication (embedded provider)
-// Uses Phantom extension or mobile app for authentication
+// Connect with Liquid authentication (embedded provider)
+// Uses Liquid extension or mobile app for authentication
 // Automatically switches to embedded provider if not already using it
 await connect({
-  provider: "phantom",
+  provider: "liquid",
 });
 
 // Connect with JWT authentication (embedded provider)
@@ -526,17 +526,17 @@ await connect({
 The SDK provides an `isLoading` state to track when initialization and autoconnect are in progress. This is useful for showing loading states before your app is ready.
 
 ```tsx
-import { useConnect, usePhantom } from "@phantom/react-sdk";
+import { useConnect, useLiquid } from "@liquid/react-sdk";
 
 function App() {
-  const { isLoading } = usePhantom();
+  const { isLoading } = useLiquid();
   const { connect } = useConnect();
 
   // Show loading state while SDK initializes
   if (isLoading) {
     return (
       <div>
-        <h1>Initializing Phantom SDK...</h1>
+        <h1>Initializing Liquid SDK...</h1>
         <p>Please wait...</p>
       </div>
     );
@@ -558,76 +558,76 @@ The SDK supports multiple authentication providers that you configure via the `p
 
 ### Available Providers
 
-- **`"injected"`** - Phantom browser extension
+- **`"injected"`** - Liquid browser extension
 - **`"google"`** - Google OAuth
 - **`"apple"`** - Apple ID
-- **`"phantom"`** - Phantom Login
-- **`"deeplink"`** - Deeplink to Phantom mobile app (only renders on mobile devices)
+- **`"liquid"`** - Liquid Login
+- **`"deeplink"`** - Deeplink to Liquid mobile app (only renders on mobile devices)
 
 ### Configuration Examples
 
 **Browser Extension Only**
 
 ```tsx
-<PhantomProvider
+<LiquidProvider
   config={{
     providers: ["injected"], // Only allow browser extension
     addressTypes: [AddressType.solana, AddressType.ethereum],
   }}
 >
   <YourApp />
-</PhantomProvider>
+</LiquidProvider>
 ```
 
 **Multiple Authentication Methods**
 
 ```tsx
-<PhantomProvider
+<LiquidProvider
   config={{
-    providers: ["google", "apple", "phantom", "injected", "deeplink"], // Allow all methods
+    providers: ["google", "apple", "liquid", "injected", "deeplink"], // Allow all methods
     appId: "your-app-id", // Required for embedded providers
     addressTypes: [AddressType.solana, AddressType.ethereum],
   }}
 >
   <YourApp />
-</PhantomProvider>
+</LiquidProvider>
 ```
 
 **Mobile Deeplink Support**
 
-The `"deeplink"` provider enables a button that opens the Phantom mobile app on mobile devices. This button only appears on mobile devices when the Phantom browser extension is not installed. When clicked, it redirects users to the Phantom mobile app to complete authentication.
+The `"deeplink"` provider enables a button that opens the Liquid mobile app on mobile devices. This button only appears on mobile devices when the Liquid browser extension is not installed. When clicked, it redirects users to the Liquid mobile app to complete authentication.
 
 ```tsx
-<PhantomProvider
+<LiquidProvider
   config={{
-    providers: ["google", "apple", "phantom", "deeplink"], // Include deeplink for mobile support
+    providers: ["google", "apple", "liquid", "deeplink"], // Include deeplink for mobile support
     appId: "your-app-id", // Required for deeplink
     addressTypes: [AddressType.solana, AddressType.ethereum],
   }}
 >
   <YourApp />
-</PhantomProvider>
+</LiquidProvider>
 ```
 
 ### Embedded Wallet Type
 
-When using embedded providers (google, apple, phantom, etc.), you can specify the wallet type using `embeddedWalletType`. The default is `"user-wallet"`:
+When using embedded providers (google, apple, liquid, etc.), you can specify the wallet type using `embeddedWalletType`. The default is `"user-wallet"`:
 
-- **Uses Phantom authentication** - user logs in with existing account
+- **Uses Liquid authentication** - user logs in with existing account
 - **Potentially funded** - brings existing wallet balance
-- **Connected** to user's Phantom ecosystem
+- **Connected** to user's Liquid ecosystem
 
 ```tsx
-<PhantomProvider
+<LiquidProvider
   config={{
-    providers: ["google", "apple", "phantom"],
+    providers: ["google", "apple", "liquid"],
     appId: "your-app-id",
     addressTypes: [AddressType.solana, AddressType.ethereum],
     embeddedWalletType: "user-wallet", // default, can be omitted
   }}
 >
   <YourApp />
-</PhantomProvider>
+</LiquidProvider>
 ```
 
 ## Available Hooks
@@ -639,7 +639,7 @@ When using embedded providers (google, apple, phantom, etc.), you can specify th
 Connect to wallet:
 
 ```tsx
-import { useConnect } from "@phantom/react-sdk";
+import { useConnect } from "@liquid/react-sdk";
 
 function ConnectButton() {
   const { connect, isConnecting, isLoading, error } = useConnect();
@@ -671,7 +671,7 @@ function ConnectButton() {
 Get connected wallet addresses:
 
 ```tsx
-import { useAccounts } from "@phantom/react-sdk";
+import { useAccounts } from "@liquid/react-sdk";
 
 function WalletAddresses() {
   const addresses = useAccounts();
@@ -697,7 +697,7 @@ function WalletAddresses() {
 Disconnect from wallet:
 
 ```tsx
-import { useDisconnect } from "@phantom/react-sdk";
+import { useDisconnect } from "@liquid/react-sdk";
 
 function DisconnectButton() {
   const { disconnect, isDisconnecting } = useDisconnect();
@@ -712,25 +712,25 @@ function DisconnectButton() {
 
 #### useIsExtensionInstalled
 
-Check if the Phantom browser extension is installed (for injected provider):
+Check if the Liquid browser extension is installed (for injected provider):
 
 ```tsx
-import { useIsExtensionInstalled } from "@phantom/react-sdk";
+import { useIsExtensionInstalled } from "@liquid/react-sdk";
 
 function ExtensionStatus() {
   const { isLoading, isInstalled } = useIsExtensionInstalled();
 
   if (isLoading) {
-    return <div>Checking for Phantom extension...</div>;
+    return <div>Checking for Liquid extension...</div>;
   }
 
   return (
     <div>
       {isInstalled ? (
-        <p>✅ Phantom extension is installed!</p>
+        <p>✅ Liquid extension is installed!</p>
       ) : (
         <p>
-          ❌ Phantom extension not found.{" "}
+          ❌ Liquid extension not found.{" "}
           <a href="https://phantom.app/download" target="_blank">
             Install here
           </a>
@@ -741,26 +741,26 @@ function ExtensionStatus() {
 }
 ```
 
-#### useIsPhantomLoginAvailable
+#### useIsLiquidLoginAvailable
 
-Check if Phantom Login is available (requires extension installed and `phantom_login` feature support):
+Check if Liquid Login is available (requires extension installed and `liquid_login` feature support):
 
 ```tsx
-import { useIsPhantomLoginAvailable } from "@phantom/react-sdk";
+import { useIsLiquidLoginAvailable } from "@liquid/react-sdk";
 
-function PhantomLoginButton() {
-  const { isLoading, isAvailable } = useIsPhantomLoginAvailable();
+function LiquidLoginButton() {
+  const { isLoading, isAvailable } = useIsLiquidLoginAvailable();
   const { connect } = useConnect();
 
   if (isLoading) {
-    return <div>Checking Phantom Login availability...</div>;
+    return <div>Checking Liquid Login availability...</div>;
   }
 
   if (!isAvailable) {
-    return null; // Don't show button if Phantom Login is not available
+    return null; // Don't show button if Liquid Login is not available
   }
 
-  return <button onClick={() => connect({ provider: "phantom" })}>Login with Phantom</button>;
+  return <button onClick={() => connect({ provider: "liquid" })}>Login with Liquid</button>;
 }
 ```
 
@@ -771,7 +771,7 @@ function PhantomLoginButton() {
 Hook for Solana chain operations:
 
 ```tsx
-import { useSolana } from "@phantom/react-sdk";
+import { useSolana } from "@liquid/react-sdk";
 import { VersionedTransaction, TransactionMessage, SystemProgram, PublicKey, Connection } from "@solana/web3.js";
 
 function SolanaOperations() {
@@ -842,9 +842,9 @@ function SolanaOperations() {
 
 The `isAvailable` property indicates whether the Solana chain is available for the currently connected wallet:
 
-- **For embedded wallets** (Google, Apple, Phantom Login, etc.): `isAvailable` will be `true` for all networks configured in your `addressTypes` array, as embedded wallets support all configured networks.
+- **For embedded wallets** (Google, Apple, Liquid Login, etc.): `isAvailable` will be `true` for all networks configured in your `addressTypes` array, as embedded wallets support all configured networks.
 
-- **For Phantom injected wallet**: `isAvailable` will be `true` for all networks configured in your `addressTypes` array, as Phantom supports multiple networks.
+- **For Liquid injected wallet**: `isAvailable` will be `true` for all networks configured in your `addressTypes` array, as Liquid supports multiple networks.
 
 - **For other injected wallets** (discovered via Wallet Standard or EIP-6963): `isAvailable` depends on which networks the specific wallet supports. For example, if you connect to a wallet that only supports Ethereum, `isAvailable` will be `false` for Solana even if Solana is in your `addressTypes` configuration.
 
@@ -855,7 +855,7 @@ Always check `isAvailable` before attempting to use chain-specific methods when 
 Hook for Ethereum chain operations:
 
 ```tsx
-import { useEthereum } from "@phantom/react-sdk";
+import { useEthereum } from "@liquid/react-sdk";
 
 function EthereumOperations() {
   const { ethereum, isAvailable } = useEthereum();
@@ -958,9 +958,9 @@ function EthereumOperations() {
 
 The `isAvailable` property indicates whether the Ethereum chain is available for the currently connected wallet:
 
-- **For embedded wallets** (Google, Apple, Phantom Login, etc.): `isAvailable` will be `true` for all networks configured in your `addressTypes` array, as embedded wallets support all configured networks.
+- **For embedded wallets** (Google, Apple, Liquid Login, etc.): `isAvailable` will be `true` for all networks configured in your `addressTypes` array, as embedded wallets support all configured networks.
 
-- **For Phantom injected wallet**: `isAvailable` will be `true` for all networks configured in your `addressTypes` array, as Phantom supports multiple networks.
+- **For Liquid injected wallet**: `isAvailable` will be `true` for all networks configured in your `addressTypes` array, as Liquid supports multiple networks.
 
 - **For other injected wallets** (discovered via Wallet Standard or EIP-6963): `isAvailable` depends on which networks the specific wallet supports. For example, if you connect to a wallet that only supports Solana, `isAvailable` will be `false` for Ethereum even if Ethereum is in your `addressTypes` configuration.
 
@@ -988,7 +988,7 @@ Always check `isAvailable` before attempting to use chain-specific methods when 
 Hook to get discovered injected wallets with automatic loading and error states. Discovers wallets using Wallet Standard (Solana) and EIP-6963 (Ethereum) standards.
 
 ```tsx
-import { useDiscoveredWallets } from "@phantom/react-sdk";
+import { useDiscoveredWallets } from "@liquid/react-sdk";
 
 function WalletSelector() {
   const { wallets, isLoading, error, refetch } = useDiscoveredWallets();
@@ -1011,19 +1011,19 @@ function WalletSelector() {
 
 - Automatically fetches discovered wallets when the SDK becomes available
 - If no wallets are found in the registry, triggers async `discoverWallets()` to discover them
-- Wallets are filtered based on the `addressTypes` configured in `PhantomProvider`
-- Phantom wallet is automatically included if available
+- Wallets are filtered based on the `addressTypes` configured in `LiquidProvider`
+- Liquid wallet is automatically included if available
 
 ### Auto-Confirm Hook (Injected Provider Only)
 
 #### useAutoConfirm
 
-Hook for managing auto-confirm functionality with the Phantom extension. Auto-confirm allows transactions to be automatically approved without user interaction for enabled chains.
+Hook for managing auto-confirm functionality with the Liquid extension. Auto-confirm allows transactions to be automatically approved without user interaction for enabled chains.
 
-> **Note**: This hook only works with the `injected` provider type (Phantom browser extension). It will throw errors for embedded providers.
+> **Note**: This hook only works with the `injected` provider type (Liquid browser extension). It will throw errors for embedded providers.
 
 ```tsx
-import { useAutoConfirm, NetworkId } from "@phantom/react-sdk";
+import { useAutoConfirm, NetworkId } from "@liquid/react-sdk";
 
 function AutoConfirmControls() {
   const { enable, disable, status, supportedChains, isLoading, error, refetch } = useAutoConfirm();
@@ -1142,7 +1142,7 @@ interface AutoConfirmSupportedChainsResult {
 **Usage Notes:**
 
 - Auto-confirm automatically fetches status and supported chains when the hook initializes
-- Only works with injected provider (Phantom extension)
+- Only works with injected provider (Liquid extension)
 - Throws errors for embedded providers
 - Status is automatically updated after enable/disable operations
 - Use `refetch()` to manually refresh data from the extension
@@ -1153,7 +1153,7 @@ interface AutoConfirmSupportedChainsResult {
 
 ```tsx
 import { VersionedTransaction, TransactionMessage, SystemProgram, PublicKey, Connection } from "@solana/web3.js";
-import { useSolana } from "@phantom/react-sdk";
+import { useSolana } from "@liquid/react-sdk";
 
 function SolanaExample() {
   const { solana } = useSolana();
@@ -1202,7 +1202,7 @@ import {
   address,
   compileTransaction,
 } from "@solana/kit";
-import { useSolana } from "@phantom/react-sdk";
+import { useSolana } from "@liquid/react-sdk";
 
 function SolanaKitExample() {
   const { solana } = useSolana();
@@ -1234,7 +1234,7 @@ function SolanaKitExample() {
 
 ```tsx
 import { parseEther, parseGwei, encodeFunctionData } from "viem";
-import { useEthereum } from "@phantom/react-sdk";
+import { useEthereum } from "@liquid/react-sdk";
 
 function EthereumExample() {
   const { ethereum } = useEthereum();
@@ -1283,29 +1283,29 @@ Quick reference of all available hooks:
 | `useModal`                   | Control connection modal                | `{ open, close, isOpened }`                         |
 | `useAccounts`                | Get wallet addresses                    | `WalletAddress[]` or `null`                         |
 | `useIsExtensionInstalled`    | Check extension status                  | `{ isLoading, isInstalled }`                        |
-| `useIsPhantomLoginAvailable` | Check Phantom Login availability        | `{ isLoading, isAvailable }`                        |
+| `useIsLiquidLoginAvailable` | Check Liquid Login availability        | `{ isLoading, isAvailable }`                        |
 | `useDisconnect`              | Disconnect from wallet                  | `{ disconnect, isDisconnecting }`                   |
 | `useAutoConfirm`             | Auto-confirm management (injected only) | `{ enable, disable, status, supportedChains, ... }` |
 | `useDiscoveredWallets`       | Get discovered injected wallets         | `{ wallets, isLoading, error, refetch }`            |
 | `useSolana`                  | Solana chain operations                 | `{ signMessage, signAndSendTransaction, ... }`      |
 | `useEthereum`                | Ethereum chain operations               | `{ signPersonalMessage, sendTransaction, ... }`     |
-| `useTheme`                   | Access current theme                    | `PhantomTheme`                                      |
-| `usePhantom`                 | Get provider context                    | `{ isConnected, isReady }`                          |
+| `useTheme`                   | Access current theme                    | `LiquidTheme`                                      |
+| `useLiquid`                 | Get provider context                    | `{ isConnected, isReady }`                          |
 
 ## Configuration Reference
 
 ```typescript
-interface PhantomSDKConfig {
+interface LiquidSDKConfig {
   // List of allowed authentication providers (REQUIRED)
-  providers: AuthProviderType[]; // e.g., ["google", "apple", "phantom", "injected"]
+  providers: AuthProviderType[]; // e.g., ["google", "apple", "liquid", "injected"]
 
   addressTypes?: [AddressType, ...AddressType[]]; // Networks to enable (e.g., [AddressType.solana])
 
-  // Required when using embedded providers (google, apple, phantom)
+  // Required when using embedded providers (google, apple, liquid)
   appId?: string; // Your app ID from phantom.com/portal
 
   // Optional configuration
-  apiBaseUrl?: string; // Phantom API base URL (optional, has default)
+  apiBaseUrl?: string; // Liquid API base URL (optional, has default)
   authOptions?: {
     authUrl?: string; // Custom auth URL (optional, defaults to "https://connect.phantom.app/login")
     redirectUrl?: string; // Custom redirect URL after authentication (optional)
@@ -1315,17 +1315,17 @@ interface PhantomSDKConfig {
 }
 
 // Valid provider types
-type AuthProviderType = "google" | "apple" | "phantom" | "injected";
+type AuthProviderType = "google" | "apple" | "liquid" | "injected";
 ```
 
 ## Debug Configuration
 
 The React SDK supports separate debug configuration that can be changed without reinstantiating the underlying SDK, providing better performance.
 
-### PhantomDebugConfig Interface
+### LiquidDebugConfig Interface
 
 ```typescript
-interface PhantomDebugConfig {
+interface LiquidDebugConfig {
   enabled?: boolean; // Enable debug logging
   level?: DebugLevel; // Debug level (ERROR, WARN, INFO, DEBUG)
   callback?: DebugCallback; // Custom debug message handler
@@ -1334,25 +1334,25 @@ interface PhantomDebugConfig {
 
 ### Using Debug Configuration
 
-Pass the `debugConfig` as a separate prop to `PhantomProvider`:
+Pass the `debugConfig` as a separate prop to `LiquidProvider`:
 
 ```typescript
-import { PhantomProvider, type PhantomSDKConfig, type PhantomDebugConfig, DebugLevel } from "@phantom/react-sdk";
+import { LiquidProvider, type LiquidSDKConfig, type LiquidDebugConfig, DebugLevel } from "@liquid/react-sdk";
 
 function App() {
   const [debugLevel, setDebugLevel] = useState(DebugLevel.INFO);
   const [debugMessages, setDebugMessages] = useState([]);
 
   // SDK configuration - static, won't change when debug settings change
-  const config: PhantomSDKConfig = {
-    providers: ["google", "apple", "phantom"],
+  const config: LiquidSDKConfig = {
+    providers: ["google", "apple", "liquid"],
     appId: "your-app-id",
     addressTypes: [AddressType.solana, AddressType.ethereum],
     // ... other config
   };
 
   // Debug configuration - separate to avoid SDK reinstantiation
-  const debugConfig: PhantomDebugConfig = {
+  const debugConfig: LiquidDebugConfig = {
     enabled: true,
     level: debugLevel,
     callback: (message) => {
@@ -1361,9 +1361,9 @@ function App() {
   };
 
   return (
-    <PhantomProvider config={config} debugConfig={debugConfig}>
+    <LiquidProvider config={config} debugConfig={debugConfig}>
       {/* Your app components */}
-    </PhantomProvider>
+    </LiquidProvider>
   );
 }
 ```
@@ -1382,4 +1382,4 @@ interface DebugMessage {
 }
 ```
 
-For more details and examples, see the [@phantom/browser-sdk documentation](../browser-sdk/README.md).
+For more details and examples, see the [@liquid/browser-sdk documentation](../browser-sdk/README.md).

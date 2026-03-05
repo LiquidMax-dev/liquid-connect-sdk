@@ -1,32 +1,32 @@
-# @phantom/api-key-stamper
+# @liquid/api-key-stamper
 
-API key stamper for authenticating requests to Phantom Wallet API.
+API key stamper for authenticating requests to Liquid Wallet API.
 
 ## Installation
 
 ```bash
-npm install @phantom/api-key-stamper
+npm install @liquid/api-key-stamper
 # or
-yarn add @phantom/api-key-stamper
+yarn add @liquid/api-key-stamper
 ```
 
 ## Usage
 
-The `ApiKeyStamper` is used to sign HTTP requests with Ed25519 signatures for authentication with Phantom's API.
+The `ApiKeyStamper` is used to sign HTTP requests with Ed25519 signatures for authentication with Liquid's API.
 
 ### Basic Usage
 
 ```typescript
-import { ApiKeyStamper } from "@phantom/api-key-stamper";
-import { PhantomClient } from "@phantom/client";
+import { ApiKeyStamper } from "@liquid/api-key-stamper";
+import { LiquidClient } from "@liquid/client";
 
 // Create a stamper with your secret key
 const stamper = new ApiKeyStamper({
   apiSecretKey: "your-base58-encoded-secret-key",
 });
 
-// Use it with PhantomClient
-const client = new PhantomClient(
+// Use it with LiquidClient
+const client = new LiquidClient(
   {
     apiBaseUrl: "https://api.phantom.app/v1/wallets",
     organizationId: "your-org-id",
@@ -40,10 +40,10 @@ const wallet = await client.createWallet("My Wallet");
 
 ### With Server SDK
 
-The `@phantom/server-sdk` package uses this stamper internally:
+The `@liquid/server-sdk` package uses this stamper internally:
 
 ```typescript
-import { ServerSDK } from "@phantom/server-sdk";
+import { ServerSDK } from "@liquid/server-sdk";
 
 const sdk = new ServerSDK({
   organizationId: "your-org-id",
@@ -60,7 +60,7 @@ const wallet = await sdk.createWallet("My Wallet");
 
 1. The stamper takes your base58-encoded Ed25519 secret key
 2. For each request, it signs the request body with the secret key
-3. The stamp is added to the request headers as `X-Phantom-Stamp` containing:
+3. The stamp is added to the request headers as `X-Liquid-Stamp` containing:
    - `publicKey`: Base64url-encoded public key
    - `signature`: Base64url-encoded signature
    - `kind`: Always "PKI" for this authentication method
@@ -79,7 +79,7 @@ Before encoding, the stamp object looks like:
 }
 ```
 
-This JSON is then base64url-encoded and sent as the `X-Phantom-Stamp` header.
+This JSON is then base64url-encoded and sent as the `X-Liquid-Stamp` header.
 
 ### Security Notes
 

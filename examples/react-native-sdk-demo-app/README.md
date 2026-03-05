@@ -1,6 +1,6 @@
-# Phantom React Native SDK Demo App
+# Liquid React Native SDK Demo App
 
-This demo application showcases the usage of the `@phantom/react-native-sdk` with embedded provider support for React Native/Expo applications.
+This demo application showcases the usage of the `@liquid/react-native-sdk` with embedded provider support for React Native/Expo applications.
 
 ## Features
 
@@ -43,8 +43,8 @@ This demo application showcases the usage of the `@phantom/react-native-sdk` wit
    cp .env.example .env
 
    # Edit .env and fill in your values:
-   # - EXPO_PUBLIC_ORGANIZATION_ID: Your Phantom organization ID
-   # - EXPO_PUBLIC_WALLET_API: Phantom API URL
+   # - EXPO_PUBLIC_ORGANIZATION_ID: Your Liquid organization ID
+   # - EXPO_PUBLIC_WALLET_API: Liquid API URL
    # - Other optional configurations
    ```
 
@@ -79,7 +79,7 @@ This demo application showcases the usage of the `@phantom/react-native-sdk` wit
 
 This demo uses:
 
-- `@phantom/react-native-sdk` - The React Native SDK with hooks for wallet interactions
+- `@liquid/react-native-sdk` - The React Native SDK with hooks for wallet interactions
 - **Embedded Provider**: Server-based wallet management with multiple authentication options
 - **Expo Router**: File-based routing system for navigation
 - **Platform Adapters**:
@@ -94,12 +94,12 @@ The demo app uses environment variables for configuration. Copy `.env.example` t
 
 ### Required Configuration
 
-- `EXPO_PUBLIC_ORGANIZATION_ID` - Your Phantom organization ID (get from Phantom developer dashboard)
-- `EXPO_PUBLIC_WALLET_API` - Phantom API URL (`https://api.phantom.app/v1/wallets` for production)
+- `EXPO_PUBLIC_ORGANIZATION_ID` - Your Liquid organization ID (get from Liquid developer dashboard)
+- `EXPO_PUBLIC_WALLET_API` - Liquid API URL (`https://api.phantom.app/v1/wallets` for production)
 
 ### App Configuration
 
-- `EXPO_PUBLIC_APP_SCHEME` - Deep link scheme for your app (default: "phantom-rn-demo")
+- `EXPO_PUBLIC_APP_SCHEME` - Deep link scheme for your app (default: "liquid-rn-demo")
 - `EXPO_PUBLIC_EMBEDDED_WALLET_TYPE` - Embedded wallet type: `"app-wallet"` or `"user-wallet"` (default: "app-wallet")
 
 ### Authentication URLs
@@ -118,12 +118,12 @@ The app is configured in `app/_layout.tsx` using environment variables:
 ```typescript
 const config = {
   appId: process.env.EXPLO_PUBLIC_APP_ID || "your-app-id",
-  scheme: process.env.EXPO_PUBLIC_APP_SCHEME || "phantom-rn-demo",
+  scheme: process.env.EXPO_PUBLIC_APP_SCHEME || "liquid-rn-demo",
   embeddedWalletType: (process.env.EXPO_PUBLIC_EMBEDDED_WALLET_TYPE || "user-wallet") as const,
   addressTypes: [AddressType.solana],
   authOptions: {
     authUrl: process.env.EXPO_PUBLIC_AUTH_URL,
-    redirectUrl: process.env.EXPO_PUBLIC_REDIRECT_URL || "phantom-rn-demo://phantom-auth-callback",
+    redirectUrl: process.env.EXPO_PUBLIC_REDIRECT_URL || "liquid-rn-demo://liquid-auth-callback",
   },
   apiBaseUrl: process.env.EXPO_PUBLIC_WALLET_API || "https://api.phantom.app/v1/wallets",
   debug: process.env.EXPO_PUBLIC_DEBUG === "true",
@@ -134,7 +134,7 @@ const config = {
 
 ```
 app/
-├── _layout.tsx          # Root layout with PhantomProvider
+├── _layout.tsx          # Root layout with LiquidProvider
 ├── index.tsx            # Home screen with connection UI
 ├── wallet.tsx           # Wallet operations screen
 └── auth-callback.tsx    # Authentication callback handler
@@ -180,7 +180,7 @@ The demo app uses:
 - Expo Router for navigation
 - Expo SecureStore for secure storage
 - Expo WebBrowser for OAuth flows
-- @phantom/react-native-sdk for wallet integration
+- @liquid/react-native-sdk for wallet integration
 
 ## Platform-Specific Features
 
@@ -229,7 +229,7 @@ The demo app uses:
 
 ## Learn More
 
-- [Phantom React Native SDK Documentation](../../packages/react-native-sdk/README.md)
+- [Liquid React Native SDK Documentation](../../packages/react-native-sdk/README.md)
 - [Expo Documentation](https://docs.expo.dev)
-- [Phantom Wallet](https://phantom.app)
+- [Liquid Wallet](https://phantom.app)
 - [Solana Documentation](https://docs.solana.com)

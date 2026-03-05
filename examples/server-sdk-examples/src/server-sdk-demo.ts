@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { ServerSDK, NetworkId } from "@phantom/server-sdk";
+import { ServerSDK, NetworkId } from "@liquid/server-sdk";
 import {
   PublicKey,
   Transaction,
@@ -44,7 +44,7 @@ function sleep(ms: number): Promise<void> {
 
 // Main demo function
 async function runDemo() {
-  console.log("🚀 Phantom Server SDK Demo\n");
+  console.log("🚀 Liquid Server SDK Demo\n");
 
   validateConfig();
 

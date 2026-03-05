@@ -1,4 +1,4 @@
-import { type AddressType } from "@phantom/client";
+import { type AddressType } from "@liquid/client";
 
 export interface ServerSDKConfig {
   apiPrivateKey: string;

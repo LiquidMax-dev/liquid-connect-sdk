@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { useState, useEffect, useMemo, useCallback } from "react";
-import { BrowserSDK } from "@phantom/browser-sdk";
+import { BrowserSDK } from "@liquid/browser-sdk";
 import type {
   BrowserSDKConfig,
   AuthOptions,
@@ -8,30 +8,30 @@ import type {
   ConnectEventData,
   WalletAddress,
   ConnectResult,
-} from "@phantom/browser-sdk";
-import { mergeTheme, darkTheme, ThemeProvider, type PhantomTheme } from "@phantom/wallet-sdk-ui";
-import { PhantomContext, type PhantomContextValue, type PhantomErrors } from "./PhantomContext";
+} from "@liquid/browser-sdk";
+import { mergeTheme, darkTheme, ThemeProvider, type LiquidTheme } from "@liquid/wallet-sdk-ui";
+import { LiquidContext, type LiquidContextValue, type LiquidErrors } from "./LiquidContext";
 import { ModalProvider } from "./ModalProvider";
 
-export type PhantomSDKConfig = BrowserSDKConfig;
+export type LiquidSDKConfig = BrowserSDKConfig;
 
-export interface PhantomDebugConfig extends DebugConfig {}
+export interface LiquidDebugConfig extends DebugConfig {}
 
 export interface ConnectOptions {
   embeddedWalletType?: "app-wallet" | "user-wallet";
   authOptions?: AuthOptions;
 }
 
-export interface PhantomProviderProps {
+export interface LiquidProviderProps {
   children: ReactNode;
-  config: PhantomSDKConfig;
-  debugConfig?: PhantomDebugConfig;
-  theme?: Partial<PhantomTheme>;
+  config: LiquidSDKConfig;
+  debugConfig?: LiquidDebugConfig;
+  theme?: Partial<LiquidTheme>;
   appIcon?: string;
   appName?: string;
 }
 
-export function PhantomProvider({ children, config, debugConfig, theme, appIcon, appName }: PhantomProviderProps) {
+export function LiquidProvider({ children, config, debugConfig, theme, appIcon, appName }: LiquidProviderProps) {
   // Memoized config to avoid unnecessary SDK recreation
   const memoizedConfig: BrowserSDKConfig = useMemo(() => config, [config]);
 
@@ -43,7 +43,7 @@ export function PhantomProvider({ children, config, debugConfig, theme, appIcon,
   const [isConnected, setIsConnected] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [errors, setErrors] = useState<PhantomErrors>({});
+  const [errors, setErrors] = useState<LiquidErrors>({});
   const [addresses, setAddresses] = useState<WalletAddress[]>([]);
   const [user, setUser] = useState<ConnectResult | null>(null);
 
@@ -69,7 +69,7 @@ export function PhantomProvider({ children, config, debugConfig, theme, appIcon,
     // Event handlers that need to be referenced for cleanup
     const handleConnectStart = () => {
       setIsConnecting(true);
-      setErrors((prev: PhantomErrors) => ({ ...prev, connect: undefined }));
+      setErrors((prev: LiquidErrors) => ({ ...prev, connect: undefined }));
     };
 
     const handleConnect = async (data?: ConnectEventData) => {
@@ -108,9 +108,9 @@ export function PhantomProvider({ children, config, debugConfig, theme, appIcon,
 
       if (isAutoConnectNoSession) {
         // Clear any previous error state, but don't set a new error for this expected case
-        setErrors((prev: PhantomErrors) => ({ ...prev, connect: undefined }));
+        setErrors((prev: LiquidErrors) => ({ ...prev, connect: undefined }));
       } else {
-        setErrors((prev: PhantomErrors) => ({
+        setErrors((prev: LiquidErrors) => ({
           ...prev,
           connect: new Error(errorData?.error || "Connection failed"),
         }));
@@ -128,7 +128,7 @@ export function PhantomProvider({ children, config, debugConfig, theme, appIcon,
     };
 
     const handleSpendingLimitReached = () => {
-      setErrors((prev: PhantomErrors) => ({ ...prev, spendingLimit: true }));
+      setErrors((prev: LiquidErrors) => ({ ...prev, spendingLimit: true }));
     };
 
     // Add event listeners to SDK
@@ -175,8 +175,8 @@ export function PhantomProvider({ children, config, debugConfig, theme, appIcon,
     initialize();
   }, [sdk, isClient]);
 
-  const clearError = useCallback((key: keyof PhantomErrors) => {
-    setErrors((prev: PhantomErrors) => {
+  const clearError = useCallback((key: keyof LiquidErrors) => {
+    setErrors((prev: LiquidErrors) => {
       const next = { ...prev };
       delete next[key];
       return next;
@@ -184,7 +184,7 @@ export function PhantomProvider({ children, config, debugConfig, theme, appIcon,
   }, []);
 
   // Memoize context value to prevent unnecessary re-renders
-  const value: PhantomContextValue = useMemo(
+  const value: LiquidContextValue = useMemo(
     () => ({
       sdk,
       isConnected,
@@ -215,11 +215,11 @@ export function PhantomProvider({ children, config, debugConfig, theme, appIcon,
 
   return (
     <ThemeProvider theme={resolvedTheme}>
-      <PhantomContext.Provider value={value}>
+      <LiquidContext.Provider value={value}>
         <ModalProvider appIcon={appIcon} appName={appName}>
           {children}
         </ModalProvider>
-      </PhantomContext.Provider>
+      </LiquidContext.Provider>
     </ThemeProvider>
   );
 }

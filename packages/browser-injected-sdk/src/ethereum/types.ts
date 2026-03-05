@@ -36,8 +36,8 @@ export interface ProviderRpcError {
   data?: unknown;
 }
 
-export interface PhantomEthereumProvider {
-  isPhantom: boolean;
+export interface LiquidEthereumProvider {
+  isLiquid: boolean;
   selectedAddress: string | null;
   chainId: string;
   isConnected: boolean;
@@ -48,5 +48,5 @@ export interface PhantomEthereumProvider {
 }
 
 export interface EthereumOperationOptions {
-  getProvider?: () => PhantomEthereumProvider | null;
+  getProvider?: () => LiquidEthereumProvider | null;
 }

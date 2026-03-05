@@ -1,6 +1,6 @@
-# @phantom/indexed-db-stamper
+# @liquid/indexed-db-stamper
 
-A secure IndexedDB-based key stamper for the Phantom Wallet SDK that stores cryptographic keys directly in the browser's IndexedDB without ever exposing private key material.
+A secure IndexedDB-based key stamper for the Liquid Wallet SDK that stores cryptographic keys directly in the browser's IndexedDB without ever exposing private key material.
 
 ## Features
 
@@ -14,7 +14,7 @@ A secure IndexedDB-based key stamper for the Phantom Wallet SDK that stores cryp
 ## Installation
 
 ```bash
-npm install @phantom/indexed-db-stamper
+npm install @liquid/indexed-db-stamper
 ```
 
 ## Usage
@@ -22,11 +22,11 @@ npm install @phantom/indexed-db-stamper
 ### Basic Usage
 
 ```typescript
-import { IndexedDbStamper } from "@phantom/indexed-db-stamper";
+import { IndexedDbStamper } from "@liquid/indexed-db-stamper";
 
 // Create stamper instance
 const stamper = new IndexedDbStamper({
-  dbName: "my-app-keys", // optional, defaults to 'phantom-indexed-db-stamper'
+  dbName: "my-app-keys", // optional, defaults to 'liquid-indexed-db-stamper'
   storeName: "crypto-keys", // optional, defaults to 'crypto-keys'
   keyName: "signing-key", // optional, defaults to 'signing-key',
   type: "PKI", // optional, defaults to 'PKI', accepts 'PKI' or 'OIDC'
@@ -39,10 +39,10 @@ const keyInfo = await stamper.init();
 console.log("Key ID:", keyInfo.keyId);
 console.log("Public Key:", keyInfo.publicKey);
 
-// Create X-Phantom-Stamp header value for API requests
+// Create X-Liquid-Stamp header value for API requests
 const requestData = Buffer.from(JSON.stringify({ action: "transfer", amount: 100 }), "utf8");
 const stamp = await stamper.stamp({ data: requestData });
-console.log("X-Phantom-Stamp:", stamp);
+console.log("X-Liquid-Stamp:", stamp);
 ```
 
 ### Advanced Usage
@@ -89,7 +89,7 @@ new IndexedDbStamper(config?: IndexedDbStamperConfig)
 
 **Config Options:**
 
-- `dbName?: string` - IndexedDB database name (default: 'phantom-indexed-db-stamper')
+- `dbName?: string` - IndexedDB database name (default: 'liquid-indexed-db-stamper')
 - `storeName?: string` - Object store name (default: 'crypto-keys')
 - `keyName?: string` - Key identifier prefix (default: 'signing-key')
 
@@ -111,7 +111,7 @@ Generate and store a new key pair, replacing any existing keys.
 
 #### `stamp(params: { data: Buffer; type?: 'PKI'; idToken?: never; salt?: never; } | { data: Buffer; type: 'OIDC'; idToken: string; salt: string; }): Promise<string>`
 
-Create X-Phantom-Stamp header value using the stored private key.
+Create X-Liquid-Stamp header value using the stored private key.
 
 **Parameters:**
 
@@ -120,7 +120,7 @@ Create X-Phantom-Stamp header value using the stored private key.
 - `params.idToken?: string` - Required for OIDC type
 - `params.salt?: string` - Required for OIDC type
 
-**Returns:** Complete X-Phantom-Stamp header value (base64url-encoded JSON with base64url-encoded publicKey, signature, and kind fields)
+**Returns:** Complete X-Liquid-Stamp header value (base64url-encoded JSON with base64url-encoded publicKey, signature, and kind fields)
 
 **Note:** The public key is stored internally in base58 format but converted to base64url when creating stamps for API compatibility.
 

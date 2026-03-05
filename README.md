@@ -1,10 +1,10 @@
-# Phantom Connect SDK
+# Liquid Connect SDK
 
-A comprehensive suite of SDKs for integrating Phantom Connect across different platforms and use cases.
+A comprehensive suite of SDKs for integrating Liquid Connect across different platforms and use cases.
 
 ## Getting Started
 
-- Create your app in [Phantom Portal](https://docs.phantom.com/phantom-portal/portal) and obtain your `appId`.
+- Create your app in [Liquid Portal](https://docs.phantom.com/phantom-portal/portal) and obtain your `appId`.
 - Choose one of our SDKs: React, React Native, Browser, Server.
 
 ## SDK Overview
@@ -13,26 +13,26 @@ This repository contains multiple SDKs for different integration needs, prioriti
 
 ### React SDK
 
-**[@phantom/react-sdk](./packages/react-sdk/README.md)** - React hooks and components for Phantom integration with built-in UI components.
+**[@liquid/react-sdk](./packages/react-sdk/README.md)** - React hooks and components for Liquid integration with built-in UI components.
 
 ```tsx
 import {
-  PhantomProvider,
+  LiquidProvider,
   ConnectButton,
-  usePhantom,
+  useLiquid,
   useSolana,
   useEthereum,
   AddressType,
   darkTheme,
   lightTheme,
-} from "@phantom/react-sdk";
+} from "@liquid/react-sdk";
 
 // App wrapper with provider and theme configuration
-<PhantomProvider
+<LiquidProvider
   config={{
-    providers: ["google", "apple", "phantom", "injected"], // Allowed auth providers
+    providers: ["google", "apple", "liquid", "injected"], // Allowed auth providers
     addressTypes: [AddressType.solana, AddressType.ethereum],
-    appId: "your-app-id", // Required when using embedded providers (google, apple, phantom, etc.)
+    appId: "your-app-id", // Required when using embedded providers (google, apple, liquid, etc.)
     // Optional:
     // apiBaseUrl: "https://api.phantom.app/v1/wallets",
   }}
@@ -41,11 +41,11 @@ import {
   appName="Your App Name"
 >
   <App />
-</PhantomProvider>;
+</LiquidProvider>;
 
 // Simple connection with ConnectButton component
 function WalletComponent() {
-  const { isConnected, addresses } = usePhantom();
+  const { isConnected, addresses } = useLiquid();
 
   // ConnectButton handles the entire connection flow with built-in modal
   return (
@@ -83,10 +83,10 @@ function AdvancedComponent() {
 
 ### Browser SDK - **For Vanilla JS/TS**
 
-**[@phantom/browser-sdk](./packages/browser-sdk/README.md)** - Core browser SDK with dual provider support and chain-specific APIs.
+**[@liquid/browser-sdk](./packages/browser-sdk/README.md)** - Core browser SDK with dual provider support and chain-specific APIs.
 
 ```typescript
-import { BrowserSDK, AddressType } from "@phantom/browser-sdk";
+import { BrowserSDK, AddressType } from "@liquid/browser-sdk";
 
 const sdk = new BrowserSDK({
   providers: ["injected", "google"],
@@ -108,10 +108,10 @@ const ethResult = await sdk.ethereum.sendTransaction({
 
 ### Server SDK - **For Backend Applications**
 
-**[@phantom/server-sdk](./packages/server-sdk/README.md)** - Server-side SDK for backend applications with built-in authentication.
+**[@liquid/server-sdk](./packages/server-sdk/README.md)** - Server-side SDK for backend applications with built-in authentication.
 
 ```typescript
-import { ServerSDK, NetworkId } from "@phantom/server-sdk";
+import { ServerSDK, NetworkId } from "@liquid/server-sdk";
 
 const sdk = new ServerSDK({
   organizationId: process.env.ORGANIZATION_ID,
@@ -126,7 +126,7 @@ const wallet = await sdk.createWallet("User Wallet");
 // Sign messages
 const signature = await sdk.signMessage({
   walletId: wallet.walletId,
-  message: "Hello from Phantom!",
+  message: "Hello from Liquid!",
   networkId: NetworkId.SOLANA_MAINNET,
 });
 
@@ -176,49 +176,49 @@ Below is an explanation of how the different packages of this repository work to
 
 ### Entry Point Packages
 
-These are the main SDKs that developers use to integrate Phantom Wallet:
+These are the main SDKs that developers use to integrate Liquid Wallet:
 
-#### **[@phantom/server-sdk](./packages/server-sdk/README.md)** - Backend SDK
+#### **[@liquid/server-sdk](./packages/server-sdk/README.md)** - Backend SDK
 
 Server-side SDK for backend applications with built-in authentication. Depends on:
 
-- `@phantom/client` for API communication
-- `@phantom/api-key-stamper` for request authentication
+- `@liquid/client` for API communication
+- `@liquid/api-key-stamper` for request authentication
 
-#### **[@phantom/react-sdk](./packages/react-sdk/README.md)** - React Hooks & Components
+#### **[@liquid/react-sdk](./packages/react-sdk/README.md)** - React Hooks & Components
 
-Thin wrapper over `@phantom/browser-sdk` that provides React hooks, context providers, and pre-built UI components for Phantom integration.
+Thin wrapper over `@liquid/browser-sdk` that provides React hooks, context providers, and pre-built UI components for Liquid integration.
 
 **Features:**
 
-- React hooks: `usePhantom`, `useConnect`, `useDisconnect`, `useSolana`, `useEthereum`
+- React hooks: `useLiquid`, `useConnect`, `useDisconnect`, `useSolana`, `useEthereum`
 - `ConnectButton` component - Ready-to-use button that handles the complete connection flow
-- Built-in connection modal with authentication providers (Google, Apple, Phantom Login, Browser Extension)
+- Built-in connection modal with authentication providers (Google, Apple, Liquid Login, Browser Extension)
 - Theme system with `darkTheme` and `lightTheme` presets
-- Automatic mobile deeplink support for Phantom mobile app
+- Automatic mobile deeplink support for Liquid mobile app
 
-#### **[@phantom/browser-sdk](./packages/browser-sdk/README.md)** - Vanilla JS/TS SDK
+#### **[@liquid/browser-sdk](./packages/browser-sdk/README.md)** - Vanilla JS/TS SDK
 
 Core browser SDK supporting both injected (extension) and embedded (non-custodial) providers. Depends on:
 
-- `@phantom/embedded-provider-core` for embedded wallet functionality
-- `@phantom/browser-injected-sdk` for extension integration
-- `@phantom/client` for API communication
-- `@phantom/indexed-db-stamper` for secure browser-based authentication
+- `@liquid/embedded-provider-core` for embedded wallet functionality
+- `@liquid/browser-injected-sdk` for extension integration
+- `@liquid/client` for API communication
+- `@liquid/indexed-db-stamper` for secure browser-based authentication
 
-#### **[@phantom/react-native-sdk](./packages/react-native-sdk/README.md)** - Mobile SDK
+#### **[@liquid/react-native-sdk](./packages/react-native-sdk/README.md)** - Mobile SDK
 
 SDK for React Native and Expo applications. Depends on:
 
-- `@phantom/embedded-provider-core` for embedded wallet functionality
-- `@phantom/client` for API communication
+- `@liquid/embedded-provider-core` for embedded wallet functionality
+- `@liquid/client` for API communication
 - Platform-specific secure storage for authentication
 
 ### Core Internal Packages
 
 These are the foundational packages that power the entry point SDKs:
 
-#### **[@phantom/embedded-provider-core](./packages/embedded-provider-core/README.md)** - Embedded Wallet Orchestration
+#### **[@liquid/embedded-provider-core](./packages/embedded-provider-core/README.md)** - Embedded Wallet Orchestration
 
 Platform-agnostic core that orchestrates authentication flows for embedded wallets and provides signing interfaces. This is the heart of the embedded wallet functionality, handling:
 
@@ -227,49 +227,49 @@ Platform-agnostic core that orchestrates authentication flows for embedded walle
 - Session management
 - Event handling
 
-#### **[@phantom/browser-injected-sdk](./packages/browser-injected-sdk/README.md)** - Extension Integration
+#### **[@liquid/browser-injected-sdk](./packages/browser-injected-sdk/README.md)** - Extension Integration
 
-Interfaces with the Phantom browser extension, detecting its presence and providing a unified API to communicate with the injected provider.
+Interfaces with the Liquid browser extension, detecting its presence and providing a unified API to communicate with the injected provider.
 
-#### **[@phantom/client](./packages/client/README.md)** - HTTP API Client
+#### **[@liquid/client](./packages/client/README.md)** - HTTP API Client
 
-HTTP wrapper for interfacing with the Phantom API. All requests must be cryptographically signed (stamped) using one of the stamper packages.
+HTTP wrapper for interfacing with the Liquid API. All requests must be cryptographically signed (stamped) using one of the stamper packages.
 
-#### **[@phantom/api-key-stamper](./packages/api-key-stamper/README.md)** - Server Authentication
+#### **[@liquid/api-key-stamper](./packages/api-key-stamper/README.md)** - Server Authentication
 
-Stamps API requests with cryptographic signatures using private API keys. Used by `@phantom/server-sdk` for backend authentication.
+Stamps API requests with cryptographic signatures using private API keys. Used by `@liquid/server-sdk` for backend authentication.
 
-#### **[@phantom/indexed-db-stamper](./packages/indexed-db-stamper/README.md)** - Browser Authentication
+#### **[@liquid/indexed-db-stamper](./packages/indexed-db-stamper/README.md)** - Browser Authentication
 
-Stamps API requests using non-extractable cryptographic keys stored in IndexedDB. Used by `@phantom/browser-sdk` for secure browser-based authentication.
+Stamps API requests using non-extractable cryptographic keys stored in IndexedDB. Used by `@liquid/browser-sdk` for secure browser-based authentication.
 
 ### Supporting Utility Packages
 
-#### **[@phantom/chain-interfaces](./packages/chain-interfaces/README.md)** - Multi-Chain Type Definitions
+#### **[@liquid/chain-interfaces](./packages/chain-interfaces/README.md)** - Multi-Chain Type Definitions
 
 TypeScript interfaces and types for different blockchain networks (Solana, Ethereum, etc.).
 
-#### **[@phantom/sdk-types](./packages/sdk-types/README.md)** - Shared Type Definitions
+#### **[@liquid/sdk-types](./packages/sdk-types/README.md)** - Shared Type Definitions
 
 Common TypeScript types used across all SDK packages.
 
-#### **[@phantom/constants](./packages/constants/README.md)** - Shared Constants
+#### **[@liquid/constants](./packages/constants/README.md)** - Shared Constants
 
 Environment URLs, configuration values, and other constants used across packages.
 
-#### **[@phantom/parsers](./packages/parsers/README.md)** - Data Parsers
+#### **[@liquid/parsers](./packages/parsers/README.md)** - Data Parsers
 
 Utilities for parsing and transforming blockchain data formats.
 
-#### **[@phantom/crypto](./packages/crypto/README.md)** - Cryptographic Utilities
+#### **[@liquid/crypto](./packages/crypto/README.md)** - Cryptographic Utilities
 
 Platform-agnostic cryptographic operations (signing, hashing, key generation).
 
-#### **[@phantom/base64url](./packages/base64url/README.md)** - URL-Safe Base64
+#### **[@liquid/base64url](./packages/base64url/README.md)** - URL-Safe Base64
 
 Encoding/decoding utilities for URL-safe base64 operations.
 
-#### **[@phantom/utils](./packages/utils/README.md)** - General Utilities
+#### **[@liquid/utils](./packages/utils/README.md)** - General Utilities
 
 Miscellaneous utility functions used across packages.
 
@@ -289,7 +289,7 @@ Mobile Entry Point:
 
 ## Network Support
 
-Phantom SDKs support multiple blockchain networks across Solana and EVM chains.
+Liquid SDKs support multiple blockchain networks across Solana and EVM chains.
 
 ### Supported Blockchains
 
@@ -309,13 +309,13 @@ Currently our libraries only fully support Solana.
 
 ## Give Feedback
 
-Phantom SDKs are in active development and will be prioritizing features requested by early adopters. If you are interested in working with us, please email us at `developers@phantom.app` or message `@brianfriel` on Telegram.
+Liquid SDKs are in active development and will be prioritizing features requested by early adopters. If you are interested in working with us, please email us at `developers@phantom.app` or message `@brianfriel` on Telegram.
 
 ## Disclaimers
 
-The embedded wallet is a beta version, and Phantom will not be liable for any losses or damages suffered by you or your end users.
+The embedded wallet is a beta version, and Liquid will not be liable for any losses or damages suffered by you or your end users.
 
-Any suggestions, enhancement requests, recommendations, or other feedback provided by you regarding the embedded wallet will be the exclusive property of Phantom. By using this beta version and providing feedback, you agree to assign any rights in that feedback to Phantom.
+Any suggestions, enhancement requests, recommendations, or other feedback provided by you regarding the embedded wallet will be the exclusive property of Liquid. By using this beta version and providing feedback, you agree to assign any rights in that feedback to Liquid.
 
 ## Releasing a new version
 

@@ -2,7 +2,7 @@
 const MOCK_COORD = new Uint8Array(32).fill(0x11);
 const mockBase64urlEncode = jest.fn((data: Uint8Array) => Buffer.from(data).toString("base64url"));
 const mockBase64urlDecode = jest.fn((_data: string) => MOCK_COORD);
-jest.mock("@phantom/base64url", () => ({
+jest.mock("@liquid/base64url", () => ({
   base64urlEncode: mockBase64urlEncode,
   base64urlDecode: mockBase64urlDecode,
 }));

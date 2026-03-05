@@ -1,7 +1,7 @@
 import { EventEmitter } from "eventemitter3";
-import type { ISolanaChain } from "@phantom/chain-interfaces";
+import type { ISolanaChain } from "@liquid/chain-interfaces";
 import { Buffer } from "buffer";
-import type { Transaction, VersionedTransaction } from "@phantom/sdk-types";
+import type { Transaction, VersionedTransaction } from "@liquid/sdk-types";
 import { debug, DebugCategory } from "../../../debug";
 
 /**

@@ -14,10 +14,10 @@ import {
   type EventCallback,
   type EmbeddedProviderAuthType,
   EMBEDDED_PROVIDER_AUTH_TYPES,
-} from "@phantom/embedded-provider-core";
-import { DEFAULT_WALLET_API_URL, DEFAULT_EMBEDDED_WALLET_TYPE, DEFAULT_AUTH_URL } from "@phantom/constants";
+} from "@liquid/embedded-provider-core";
+import { DEFAULT_WALLET_API_URL, DEFAULT_EMBEDDED_WALLET_TYPE, DEFAULT_AUTH_URL } from "@liquid/constants";
 import { isAuthFailureCallback, isAuthCallbackUrl } from "./utils/auth-callback";
-import { getDeeplinkToPhantom } from "./utils/deeplink";
+import { getDeeplinkToLiquid } from "./utils/deeplink";
 export interface ProviderPreference {
   type: "injected" | "embedded";
   embeddedWalletType?: "app-wallet" | "user-wallet";
@@ -146,9 +146,9 @@ export class ProviderManager implements EventEmitter {
     if (requestedProvider === "injected") {
       targetProviderType = "injected";
     } else if (requestedProvider === "deeplink") {
-      // Handle deeplink - navigate to Phantom app
+      // Handle deeplink - navigate to Liquid app
       try {
-        const deeplinkUrl = getDeeplinkToPhantom();
+        const deeplinkUrl = getDeeplinkToLiquid();
         if (typeof window !== "undefined" && window.location) {
           try {
             window.location.href = deeplinkUrl;

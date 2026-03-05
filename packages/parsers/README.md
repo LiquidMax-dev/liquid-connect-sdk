@@ -1,13 +1,13 @@
-# @phantom/parsers
+# @liquid/parsers
 
-A utility package for parsing and converting transaction formats into base64url format for use with Phantom's API. This package provides a unified interface for handling different blockchain transaction formats across multiple networks.
+A utility package for parsing and converting transaction formats into base64url format for use with Liquid's API. This package provides a unified interface for handling different blockchain transaction formats across multiple networks.
 
 ## Installation
 
 ```bash
-npm install @phantom/parsers
+npm install @liquid/parsers
 # or
-yarn add @phantom/parsers
+yarn add @liquid/parsers
 ```
 
 ## Overview
@@ -44,8 +44,8 @@ Converts various transaction formats to different encoding based on the target n
 
 ```typescript
 import { Transaction } from "@solana/web3.js";
-import { parseToKmsTransaction } from "@phantom/parsers";
-import { NetworkId } from "@phantom/client";
+import { parseToKmsTransaction } from "@liquid/parsers";
+import { NetworkId } from "@liquid/client";
 
 // Solana Web3.js Transaction
 const transaction = new Transaction().add(/* instructions */);
@@ -62,8 +62,8 @@ const result3 = await parseToKmsTransaction("0x01020304", NetworkId.SOLANA_MAINN
 ### Ethereum/EVM
 
 ```typescript
-import { parseToKmsTransaction } from "@phantom/parsers";
-import { NetworkId } from "@phantom/client";
+import { parseToKmsTransaction } from "@liquid/parsers";
+import { NetworkId } from "@liquid/client";
 
 // Viem/Ethers transaction object
 const evmTransaction = {
@@ -89,8 +89,8 @@ const result3 = await parseToKmsTransaction("0xf86c...", NetworkId.ETHEREUM_MAIN
 ### Bitcoin
 
 ```typescript
-import { parseToKmsTransaction } from "@phantom/parsers";
-import { NetworkId } from "@phantom/client";
+import { parseToKmsTransaction } from "@liquid/parsers";
+import { NetworkId } from "@liquid/client";
 
 // Raw transaction bytes
 const bitcoinTx = new Uint8Array([
@@ -105,8 +105,8 @@ const result2 = await parseToKmsTransaction("0x0100000001...", NetworkId.BITCOIN
 ### Sui
 
 ```typescript
-import { parseToKmsTransaction } from "@phantom/parsers";
-import { NetworkId } from "@phantom/client";
+import { parseToKmsTransaction } from "@liquid/parsers";
+import { NetworkId } from "@liquid/client";
 
 // Sui transaction bytes
 const suiTx = new Uint8Array([
@@ -157,13 +157,13 @@ try {
 }
 ```
 
-## Integration with Phantom SDKs
+## Integration with Liquid SDKs
 
 This package is used internally by:
 
-- **@phantom/browser-sdk** - For client-side transaction parsing
-- **@phantom/server-sdk** - For server-side transaction parsing
-- **@phantom/react-sdk** - Through browser-sdk integration
+- **@liquid/browser-sdk** - For client-side transaction parsing
+- **@liquid/server-sdk** - For server-side transaction parsing
+- **@liquid/react-sdk** - Through browser-sdk integration
 
 The parsers enable these SDKs to accept native transaction objects from popular libraries like @solana/web3.js, viem, and ethers, providing a seamless developer experience.
 
@@ -179,7 +179,7 @@ Network IDs follow the format `{chain}:{network}`:
 
 ## Development
 
-This package is part of the Phantom Wallet SDK monorepo. For development:
+This package is part of the Liquid Wallet SDK monorepo. For development:
 
 ```bash
 # Install dependencies

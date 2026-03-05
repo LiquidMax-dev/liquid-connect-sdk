@@ -1,9 +1,9 @@
 {
-  "name": "@phantom/react-native-sdk-example",
+  "name": "@liquid/react-native-sdk-example",
   "version": "1.0.0",
   "main": "expo-router/entry",
   "scripts": {
-    "prestart": "yarn workspace @phantom/react-native-sdk build",
+    "prestart": "yarn workspace @liquid/react-native-sdk build",
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^14.1.0",
-    "@phantom/react-native-sdk": "workspace:^",
+    "@liquid/react-native-sdk": "workspace:^",
     "@solana/web3.js": "^1.98.4",
     "expo": "~53.0.20",
     "expo-auth-session": "^6.2.1",

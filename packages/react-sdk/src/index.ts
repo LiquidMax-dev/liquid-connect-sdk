@@ -1,9 +1,9 @@
 // Provider
-export { PhantomProvider } from "./PhantomProvider";
-export type { PhantomProviderProps, PhantomSDKConfig, PhantomDebugConfig, ConnectOptions } from "./PhantomProvider";
+export { LiquidProvider } from "./LiquidProvider";
+export type { LiquidProviderProps, LiquidSDKConfig, LiquidDebugConfig, ConnectOptions } from "./LiquidProvider";
 
 // Context
-export { usePhantom } from "./PhantomContext";
+export { useLiquid } from "./LiquidContext";
 
 // Hooks
 export * from "./hooks";
@@ -11,15 +11,15 @@ export * from "./hooks";
 // Components
 export * from "./components";
 
-// Theme - re-exported from @phantom/wallet-sdk-ui
-export { darkTheme, lightTheme, mergeTheme } from "@phantom/wallet-sdk-ui";
-export type { PhantomTheme, ComputedPhantomTheme, HexColor } from "@phantom/wallet-sdk-ui";
+// Theme - re-exported from @liquid/wallet-sdk-ui
+export { darkTheme, lightTheme, mergeTheme } from "@liquid/wallet-sdk-ui";
+export type { LiquidTheme, ComputedLiquidTheme, HexColor } from "@liquid/wallet-sdk-ui";
 
 // Types
 export * from "./types";
 
 // Re-export useful types and utilities from browser-sdk
-export { NetworkId, AddressType, DebugLevel, debug, isMobileDevice } from "@phantom/browser-sdk";
+export { NetworkId, AddressType, DebugLevel, debug, isMobileDevice } from "@liquid/browser-sdk";
 
 export type {
   EmbeddedProviderEvent,
@@ -36,7 +36,7 @@ export type {
   AuthOptions,
   InjectedWalletInfo,
   InjectedWalletId,
-} from "@phantom/browser-sdk";
+} from "@liquid/browser-sdk";
 
 // Re-export chain interfaces
-export type { ISolanaChain, IEthereumChain, EthTransactionRequest } from "@phantom/chain-interfaces";
+export type { ISolanaChain, IEthereumChain, EthTransactionRequest } from "@liquid/chain-interfaces";

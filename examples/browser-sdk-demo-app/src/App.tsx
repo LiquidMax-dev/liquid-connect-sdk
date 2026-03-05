@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
-import { BrowserSDK, AddressType, debug, DebugLevel, NetworkId } from "@phantom/browser-sdk";
-import type { DebugMessage } from "@phantom/browser-sdk";
+import { BrowserSDK, AddressType, debug, DebugLevel, NetworkId } from "@liquid/browser-sdk";
+import type { DebugMessage } from "@liquid/browser-sdk";
 import { SystemProgram, PublicKey, Connection, VersionedTransaction, TransactionMessage } from "@solana/web3.js";
 import { parseEther, parseGwei, numberToHex } from "viem";
 import { getBalance } from "./utils/balance";
@@ -50,7 +50,7 @@ function App() {
         });
       } else {
         const embeddedSdk = new BrowserSDK({
-          providers: ["google", "apple", "phantom"],
+          providers: ["google", "apple", "liquid"],
           apiBaseUrl: import.meta.env.VITE_WALLET_API,
           appId: import.meta.env.VITE_APP_ID || "your-app-id",
           embeddedWalletType: "user-wallet",
@@ -144,7 +144,7 @@ function App() {
 
     try {
       // Determine provider based on current provider type
-      const provider = providerType === "injected" ? "injected" : "phantom";
+      const provider = providerType === "injected" ? "injected" : "liquid";
       const result = await sdk.connect({ provider });
       setAddresses(result.addresses);
       setIsConnected(true);
@@ -158,22 +158,22 @@ function App() {
     }
   };
 
-  // Connect with Phantom handler
-  const handleConnectWithPhantom = async () => {
+  // Connect with Liquid handler
+  const handleConnectWithLiquid = async () => {
     if (!sdk) return;
 
     setIsLoading(true);
     setError(null);
 
     try {
-      const result = await sdk.connect({ provider: "phantom" });
+      const result = await sdk.connect({ provider: "liquid" });
       setAddresses(result.addresses);
       setIsConnected(true);
       await updateBalance(result.addresses);
-      console.log("Connected successfully with Phantom:", result);
+      console.log("Connected successfully with Liquid:", result);
     } catch (error) {
-      console.error("Error connecting with Phantom:", error);
-      setError((error as Error).message || "Connection with Phantom failed");
+      console.error("Error connecting with Liquid:", error);
+      setError((error as Error).message || "Connection with Liquid failed");
     } finally {
       setIsLoading(false);
     }
@@ -245,7 +245,7 @@ function App() {
     }
 
     try {
-      const message = "Hello from Phantom SDK!";
+      const message = "Hello from Liquid SDK!";
       const result = await sdk.solana.signMessage(message);
       console.log("Message signed:", result);
       alert(`Message signed: ${bs58.encode(result.signature)}`);
@@ -269,7 +269,7 @@ function App() {
     }
 
     try {
-      const message = "Hello from Phantom Browser SDK (EVM)!";
+      const message = "Hello from Liquid Browser SDK (EVM)!";
       const prefixedMessage = "0x" + Buffer.from(message, "utf8").toString("hex");
       const result = await sdk.ethereum.signPersonalMessage(prefixedMessage, ethAddress.address);
       console.log("EVM Message signed:", result);
@@ -519,7 +519,7 @@ function App() {
             name: "Bob",
             wallet: ethAddress.address,
           },
-          contents: "Hello, Bob! This is a typed data message from Phantom Browser SDK.",
+          contents: "Hello, Bob! This is a typed data message from Liquid Browser SDK.",
         },
       };
 
@@ -737,7 +737,7 @@ function App() {
   return (
     <div className="app">
       <header className="header">
-        <h1>🔮 Phantom Browser SDK - React Demo</h1>
+        <h1>🔮 Liquid Browser SDK - React Demo</h1>
         <p>Test both injected and embedded wallet functionality</p>
       </header>
 
@@ -751,15 +751,15 @@ function App() {
             onChange={e => handleProviderTypeChange(e.target.value as ProviderType)}
             disabled={isConnected}
           >
-            <option value="injected">Injected (Phantom Extension)</option>
+            <option value="injected">Injected (Liquid Extension)</option>
             <option value="embedded">Embedded (User Wallet)</option>
           </select>
         </div>
 
         {!isConnected && providerType === "embedded" && (
           <div className="provider-controls">
-            <button onClick={handleConnectWithPhantom} disabled={isLoading} className="primary">
-              {isLoading ? "Connecting..." : "Login with Phantom"}
+            <button onClick={handleConnectWithLiquid} disabled={isLoading} className="primary">
+              {isLoading ? "Connecting..." : "Login with Liquid"}
             </button>
             <button onClick={handleConnectWithGoogle} disabled={isLoading} className="primary">
               {isLoading ? "Connecting..." : "Connect with Google"}

@@ -1,9 +1,9 @@
 import { useCallback } from "react";
-import { usePhantom } from "../PhantomContext";
-import type { AuthOptions } from "@phantom/browser-sdk";
+import { useLiquid } from "../LiquidContext";
+import type { AuthOptions } from "@liquid/browser-sdk";
 
 export function useConnect() {
-  const { sdk, isConnecting, isLoading, errors } = usePhantom();
+  const { sdk, isConnecting, isLoading, errors } = useLiquid();
 
   const connect = useCallback(
     async (options: AuthOptions) => {
@@ -17,7 +17,7 @@ export function useConnect() {
         const result = await sdk.connect(options);
         return result;
       } catch (err) {
-        console.error("Error connecting to Phantom:", err);
+        console.error("Error connecting to Liquid:", err);
         // Error handling is also managed by the connect_error event listener in Provider
         throw err;
       }

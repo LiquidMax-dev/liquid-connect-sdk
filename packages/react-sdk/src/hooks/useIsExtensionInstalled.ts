@@ -1,9 +1,9 @@
 import * as React from "react";
-import { waitForPhantomExtension } from "@phantom/browser-sdk";
+import { waitForLiquidExtension } from "@liquid/browser-sdk";
 
 /**
- * React hook to check if Phantom extension is installed
- * Uses waitForPhantomExtension for proper detection with retry logic
+ * React hook to check if Liquid extension is installed
+ * Uses waitForLiquidExtension for proper detection with retry logic
  */
 export function useIsExtensionInstalled() {
   const [isLoading, setIsLoading] = React.useState(true);
@@ -15,7 +15,7 @@ export function useIsExtensionInstalled() {
     const checkExtension = async () => {
       try {
         setIsLoading(true);
-        const result = await waitForPhantomExtension(3000);
+        const result = await waitForLiquidExtension(3000);
         if (isMounted) {
           setIsInstalled(result);
         }

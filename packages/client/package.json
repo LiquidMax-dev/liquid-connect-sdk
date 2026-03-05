@@ -1,10 +1,10 @@
 {
-  "name": "@phantom/client",
+  "name": "@liquid/client",
   "version": "1.0.5",
-  "description": "HTTP client for Phantom Wallet API",
+  "description": "HTTP client for Liquid Wallet API",
   "repository": {
     "type": "git",
-    "url": "https://github.com/phantom/phantom-connect-sdk",
+    "url": "https://github.com/LiquidMax-dev/liquid-connect-sdk",
     "directory": "packages/client"
   },
   "main": "dist/index.js",
@@ -20,7 +20,7 @@
   "scripts": {
     "?pack-release": "When https://github.com/changesets/changesets/issues/432 has a solution we can remove this trick",
     "pack-release": "rimraf ./_release && yarn pack && mkdir ./_release && tar zxvf ./package.tgz --directory ./_release && rm ./package.tgz",
-    "build": "rimraf ./dist && tsup src/index.ts --format cjs,esm --dts --external axios,@phantom/base64url,@phantom/crypto",
+    "build": "rimraf ./dist && tsup src/index.ts --format cjs,esm --dts --external axios,@liquid/base64url,@liquid/crypto",
     "dev": "tsc --watch",
     "clean": "rm -rf dist",
     "test": "jest",
@@ -41,13 +41,13 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
-    "@phantom/api-key-stamper": "workspace:^",
-    "@phantom/base64url": "workspace:^",
-    "@phantom/constants": "workspace:^",
-    "@phantom/crypto": "workspace:^",
+    "@liquid/api-key-stamper": "workspace:^",
+    "@liquid/base64url": "workspace:^",
+    "@liquid/constants": "workspace:^",
+    "@liquid/crypto": "workspace:^",
     "@phantom/openapi-wallet-service": "0.1.11",
-    "@phantom/sdk-types": "workspace:^",
-    "@phantom/utils": "workspace:^",
+    "@liquid/sdk-types": "workspace:^",
+    "@liquid/utils": "workspace:^",
     "axios": "^1.10.0",
     "bs58": "^6.0.0",
     "buffer": "^6.0.3"

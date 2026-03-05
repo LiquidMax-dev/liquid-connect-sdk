@@ -45,10 +45,10 @@ export class Logger {
   }
 
   /**
-   * Log debug message (only if DEBUG or PHANTOM_MCP_DEBUG env var is set)
+   * Log debug message (only if DEBUG or LIQUID_MCP_DEBUG env var is set)
    */
   debug(message: string): void {
-    if (process.env.DEBUG || process.env.PHANTOM_MCP_DEBUG) {
+    if (process.env.DEBUG || process.env.LIQUID_MCP_DEBUG) {
       this.log("DEBUG", message);
     }
   }

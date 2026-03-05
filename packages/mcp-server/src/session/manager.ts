@@ -2,13 +2,13 @@
  * SessionManager orchestrates the complete session lifecycle:
  * - Loads existing sessions from storage
  * - Handles authentication when needed
- * - Creates and manages PhantomClient instances
+ * - Creates and manages LiquidClient instances
  * - Provides session data access
  */
 
-import { PhantomClient } from "@phantom/client";
-import { ApiKeyStamper } from "@phantom/api-key-stamper";
-import { ANALYTICS_HEADERS, type ServerSdkHeaders } from "@phantom/constants";
+import { LiquidClient } from "@liquid/client";
+import { ApiKeyStamper } from "@liquid/api-key-stamper";
+import { ANALYTICS_HEADERS, type ServerSdkHeaders } from "@liquid/constants";
 import { SessionStorage } from "./storage.js";
 import { OAuthFlow } from "../auth/oauth.js";
 import type { SessionData } from "./types.js";
@@ -19,24 +19,24 @@ import * as packageJson from "../../package.json";
  * Configuration options for SessionManager
  */
 export interface SessionManagerOptions {
-  /** Base URL for OAuth authorization server (default: https://auth.phantom.app or PHANTOM_AUTH_BASE_URL env var) */
+  /** Base URL for OAuth authorization server (default: https://auth.phantom.app or LIQUID_AUTH_BASE_URL env var) */
   authBaseUrl?: string;
-  /** Base URL for Phantom Connect (default: https://connect.phantom.app or PHANTOM_CONNECT_BASE_URL env var) */
+  /** Base URL for Liquid Connect (default: https://connect.phantom.app or LIQUID_CONNECT_BASE_URL env var) */
   connectBaseUrl?: string;
-  /** Base URL for Phantom API (default: https://api.phantom.app or PHANTOM_API_BASE_URL env var) */
+  /** Base URL for Liquid API (default: https://api.phantom.app or LIQUID_API_BASE_URL env var) */
   apiBaseUrl?: string;
-  /** Port for local OAuth callback server (default: 8080 or PHANTOM_CALLBACK_PORT env var) */
+  /** Port for local OAuth callback server (default: 8080 or LIQUID_CALLBACK_PORT env var) */
   callbackPort?: number;
-  /** Path for OAuth callback (default: /callback or PHANTOM_CALLBACK_PATH env var) */
+  /** Path for OAuth callback (default: /callback or LIQUID_CALLBACK_PATH env var) */
   callbackPath?: string;
-  /** Application identifier prefix (default: phantom-mcp) */
+  /** Application identifier prefix (default: liquid-mcp) */
   appId?: string;
-  /** Directory to store session data (default: ~/.phantom-mcp) */
+  /** Directory to store session data (default: ~/.liquid-mcp) */
   sessionDir?: string;
 }
 
 /**
- * SessionManager handles session lifecycle, auto-authentication, and PhantomClient creation
+ * SessionManager handles session lifecycle, auto-authentication, and LiquidClient creation
  *
  * Usage:
  * ```typescript
@@ -57,12 +57,12 @@ export class SessionManager {
   private readonly logger: Logger;
 
   private session: SessionData | null = null;
-  private client: PhantomClient | null = null;
+  private client: LiquidClient | null = null;
 
   private createMcpAnalyticsHeaders(appId: string): ServerSdkHeaders {
     return {
       [ANALYTICS_HEADERS.SDK_TYPE]: "server",
-      [ANALYTICS_HEADERS.SDK_VERSION]: process.env.PHANTOM_VERSION ?? packageJson.version ?? "unknown",
+      [ANALYTICS_HEADERS.SDK_VERSION]: process.env.LIQUID_VERSION ?? packageJson.version ?? "unknown",
       [ANALYTICS_HEADERS.PLATFORM]: "ext-sdk",
       [ANALYTICS_HEADERS.CLIENT]: "mcp",
       [ANALYTICS_HEADERS.APP_ID]: appId,
@@ -70,7 +70,7 @@ export class SessionManager {
   }
 
   private resolveAppId(): string {
-    return process.env.PHANTOM_APP_ID || process.env.PHANTOM_CLIENT_ID || this.appId;
+    return process.env.LIQUID_APP_ID || process.env.LIQUID_CLIENT_ID || this.appId;
   }
 
   /**
@@ -80,9 +80,9 @@ export class SessionManager {
    */
   constructor(options: SessionManagerOptions = {}) {
     this.logger = new Logger("SessionManager");
-    this.authBaseUrl = options.authBaseUrl ?? process.env.PHANTOM_AUTH_BASE_URL ?? "https://auth.phantom.app";
+    this.authBaseUrl = options.authBaseUrl ?? process.env.LIQUID_AUTH_BASE_URL ?? "https://auth.phantom.app";
     this.connectBaseUrl = options.connectBaseUrl;
-    this.apiBaseUrl = options.apiBaseUrl ?? process.env.PHANTOM_API_BASE_URL ?? "https://api.phantom.app/v1/wallets";
+    this.apiBaseUrl = options.apiBaseUrl ?? process.env.LIQUID_API_BASE_URL ?? "https://api.phantom.app/v1/wallets";
 
     const defaultPort = 8080;
     const parseEnvPort = (value: string): number | null => {
@@ -101,18 +101,18 @@ export class SessionManager {
       }
       this.callbackPort = options.callbackPort;
     } else {
-      const envPort = process.env.PHANTOM_CALLBACK_PORT?.trim();
+      const envPort = process.env.LIQUID_CALLBACK_PORT?.trim();
       const parsedEnvPort = envPort ? parseEnvPort(envPort) : null;
       if (envPort && parsedEnvPort === null) {
-        this.logger.warn(`Invalid PHANTOM_CALLBACK_PORT "${envPort}". Falling back to ${defaultPort}.`);
+        this.logger.warn(`Invalid LIQUID_CALLBACK_PORT "${envPort}". Falling back to ${defaultPort}.`);
         this.callbackPort = defaultPort;
       } else {
         this.callbackPort = parsedEnvPort ?? defaultPort;
       }
     }
 
-    this.callbackPath = options.callbackPath ?? process.env.PHANTOM_CALLBACK_PATH ?? "/callback";
-    this.appId = options.appId ?? "phantom-mcp";
+    this.callbackPath = options.callbackPath ?? process.env.LIQUID_CALLBACK_PATH ?? "/callback";
+    this.appId = options.appId ?? "liquid-mcp";
     this.storage = new SessionStorage(options.sessionDir);
   }
 
@@ -147,12 +147,12 @@ export class SessionManager {
   }
 
   /**
-   * Returns the initialized PhantomClient
+   * Returns the initialized LiquidClient
    *
-   * @returns PhantomClient instance
+   * @returns LiquidClient instance
    * @throws Error if not initialized
    */
-  getClient(): PhantomClient {
+  getClient(): LiquidClient {
     if (!this.client) {
       throw new Error("SessionManager not initialized. Call initialize() first.");
     }
@@ -195,7 +195,7 @@ export class SessionManager {
    * 1. Execute SSO flow to get wallet/org IDs and stamper keypair
    * 2. Create SessionData with SSO result and stamper keys
    * 3. Save to storage
-   * 4. Create PhantomClient
+   * 4. Create LiquidClient
    *
    * Note: Stamper keypair is generated during SSO flow and public key is sent to auth server
    *
@@ -232,15 +232,15 @@ export class SessionManager {
     this.storage.save(this.session);
     this.logger.info("Session saved to storage");
 
-    // Step 4: Create PhantomClient
+    // Step 4: Create LiquidClient
     this.createClient();
   }
 
   /**
-   * Creates a PhantomClient instance from the current session
+   * Creates a LiquidClient instance from the current session
    * Steps:
    * 1. Create ApiKeyStamper with session keypair
-   * 2. Create PhantomClient with stamper, organizationId, and app headers
+   * 2. Create LiquidClient with stamper, organizationId, and app headers
    * 3. Set walletType to 'user-wallet'
    *
    * @throws Error if session is not available
@@ -250,7 +250,7 @@ export class SessionManager {
       throw new Error("Cannot create client without session");
     }
 
-    this.logger.info("Creating PhantomClient");
+    this.logger.info("Creating LiquidClient");
 
     // Step 1: Create ApiKeyStamper with session keypair
     const stamper = new ApiKeyStamper({
@@ -262,8 +262,8 @@ export class SessionManager {
 
     const headers = this.createMcpAnalyticsHeaders(appId);
 
-    // Step 3: Create PhantomClient with stamper, organizationId, and headers
-    this.client = new PhantomClient(
+    // Step 3: Create LiquidClient with stamper, organizationId, and headers
+    this.client = new LiquidClient(
       {
         apiBaseUrl: this.apiBaseUrl,
         organizationId: this.session.organizationId,
@@ -273,6 +273,6 @@ export class SessionManager {
       stamper,
     );
 
-    this.logger.info("PhantomClient created successfully");
+    this.logger.info("LiquidClient created successfully");
   }
 }

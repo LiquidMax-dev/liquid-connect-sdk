@@ -1,10 +1,10 @@
 {
-  "name": "@phantom/constants",
+  "name": "@liquid/constants",
   "version": "1.0.5",
-  "description": "Shared constants for Phantom Wallet SDK",
+  "description": "Shared constants for Liquid Wallet SDK",
   "repository": {
     "type": "git",
-    "url": "https://github.com/phantom/phantom-connect-sdk",
+    "url": "https://github.com/LiquidMax-dev/liquid-connect-sdk",
     "directory": "packages/constants"
   },
   "main": "dist/index.js",
@@ -45,7 +45,7 @@
     "typescript": "^5.0.4"
   },
   "keywords": [
-    "phantom",
+    "liquid",
     "constants",
     "networks",
     "blockchain"
@@ -55,6 +55,6 @@
     "directory": "_release/package"
   },
   "dependencies": {
-    "@phantom/sdk-types": "workspace:^"
+    "@liquid/sdk-types": "workspace:^"
   }
 }

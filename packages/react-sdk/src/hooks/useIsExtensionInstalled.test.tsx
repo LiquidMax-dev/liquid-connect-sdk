@@ -1,12 +1,12 @@
 import { renderHook, act } from "@testing-library/react";
 import { useIsExtensionInstalled } from "./useIsExtensionInstalled";
-import { waitForPhantomExtension } from "@phantom/browser-sdk";
+import { waitForLiquidExtension } from "@liquid/browser-sdk";
 
-jest.mock("@phantom/browser-sdk", () => ({
-  waitForPhantomExtension: jest.fn(),
+jest.mock("@liquid/browser-sdk", () => ({
+  waitForLiquidExtension: jest.fn(),
 }));
 
-const mockWaitForPhantomExtension = waitForPhantomExtension as jest.Mock;
+const mockWaitForLiquidExtension = waitForLiquidExtension as jest.Mock;
 
 describe("useIsExtensionInstalled", () => {
   beforeEach(() => {
@@ -14,7 +14,7 @@ describe("useIsExtensionInstalled", () => {
   });
 
   it("sets installed state when extension is available", async () => {
-    mockWaitForPhantomExtension.mockResolvedValue(true);
+    mockWaitForLiquidExtension.mockResolvedValue(true);
 
     const { result } = renderHook(() => useIsExtensionInstalled());
 
@@ -25,13 +25,13 @@ describe("useIsExtensionInstalled", () => {
       await Promise.resolve();
     });
 
-    expect(mockWaitForPhantomExtension).toHaveBeenCalledWith(3000);
+    expect(mockWaitForLiquidExtension).toHaveBeenCalledWith(3000);
     expect(result.current.isLoading).toBe(false);
     expect(result.current.isInstalled).toBe(true);
   });
 
   it("sets installed false when extension is unavailable", async () => {
-    mockWaitForPhantomExtension.mockResolvedValue(false);
+    mockWaitForLiquidExtension.mockResolvedValue(false);
 
     const { result } = renderHook(() => useIsExtensionInstalled());
 
@@ -44,7 +44,7 @@ describe("useIsExtensionInstalled", () => {
   });
 
   it("handles errors by setting installed false", async () => {
-    mockWaitForPhantomExtension.mockRejectedValue(new Error("boom"));
+    mockWaitForLiquidExtension.mockRejectedValue(new Error("boom"));
 
     const { result } = renderHook(() => useIsExtensionInstalled());
 

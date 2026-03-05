@@ -2,8 +2,8 @@
  * sign_transaction tool - Signs a transaction using a wallet
  */
 
-import type { NetworkId } from "@phantom/client";
-import { isSolanaChain } from "@phantom/utils";
+import type { NetworkId } from "@liquid/client";
+import { isSolanaChain } from "@liquid/utils";
 import type { ToolHandler, ToolContext } from "./types.js";
 import { normalizeNetworkId } from "../utils/network.js";
 import { getSolanaAddress } from "../utils/solana.js";
@@ -82,7 +82,7 @@ export const signTransactionTool: ToolHandler = {
     logger.info(`Signing transaction for wallet ${walletId} on network ${networkId}`);
 
     try {
-      // Call PhantomClient to sign transaction
+      // Call LiquidClient to sign transaction
       const result = await client.signTransaction({
         walletId,
         transaction,

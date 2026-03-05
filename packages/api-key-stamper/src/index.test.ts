@@ -1,6 +1,6 @@
 import { ApiKeyStamper } from "./index";
-import { generateKeyPair, signWithSecret } from "@phantom/crypto";
-import { base64urlDecode, base64urlDecodeToString } from "@phantom/base64url";
+import { generateKeyPair, signWithSecret } from "@liquid/crypto";
+import { base64urlDecode, base64urlDecodeToString } from "@liquid/base64url";
 import { Buffer } from "buffer";
 
 describe("ApiKeyStamper", () => {
@@ -26,7 +26,7 @@ describe("ApiKeyStamper", () => {
   });
 
   describe("stamp", () => {
-    it("should return complete X-Phantom-Stamp header value", async () => {
+    it("should return complete X-Liquid-Stamp header value", async () => {
       const testData = Buffer.from("test message", "utf8");
 
       const stamp = await stamper.stamp({ data: testData });

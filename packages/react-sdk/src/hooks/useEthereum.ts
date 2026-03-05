@@ -1,6 +1,6 @@
-import { usePhantom } from "../PhantomContext";
-import type { IEthereumChain } from "@phantom/chain-interfaces";
-import { AddressType } from "@phantom/browser-sdk";
+import { useLiquid } from "../LiquidContext";
+import type { IEthereumChain } from "@liquid/chain-interfaces";
+import { AddressType } from "@liquid/browser-sdk";
 
 /**
  * Hook for Ethereum chain operations
@@ -11,7 +11,7 @@ export function useEthereum(): {
   ethereum: IEthereumChain;
   isAvailable: boolean;
 } {
-  const { sdk, isClient, isLoading } = usePhantom();
+  const { sdk, isClient, isLoading } = useLiquid();
 
   if (!isClient || !sdk || isLoading) {
     // Return a stub object for SSR, while SDK is initializing, or while discovery is in progress

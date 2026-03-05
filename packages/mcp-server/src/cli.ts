@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * CLI entry point for the Phantom MCP server.
+ * CLI entry point for the Liquid MCP server.
  *
  * This file always starts the server when loaded — it has no `require.main`
  * guard because launchers like Claude Desktop's built-in Node.js runtime
@@ -11,9 +11,9 @@
  * Library consumers should import from the package root (index.ts) instead.
  */
 
-import { PhantomMCPServer } from "./server.js";
+import { LiquidMCPServer } from "./server.js";
 
-const server = new PhantomMCPServer();
+const server = new LiquidMCPServer();
 server.start().catch(error => {
   console.error("Fatal error:", error);
   process.exit(1);

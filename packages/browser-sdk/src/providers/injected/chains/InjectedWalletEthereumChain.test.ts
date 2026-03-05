@@ -1,5 +1,5 @@
 import { InjectedWalletEthereumChain } from "./InjectedWalletEthereumChain";
-import type { IEthereumChain } from "@phantom/chain-interfaces";
+import type { IEthereumChain } from "@liquid/chain-interfaces";
 
 describe("InjectedWalletEthereumChain", () => {
   let mockProvider: IEthereumChain;

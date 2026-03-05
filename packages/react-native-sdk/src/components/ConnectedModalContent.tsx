@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
-import { Button, Text, useTheme, hexToRgba, ModalHeader } from "@phantom/wallet-sdk-ui";
-import { usePhantom } from "../PhantomContext";
+import { Button, Text, useTheme, hexToRgba, ModalHeader } from "@liquid/wallet-sdk-ui";
+import { useLiquid } from "../LiquidContext";
 import { useDisconnect } from "../hooks/useDisconnect";
 
 export interface ConnectedModalContentProps {
@@ -10,7 +10,7 @@ export interface ConnectedModalContentProps {
 
 export function ConnectedModalContent({ onClose }: ConnectedModalContentProps) {
   const theme = useTheme();
-  const { addresses } = usePhantom();
+  const { addresses } = useLiquid();
   const { disconnect } = useDisconnect();
   const [isDisconnecting, setIsDisconnecting] = useState(false);
   const [disconnectError, setDisconnectError] = useState<Error | null>(null);

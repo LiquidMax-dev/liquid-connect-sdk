@@ -5,7 +5,7 @@ const mockCreateConnectStartUrl = jest
   .fn()
   .mockResolvedValue("https://auth.example.com/login/start?client_id=client-id&state=session-id-1");
 
-jest.mock("@phantom/auth2", () => ({
+jest.mock("@liquid/auth2", () => ({
   createCodeVerifier: jest.fn().mockReturnValue("test-code-verifier"),
   createConnectStartUrl: mockCreateConnectStartUrl,
   exchangeAuthCode: jest.fn().mockResolvedValue({
@@ -19,10 +19,10 @@ jest.mock("@phantom/auth2", () => ({
   })),
 }));
 
-import type { StamperWithKeyManagement } from "@phantom/sdk-types";
-import type { EmbeddedStorage, URLParamsAccessor } from "@phantom/embedded-provider-core";
+import type { StamperWithKeyManagement } from "@liquid/sdk-types";
+import type { EmbeddedStorage, URLParamsAccessor } from "@liquid/embedded-provider-core";
 import { Auth2AuthProvider } from "./Auth2AuthProvider";
-import { createCodeVerifier, createConnectStartUrl, exchangeAuthCode } from "@phantom/auth2";
+import { createCodeVerifier, createConnectStartUrl, exchangeAuthCode } from "@liquid/auth2";
 
 type TestSession = {
   sessionId: string;
@@ -218,10 +218,10 @@ describe("Auth2AuthProvider.authenticate()", () => {
     expect(createConnectStartUrl).toHaveBeenCalledWith(expect.objectContaining({ provider: "apple" }));
   });
 
-  it("passes provider=phantom to createConnectStartUrl", async () => {
-    await makeProvider().authenticate({ ...connectOptions, provider: "phantom" });
+  it("passes provider=liquid to createConnectStartUrl", async () => {
+    await makeProvider().authenticate({ ...connectOptions, provider: "liquid" });
 
-    expect(createConnectStartUrl).toHaveBeenCalledWith(expect.objectContaining({ provider: "phantom" }));
+    expect(createConnectStartUrl).toHaveBeenCalledWith(expect.objectContaining({ provider: "liquid" }));
   });
 
   it("passes provider=device to createConnectStartUrl", async () => {

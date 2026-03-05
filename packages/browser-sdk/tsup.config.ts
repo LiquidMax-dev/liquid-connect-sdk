@@ -9,7 +9,7 @@ export default defineConfig({
     resolve: true,
   },
   clean: true,
-  external: ["@phantom/api-key-stamper", "@phantom/client"],
+  external: ["@liquid/api-key-stamper", "@liquid/client"],
   platform: "browser",
   shims: true,
   esbuildOptions(options) {

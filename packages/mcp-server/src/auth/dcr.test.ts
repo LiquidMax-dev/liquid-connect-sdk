@@ -34,40 +34,40 @@ describe("DCRClient", () => {
       expect(dcrClient).toBeInstanceOf(DCRClient);
     });
 
-    it("should use PHANTOM_AUTH_BASE_URL env var when set", () => {
-      const originalEnv = process.env.PHANTOM_AUTH_BASE_URL;
-      process.env.PHANTOM_AUTH_BASE_URL = "https://staging-auth.phantom.app";
+    it("should use LIQUID_AUTH_BASE_URL env var when set", () => {
+      const originalEnv = process.env.LIQUID_AUTH_BASE_URL;
+      process.env.LIQUID_AUTH_BASE_URL = "https://staging-auth.phantom.app";
 
       dcrClient = new DCRClient();
       expect(dcrClient).toBeInstanceOf(DCRClient);
 
       // Clean up
       if (originalEnv !== undefined) {
-        process.env.PHANTOM_AUTH_BASE_URL = originalEnv;
+        process.env.LIQUID_AUTH_BASE_URL = originalEnv;
       } else {
-        delete process.env.PHANTOM_AUTH_BASE_URL;
+        delete process.env.LIQUID_AUTH_BASE_URL;
       }
     });
 
     it("should prioritize constructor parameter over env var", () => {
-      const originalEnv = process.env.PHANTOM_AUTH_BASE_URL;
-      process.env.PHANTOM_AUTH_BASE_URL = "https://staging-auth.phantom.app";
+      const originalEnv = process.env.LIQUID_AUTH_BASE_URL;
+      process.env.LIQUID_AUTH_BASE_URL = "https://staging-auth.phantom.app";
 
       dcrClient = new DCRClient("https://custom-auth.example.com");
       expect(dcrClient).toBeInstanceOf(DCRClient);
 
       // Clean up
       if (originalEnv !== undefined) {
-        process.env.PHANTOM_AUTH_BASE_URL = originalEnv;
+        process.env.LIQUID_AUTH_BASE_URL = originalEnv;
       } else {
-        delete process.env.PHANTOM_AUTH_BASE_URL;
+        delete process.env.LIQUID_AUTH_BASE_URL;
       }
     });
   });
 
   describe("register", () => {
     beforeEach(() => {
-      dcrClient = new DCRClient("https://auth.phantom.app", "phantom-mcp");
+      dcrClient = new DCRClient("https://auth.phantom.app", "liquid-mcp");
     });
 
     it("should successfully register an OAuth client", async () => {
@@ -127,7 +127,7 @@ describe("DCRClient", () => {
       const payload = callArgs[1];
 
       expect(payload).toMatchObject({
-        client_name: expect.stringMatching(/^phantom-mcp-\d+$/),
+        client_name: expect.stringMatching(/^liquid-mcp-\d+$/),
         redirect_uris: [testRedirectUri],
         grant_types: ["authorization_code", "refresh_token"],
         response_types: ["code"],
@@ -177,7 +177,7 @@ describe("DCRClient", () => {
         1,
         expect.any(String),
         expect.objectContaining({
-          client_name: "phantom-mcp-1000",
+          client_name: "liquid-mcp-1000",
         }),
         expect.any(Object),
       );
@@ -186,7 +186,7 @@ describe("DCRClient", () => {
         2,
         expect.any(String),
         expect.objectContaining({
-          client_name: "phantom-mcp-2000",
+          client_name: "liquid-mcp-2000",
         }),
         expect.any(Object),
       );
@@ -303,9 +303,9 @@ describe("DCRClient", () => {
       expect(payload.client_name).toMatch(/^custom-app-\d+$/);
     });
 
-    it("should use PHANTOM_AUTH_BASE_URL env var for registration endpoint", async () => {
-      const originalEnv = process.env.PHANTOM_AUTH_BASE_URL;
-      process.env.PHANTOM_AUTH_BASE_URL = "https://staging-auth.phantom.app";
+    it("should use LIQUID_AUTH_BASE_URL env var for registration endpoint", async () => {
+      const originalEnv = process.env.LIQUID_AUTH_BASE_URL;
+      process.env.LIQUID_AUTH_BASE_URL = "https://staging-auth.phantom.app";
 
       const stagingDCRClient = new DCRClient();
       const mockResponse = {
@@ -328,9 +328,9 @@ describe("DCRClient", () => {
 
       // Clean up
       if (originalEnv !== undefined) {
-        process.env.PHANTOM_AUTH_BASE_URL = originalEnv;
+        process.env.LIQUID_AUTH_BASE_URL = originalEnv;
       } else {
-        delete process.env.PHANTOM_AUTH_BASE_URL;
+        delete process.env.LIQUID_AUTH_BASE_URL;
       }
     });
   });

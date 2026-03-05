@@ -20,7 +20,7 @@ const mockSubtle = {
   importKey: jest.fn().mockResolvedValue(mockPrivateKey),
 };
 
-jest.mock("@phantom/base64url", () => ({
+jest.mock("@liquid/base64url", () => ({
   base64urlEncode: jest.fn((data: Uint8Array) => Buffer.from(data).toString("base64url")),
 }));
 

@@ -1,5 +1,5 @@
 import { View, StyleSheet } from "react-native";
-import { Button, Text, useTheme } from "@phantom/wallet-sdk-ui";
+import { Button, Text, useTheme } from "@liquid/wallet-sdk-ui";
 
 export interface SpendingLimitModalContentProps {
   onClose: () => void;

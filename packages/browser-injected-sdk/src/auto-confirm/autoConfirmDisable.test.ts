@@ -1,9 +1,9 @@
 import { autoConfirmDisable } from "./autoConfirmDisable";
 import type { AutoConfirmResult } from "./types";
-import { PHANTOM_NOT_DETECTED, APP_PROVIDER_NOT_FOUND } from "../errors";
+import { LIQUID_NOT_DETECTED, APP_PROVIDER_NOT_FOUND } from "../errors";
 
 describe("autoConfirmDisable", () => {
-  const originalPhantom = (window as any).phantom;
+  const originalLiquid = (window as any).phantom;
   let mockRequest: jest.Mock;
 
   beforeEach(() => {
@@ -12,13 +12,13 @@ describe("autoConfirmDisable", () => {
   });
 
   afterEach(() => {
-    (window as any).phantom = originalPhantom;
+    (window as any).phantom = originalLiquid;
   });
 
   it("should disable auto-confirm", async () => {
     const mockResult: AutoConfirmResult = { enabled: false, chains: [] };
     mockRequest.mockImplementation(({ method }) => {
-      if (method === "phantom_auto_confirm_disable") {
+      if (method === "liquid_auto_confirm_disable") {
         return Promise.resolve(mockResult);
       }
       throw new Error(`Unknown ${method}`);
@@ -27,16 +27,16 @@ describe("autoConfirmDisable", () => {
     const result = await autoConfirmDisable();
 
     expect(mockRequest).toHaveBeenCalledWith({
-      method: "phantom_auto_confirm_disable",
+      method: "liquid_auto_confirm_disable",
       params: {},
     });
     expect(result).toEqual(mockResult);
   });
 
-  it("should throw when Phantom is not installed", async () => {
+  it("should throw when Liquid is not installed", async () => {
     (window as any).phantom = undefined;
 
-    await expect(autoConfirmDisable()).rejects.toThrow(PHANTOM_NOT_DETECTED);
+    await expect(autoConfirmDisable()).rejects.toThrow(LIQUID_NOT_DETECTED);
   });
 
   it("should throw when app provider is missing", async () => {

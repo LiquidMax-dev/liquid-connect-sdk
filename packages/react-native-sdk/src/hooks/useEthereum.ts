@@ -1,5 +1,5 @@
-import { usePhantom } from "../PhantomContext";
-import type { IEthereumChain } from "@phantom/chain-interfaces";
+import { useLiquid } from "../LiquidContext";
+import type { IEthereumChain } from "@liquid/chain-interfaces";
 
 /**
  * Hook for Ethereum chain operations in React Native
@@ -10,7 +10,7 @@ export function useEthereum(): {
   ethereum: IEthereumChain;
   isAvailable: boolean;
 } {
-  const { sdk, isConnected } = usePhantom();
+  const { sdk, isConnected } = useLiquid();
 
   return {
     // Chain instance with connection enforcement for signing methods

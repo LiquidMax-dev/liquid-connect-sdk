@@ -1,13 +1,13 @@
 import { Routes, Route } from "react-router-dom";
 import {
   AddressType,
-  PhantomProvider,
-  type PhantomSDKConfig,
-  type PhantomDebugConfig,
+  LiquidProvider,
+  type LiquidSDKConfig,
+  type LiquidDebugConfig,
   DebugLevel,
   type DebugMessage,
   darkTheme,
-} from "@phantom/react-sdk";
+} from "@liquid/react-sdk";
 import { Actions } from "./Actions";
 import { AuthCallback } from "./AuthCallback";
 import { useState, useCallback, useMemo } from "react";
@@ -33,9 +33,9 @@ function App() {
   }, []);
 
   // SDK configuration - embedded provider with autoConnect
-  const config: PhantomSDKConfig = useMemo(
+  const config: LiquidSDKConfig = useMemo(
     () => ({
-      providers: ["google", "apple", "phantom", "injected"],
+      providers: ["google", "apple", "liquid", "injected"],
       addressTypes: [AddressType.solana, AddressType.ethereum, AddressType.bitcoinSegwit, AddressType.sui],
       appId: import.meta.env.VITE_APP_ID || "your-app-id",
       apiBaseUrl: import.meta.env.VITE_API_BASE_URL || "https://api.phantom.app/v1/wallets",
@@ -44,7 +44,7 @@ function App() {
         authUrl: import.meta.env.VITE_AUTH_URL || "https://connect.phantom.app/login",
         redirectUrl: import.meta.env.VITE_REDIRECT_URL,
       },
-      /** When also provided, the Auth2 PKCE flow is used instead of the legacy Phantom Connect flow. */
+      /** When also provided, the Auth2 PKCE flow is used instead of the legacy Liquid Connect flow. */
       // unstable__auth2Options: {
       //   authApiBaseUrl: import.meta.env.VITE___UNSTABLE_AUTH_API_BASE_URL,
       //   clientId: import.meta.env.VITE___UNSTABLE_AUTH_CLIENT_ID,
@@ -55,7 +55,7 @@ function App() {
   );
 
   // Debug configuration - separate to avoid SDK reinstantiation
-  const debugConfig: PhantomDebugConfig = useMemo(
+  const debugConfig: LiquidDebugConfig = useMemo(
     () => ({
       enabled: true,
       level: debugLevel,
@@ -82,29 +82,29 @@ function App() {
         <Route
           path="/auth/callback"
           element={
-            <PhantomProvider
+            <LiquidProvider
               config={config}
               debugConfig={debugConfig}
               theme={darkTheme}
               appIcon="https://picsum.photos/200"
-              appName="Phantom React SDK Demo"
+              appName="Liquid React SDK Demo"
             >
               <AuthCallback />
-            </PhantomProvider>
+            </LiquidProvider>
           }
         />
         <Route
           path="/"
           element={
-            <PhantomProvider
+            <LiquidProvider
               config={config}
               debugConfig={debugConfig}
               theme={darkTheme}
               appIcon="https://picsum.photos/200"
-              appName="Phantom React SDK Demo"
+              appName="Liquid React SDK Demo"
             >
               <Actions />
-            </PhantomProvider>
+            </LiquidProvider>
           }
         />
       </Routes>

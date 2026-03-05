@@ -1,16 +1,16 @@
 import { createContext, useContext, type ReactNode } from "react";
-import type { ComputedPhantomTheme } from "./index";
+import type { ComputedLiquidTheme } from "./index";
 import { darkTheme, mergeTheme } from "./index";
 
 export interface ThemeContextValue {
-  theme: ComputedPhantomTheme;
+  theme: ComputedLiquidTheme;
 }
 
 export const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 
 export interface ThemeProviderProps {
   children: ReactNode;
-  theme?: Partial<ComputedPhantomTheme>;
+  theme?: Partial<ComputedLiquidTheme>;
 }
 
 /**
@@ -23,7 +23,7 @@ export function ThemeProvider({ children, theme }: ThemeProviderProps) {
   return <ThemeContext.Provider value={{ theme: resolvedTheme }}>{children}</ThemeContext.Provider>;
 }
 
-export function useTheme(): ComputedPhantomTheme {
+export function useTheme(): ComputedLiquidTheme {
   const context = useContext(ThemeContext);
   if (!context) {
     throw new Error("useTheme must be used within a ThemeProvider");

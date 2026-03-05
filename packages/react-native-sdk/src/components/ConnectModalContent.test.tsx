@@ -2,20 +2,20 @@ import type React from "react";
 import { render, fireEvent, waitFor } from "@testing-library/react-native";
 import type { ConnectModalContentProps } from "./ConnectModalContent";
 import { ConnectModalContent } from "./ConnectModalContent";
-import { usePhantom } from "../PhantomContext";
+import { useLiquid } from "../LiquidContext";
 import { useConnect } from "../hooks/useConnect";
-import { ThemeProvider } from "@phantom/wallet-sdk-ui";
+import { ThemeProvider } from "@liquid/wallet-sdk-ui";
 
 // Mock dependencies
-jest.mock("../PhantomContext");
+jest.mock("../LiquidContext");
 jest.mock("../hooks/useConnect");
 /* eslint-disable @typescript-eslint/no-var-requires */
-jest.mock("@phantom/wallet-sdk-ui", () => {
+jest.mock("@liquid/wallet-sdk-ui", () => {
   const React = require("react");
   const { View, Text, TouchableOpacity } = require("react-native");
 
   return {
-    ...jest.requireActual("@phantom/wallet-sdk-ui"),
+    ...jest.requireActual("@liquid/wallet-sdk-ui"),
     Button: (props: any) => {
       const { children, onClick, disabled, isLoading, testID, fullWidth } = props;
 
@@ -83,7 +83,7 @@ const mockTheme = {
 };
 
 describe("ConnectModalContent", () => {
-  const mockUsePhantom = usePhantom as jest.MockedFunction<typeof usePhantom>;
+  const mockUseLiquid = useLiquid as jest.MockedFunction<typeof useLiquid>;
   const mockUseConnect = useConnect as jest.MockedFunction<typeof useConnect>;
   const mockConnect = jest.fn();
 
@@ -103,7 +103,7 @@ describe("ConnectModalContent", () => {
     jest.clearAllMocks();
     // Make mockConnect return a resolved promise by default
     mockConnect.mockResolvedValue(undefined);
-    mockUsePhantom.mockReturnValue({
+    mockUseLiquid.mockReturnValue({
       isConnecting: false,
       allowedProviders: ["google", "apple"],
       isConnected: false,
@@ -139,8 +139,8 @@ describe("ConnectModalContent", () => {
     });
 
     it("should not render buttons for providers not in allowedProviders", () => {
-      mockUsePhantom.mockReturnValue({
-        ...mockUsePhantom(),
+      mockUseLiquid.mockReturnValue({
+        ...mockUseLiquid(),
         allowedProviders: ["google"], // Only google
       } as any);
 
@@ -152,8 +152,8 @@ describe("ConnectModalContent", () => {
     });
 
     it("should render multiple provider buttons when multiple providers allowed", () => {
-      mockUsePhantom.mockReturnValue({
-        ...mockUsePhantom(),
+      mockUseLiquid.mockReturnValue({
+        ...mockUseLiquid(),
         allowedProviders: ["google", "apple"],
       } as any);
 
@@ -257,8 +257,8 @@ describe("ConnectModalContent", () => {
 
   describe("Loading States", () => {
     it("should show loading UI when context isConnecting is true", () => {
-      mockUsePhantom.mockReturnValue({
-        ...mockUsePhantom(),
+      mockUseLiquid.mockReturnValue({
+        ...mockUseLiquid(),
         isConnecting: true,
       } as any);
 
@@ -268,8 +268,8 @@ describe("ConnectModalContent", () => {
     });
 
     it("should show loading state when context isConnecting is true", () => {
-      mockUsePhantom.mockReturnValue({
-        ...mockUsePhantom(),
+      mockUseLiquid.mockReturnValue({
+        ...mockUseLiquid(),
         isConnecting: true,
       } as any);
 
@@ -305,8 +305,8 @@ describe("ConnectModalContent", () => {
 
   describe("Edge Cases", () => {
     it("should handle empty allowedProviders array", () => {
-      mockUsePhantom.mockReturnValue({
-        ...mockUsePhantom(),
+      mockUseLiquid.mockReturnValue({
+        ...mockUseLiquid(),
         allowedProviders: [],
       } as any);
 

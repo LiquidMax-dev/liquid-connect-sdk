@@ -1,12 +1,12 @@
 import { renderHook } from "@testing-library/react";
 import { useConnect } from "./useConnect";
-import { usePhantom } from "../PhantomContext";
+import { useLiquid } from "../LiquidContext";
 
-jest.mock("../PhantomContext", () => ({
-  usePhantom: jest.fn(),
+jest.mock("../LiquidContext", () => ({
+  useLiquid: jest.fn(),
 }));
 
-const mockUsePhantom = usePhantom as jest.Mock;
+const mockUseLiquid = useLiquid as jest.Mock;
 
 describe("useConnect", () => {
   beforeEach(() => {
@@ -14,7 +14,7 @@ describe("useConnect", () => {
   });
 
   it("exposes connect and state from context", () => {
-    mockUsePhantom.mockReturnValue({
+    mockUseLiquid.mockReturnValue({
       sdk: { connect: jest.fn() },
       isConnecting: true,
       isLoading: false,
@@ -30,7 +30,7 @@ describe("useConnect", () => {
   });
 
   it("throws when sdk is not initialized", async () => {
-    mockUsePhantom.mockReturnValue({
+    mockUseLiquid.mockReturnValue({
       sdk: null,
       isConnecting: false,
       isLoading: false,
@@ -46,7 +46,7 @@ describe("useConnect", () => {
     const connectResult = { user: "ok" };
     const connectMock = jest.fn().mockResolvedValue(connectResult);
 
-    mockUsePhantom.mockReturnValue({
+    mockUseLiquid.mockReturnValue({
       sdk: { connect: connectMock },
       isConnecting: false,
       isLoading: false,
@@ -63,7 +63,7 @@ describe("useConnect", () => {
     const error = new Error("connect failed");
     const connectMock = jest.fn().mockRejectedValue(error);
 
-    mockUsePhantom.mockReturnValue({
+    mockUseLiquid.mockReturnValue({
       sdk: { connect: connectMock },
       isConnecting: false,
       isLoading: false,

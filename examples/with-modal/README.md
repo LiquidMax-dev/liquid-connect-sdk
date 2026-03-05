@@ -1,23 +1,23 @@
-# Phantom React SDK Example
+# Liquid React SDK Example
 
-This example demonstrates how to use the `@phantom/react-sdk` package to create a connect modal with built-in mobile deeplink support.
+This example demonstrates how to use the `@liquid/react-sdk` package to create a connect modal with built-in mobile deeplink support.
 
 ## Features
 
 - 🖥️ **Desktop Support**: Traditional web-based wallet connection
 - 📱 **Mobile Support**: Automatic mobile device detection with deeplink button
-- 🔗 **Deeplink Integration**: Redirects to Phantom mobile app via phantom.com/ul
+- 🔗 **Deeplink Integration**: Redirects to Liquid mobile app via phantom.com/ul
 - 🎨 **Styled Modal**: Pre-built, customizable connection modal
 - ⚡ **React Hooks**: Simple integration with React components
 
 ## Mobile Experience
 
-When accessed on a mobile device, the connect modal will show an additional "Open in Phantom App" button that:
+When accessed on a mobile device, the connect modal will show an additional "Open in Liquid App" button that:
 
 1. Detects if the user is on a mobile device
 2. Shows a mobile-specific connect button
 3. Redirects to `https://phantom.com/ul/browse/[current_url]`
-4. Phantom's universal link system handles opening the mobile app
+4. Liquid's universal link system handles opening the mobile app
 
 ## Getting Started
 
@@ -51,10 +51,10 @@ To test the mobile functionality:
 
 ## Code Structure
 
-- `App.tsx` - Main app with PhantomProvider setup
+- `App.tsx` - Main app with LiquidProvider setup
 - `ConnectExample.tsx` - Connection demo component with device detection
-- Uses `@phantom/react-sdk` for the modal UI and ConnectButton component
-- Uses `@phantom/browser-sdk` for mobile device detection
+- Uses `@liquid/react-sdk` for the modal UI and ConnectButton component
+- Uses `@liquid/browser-sdk` for mobile device detection
 
 ## Configuration
 

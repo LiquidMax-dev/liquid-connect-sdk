@@ -1,8 +1,8 @@
 import type { SolanaStrategy } from "./types";
-import type { DisplayEncoding, PhantomSolanaProvider, SolanaSignInData } from "../types";
-import type { Transaction, VersionedTransaction } from "@phantom/sdk-types";
+import type { DisplayEncoding, LiquidSolanaProvider, SolanaSignInData } from "../types";
+import type { Transaction, VersionedTransaction } from "@liquid/sdk-types";
 import { ProviderStrategy } from "../../types";
-import { PHANTOM_NOT_DETECTED, SOLANA_PROVIDER_NOT_FOUND } from "../../errors";
+import { LIQUID_NOT_DETECTED, SOLANA_PROVIDER_NOT_FOUND } from "../../errors";
 import { isInstalled } from "../../extension/isInstalled";
 
 const MAX_RETRIES = 6;
@@ -26,7 +26,7 @@ export class InjectedSolanaStrategy implements SolanaStrategy {
         retryCount++;
         if (retryCount >= MAX_RETRIES) {
           if (!isInstalled()) {
-            reject(new Error(PHANTOM_NOT_DETECTED));
+            reject(new Error(LIQUID_NOT_DETECTED));
           } else {
             reject(new Error(SOLANA_PROVIDER_NOT_FOUND));
           }
@@ -41,14 +41,14 @@ export class InjectedSolanaStrategy implements SolanaStrategy {
     });
   }
 
-  #getProvider(): PhantomSolanaProvider | undefined {
+  #getProvider(): LiquidSolanaProvider | undefined {
     if (!isInstalled()) {
       return undefined;
     }
-    return (window as any).phantom.solana as PhantomSolanaProvider;
+    return (window as any).phantom.solana as LiquidSolanaProvider;
   }
 
-  public getProvider(): PhantomSolanaProvider | null {
+  public getProvider(): LiquidSolanaProvider | null {
     return this.#getProvider() || null;
   }
 

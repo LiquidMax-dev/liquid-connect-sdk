@@ -2,16 +2,16 @@ import type React from "react";
 import { render } from "@testing-library/react-native";
 import type { ModalProps } from "./Modal";
 import { Modal } from "./Modal";
-import { ThemeProvider } from "@phantom/wallet-sdk-ui";
+import { ThemeProvider } from "@liquid/wallet-sdk-ui";
 
-// Mock @phantom/wallet-sdk-ui components
+// Mock @liquid/wallet-sdk-ui components
 /* eslint-disable @typescript-eslint/no-var-requires */
-jest.mock("@phantom/wallet-sdk-ui", () => {
+jest.mock("@liquid/wallet-sdk-ui", () => {
   const React = require("react");
   const { View, Text } = require("react-native");
 
   return {
-    ...jest.requireActual("@phantom/wallet-sdk-ui"),
+    ...jest.requireActual("@liquid/wallet-sdk-ui"),
     Icon: ({ type, testID }: { type: string; testID?: string }) => {
       return <View testID={testID || `icon-${type}`} />;
     },

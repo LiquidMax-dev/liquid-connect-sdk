@@ -1,9 +1,9 @@
 import * as SecureStore from "expo-secure-store";
-import { ApiKeyStamper } from "@phantom/api-key-stamper";
-import { DEFAULT_AUTHENTICATOR_ALGORITHM } from "@phantom/constants";
-import { generateKeyPair } from "@phantom/crypto";
-import { base64urlEncode } from "@phantom/base64url";
-import type { StamperWithKeyManagement, StamperKeyInfo } from "@phantom/sdk-types";
+import { ApiKeyStamper } from "@liquid/api-key-stamper";
+import { DEFAULT_AUTHENTICATOR_ALGORITHM } from "@liquid/constants";
+import { generateKeyPair } from "@liquid/crypto";
+import { base64urlEncode } from "@liquid/base64url";
+import type { StamperWithKeyManagement, StamperKeyInfo } from "@liquid/sdk-types";
 import type { Buffer } from "buffer";
 
 export interface ReactNativeStamperConfig {
@@ -38,7 +38,7 @@ export class ReactNativeStamper implements StamperWithKeyManagement {
   salt?: string; // Optional for PKI, required for OIDC
 
   constructor(config: ReactNativeStamperConfig = {}) {
-    this.keyPrefix = config.keyPrefix || "phantom-rn-stamper";
+    this.keyPrefix = config.keyPrefix || "liquid-rn-stamper";
     this.appId = config.appId || "default";
   }
 
@@ -78,9 +78,9 @@ export class ReactNativeStamper implements StamperWithKeyManagement {
   }
 
   /**
-   * Create X-Phantom-Stamp header value using stored secret key
+   * Create X-Liquid-Stamp header value using stored secret key
    * @param params - Parameters object with data to sign and optional override params
-   * @returns Complete X-Phantom-Stamp header value
+   * @returns Complete X-Liquid-Stamp header value
    */
   async stamp(
     params:

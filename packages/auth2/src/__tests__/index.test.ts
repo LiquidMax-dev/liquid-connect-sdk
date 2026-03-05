@@ -2,7 +2,7 @@ const MOCK_COORD_BYTES = new Uint8Array(32).fill(0x00);
 
 const mockBase64urlEncode = jest.fn((data: Uint8Array) => Buffer.from(data).toString("base64url"));
 const mockBase64urlDecode = jest.fn((_data: string) => MOCK_COORD_BYTES);
-jest.mock("@phantom/base64url", () => ({
+jest.mock("@liquid/base64url", () => ({
   base64urlEncode: mockBase64urlEncode,
   base64urlDecode: mockBase64urlDecode,
 }));
@@ -10,7 +10,7 @@ jest.mock("@phantom/base64url", () => ({
 const mockSha256 = jest.fn(
   async (_data: Uint8Array): Promise<ArrayBuffer> => new Uint8Array(32).fill(0xab).buffer as ArrayBuffer,
 );
-jest.mock("@phantom/crypto", () => ({ sha256: mockSha256 }));
+jest.mock("@liquid/crypto", () => ({ sha256: mockSha256 }));
 
 const MOCK_RAW_PUB = new Uint8Array([0x04, ...Array(64).fill(0x01)]);
 const MOCK_SIGNATURE = new Uint8Array(64).fill(0x55);
@@ -184,8 +184,8 @@ describe("createConnectStartUrl", () => {
     expect(decodeJarPayload(result).login_hint).toBe("apple:auth2");
   });
 
-  it("omits login_hint from JAR payload for phantom provider", async () => {
-    const result = await createConnectStartUrl({ ...baseInput, provider: "phantom" });
+  it("omits login_hint from JAR payload for liquid provider", async () => {
+    const result = await createConnectStartUrl({ ...baseInput, provider: "liquid" });
 
     expect(decodeJarPayload(result).login_hint).toBeUndefined();
   });

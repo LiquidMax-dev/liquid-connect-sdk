@@ -1,18 +1,18 @@
-# Phantom OpenClaw Plugin
+# Liquid OpenClaw Plugin
 
 > **⚠️ PREVIEW DISCLAIMER**
 >
 > This OpenClaw plugin is currently in **preview** and may break or change at any time without notice.
 >
-> **Always use a separate Phantom account specifically for testing with AI agents. These accounts should not contain significant assets.**
+> **Always use a separate Liquid account specifically for testing with AI agents. These accounts should not contain significant assets.**
 >
-> **Phantom makes no guarantees whatsoever around anything your agent may do using this plugin.** Use at your own risk.
+> **Liquid makes no guarantees whatsoever around anything your agent may do using this plugin.** Use at your own risk.
 
-Direct integration with Phantom wallet for OpenClaw agents. This plugin wraps the Phantom MCP Server to provide seamless wallet operations including address retrieval, message signing, transaction signing, token transfers, and token swaps.
+Direct integration with Liquid wallet for OpenClaw agents. This plugin wraps the Liquid MCP Server to provide seamless wallet operations including address retrieval, message signing, transaction signing, token transfers, and token swaps.
 
 ## Overview
 
-The Phantom OpenClaw Plugin provides native integration with Phantom wallet functionality. Instead of being a generic MCP bridge, it directly integrates the Phantom MCP Server tools as OpenClaw tools, providing a seamless experience for AI agents.
+The Liquid OpenClaw Plugin provides native integration with Liquid wallet functionality. Instead of being a generic MCP bridge, it directly integrates the Liquid MCP Server tools as OpenClaw tools, providing a seamless experience for AI agents.
 
 ## Quick Start
 
@@ -25,13 +25,13 @@ Get up and running in under 5 minutes:
   - Click "Create App"
   - Go to Dashboard → View App → Redirect URLs
   - Add `http://localhost:8080/callback` as a redirect URL
-  - Navigate to "Phantom Connect" tab
+  - Navigate to "Liquid Connect" tab
   - Copy your App ID
 
 - [ ] **Step 2:** Install the plugin
 
   ```bash
-  openclaw plugins install @phantom/openclaw-plugin
+  openclaw plugins install @liquid/openclaw-plugin
   ```
 
 - [ ] **Step 3:** Configure in `~/.openclaw/openclaw.json`
@@ -41,10 +41,10 @@ Get up and running in under 5 minutes:
     "plugins": {
       "enabled": true,
       "entries": {
-        "phantom-openclaw-plugin": {
+        "liquid-openclaw-plugin": {
           "enabled": true,
           "config": {
-            "PHANTOM_APP_ID": "your_app_id_from_portal"
+            "LIQUID_APP_ID": "your_app_id_from_portal"
           }
         }
       }
@@ -56,41 +56,41 @@ Get up and running in under 5 minutes:
 
 - [ ] **Step 5:** Test with your agent
   ```text
-  Ask: "What are my Phantom wallet addresses?"
+  Ask: "What are my Liquid wallet addresses?"
   ```
 
-**⚠️ Important:** Use the same email address for both the Phantom Portal and OpenClaw authentication!
+**⚠️ Important:** Use the same email address for both the Liquid Portal and OpenClaw authentication!
 
 See [Prerequisites](#prerequisites) below for detailed setup instructions.
 
 ## Features
 
-- **Direct Integration**: Built on top of `@phantom/mcp-server` for reliable wallet operations
+- **Direct Integration**: Built on top of `@liquid/mcp-server` for reliable wallet operations
 - **Automatic Authentication**: Handles OAuth flow and session management automatically
 - **Type-Safe**: Full TypeScript support with proper type definitions
 - **Simple Setup**: Minimal configuration - just enable the plugin and use
 
 ## Prerequisites
 
-Before using this plugin, you **must** obtain an App ID from the Phantom Portal:
+Before using this plugin, you **must** obtain an App ID from the Liquid Portal:
 
-1. **Visit the Phantom Portal**: Go to [phantom.com/portal](https://phantom.com/portal)
+1. **Visit the Liquid Portal**: Go to [phantom.com/portal](https://phantom.com/portal)
 2. **Sign in**: Use your Gmail or Apple account to sign in
 3. **Create an App**: Click "Create App" and fill in the required details
 4. **Configure Redirect URL**:
    - Navigate to Dashboard → View App → Redirect URLs
    - Add `http://localhost:8080/callback` as a redirect URL
    - This allows the OAuth callback to work correctly
-5. **Get Your App ID**: Navigate to the "Phantom Connect" tab to find your App ID
+5. **Get Your App ID**: Navigate to the "Liquid Connect" tab to find your App ID
    - Your app is automatically approved for development use
    - Copy the App ID for the configuration below
 
-**Important:** The email you use to sign in to the Phantom Portal **must match** the email you use when authenticating with the plugin. If these don't match, authentication will fail.
+**Important:** The email you use to sign in to the Liquid Portal **must match** the email you use when authenticating with the plugin. If these don't match, authentication will fail.
 
 ## Installation
 
 ```bash
-openclaw plugins install @phantom/openclaw-plugin
+openclaw plugins install @liquid/openclaw-plugin
 ```
 
 ## Configuration
@@ -102,10 +102,10 @@ Configure the plugin in your OpenClaw configuration file (`~/.openclaw/openclaw.
   "plugins": {
     "enabled": true,
     "entries": {
-      "phantom-openclaw-plugin": {
+      "liquid-openclaw-plugin": {
         "enabled": true,
         "config": {
-          "PHANTOM_APP_ID": "your_app_id_from_portal"
+          "LIQUID_APP_ID": "your_app_id_from_portal"
         }
       }
     }
@@ -115,26 +115,26 @@ Configure the plugin in your OpenClaw configuration file (`~/.openclaw/openclaw.
 
 ### Configuration Options
 
-- **`PHANTOM_APP_ID`** (required): Your App ID from the Phantom Portal
-- **`PHANTOM_CLIENT_SECRET`** (optional): Client secret for confidential clients
-- **`PHANTOM_CALLBACK_PORT`** (optional): OAuth callback port (default: 8080)
-- **`PHANTOM_MCP_DEBUG`** (optional): Enable debug logging (set to "1")
+- **`LIQUID_APP_ID`** (required): Your App ID from the Liquid Portal
+- **`LIQUID_CLIENT_SECRET`** (optional): Client secret for confidential clients
+- **`LIQUID_CALLBACK_PORT`** (optional): OAuth callback port (default: 8080)
+- **`LIQUID_MCP_DEBUG`** (optional): Enable debug logging (set to "1")
 
-**Note:** Most users only need to provide `PHANTOM_APP_ID`. The other options are for advanced use cases.
+**Note:** Most users only need to provide `LIQUID_APP_ID`. The other options are for advanced use cases.
 
 ### Troubleshooting: `DCR 404` During Startup
 
-If startup fails with `Failed to register OAuth client` and `status code 404`, OpenClaw likely did not provide a valid `PHANTOM_APP_ID` to the plugin.
+If startup fails with `Failed to register OAuth client` and `status code 404`, OpenClaw likely did not provide a valid `LIQUID_APP_ID` to the plugin.
 
 Verify your config is nested exactly at:
 
-`plugins.entries["phantom-openclaw-plugin"].config.PHANTOM_APP_ID`
+`plugins.entries["liquid-openclaw-plugin"].config.LIQUID_APP_ID`
 
-`PHANTOM_APP_ID` values are issued from [phantom.com/portal](https://phantom.com/portal).
+`LIQUID_APP_ID` values are issued from [phantom.com/portal](https://phantom.com/portal).
 
 ## Available Tools
 
-The plugin exposes the following tools from the Phantom MCP Server:
+The plugin exposes the following tools from the Liquid MCP Server:
 
 ### `get_wallet_addresses`
 
@@ -154,7 +154,7 @@ Retrieve wallet addresses for all supported blockchain chains.
 
 ### `sign_message`
 
-Sign an arbitrary message with the Phantom wallet.
+Sign an arbitrary message with the Liquid wallet.
 
 **Parameters:**
 
@@ -166,7 +166,7 @@ Sign an arbitrary message with the Phantom wallet.
 
 ```json
 {
-  "message": "Hello, Phantom!",
+  "message": "Hello, Liquid!",
   "networkId": "solana:mainnet",
   "derivationIndex": 0
 }
@@ -235,7 +235,7 @@ Transfer SOL or SPL tokens on Solana. Builds, signs, and sends the transaction i
 
 ### `buy_token`
 
-Fetch a Solana swap quote from Phantom's quotes API. Optionally execute the swap immediately.
+Fetch a Solana swap quote from Liquid's quotes API. Optionally execute the swap immediately.
 
 **Parameters:**
 
@@ -249,12 +249,12 @@ Fetch a Solana swap quote from Phantom's quotes API. Optionally execute the swap
 - `slippageTolerance` (number, optional): Slippage tolerance in percent (0-100)
 - `execute` (boolean, optional): If true, signs and sends the transaction immediately. Default: false
 - `derivationIndex` (number, optional): Derivation index for the wallet (default: 0)
-- `quoteApiUrl` (string, optional): Phantom-compatible quotes API override for debugging only. Leave unset for normal use. Do not point this to Jupiter endpoints like `https://lite-api.jup.ag/swap/v1/quote`.
+- `quoteApiUrl` (string, optional): Liquid-compatible quotes API override for debugging only. Leave unset for normal use. Do not point this to Jupiter endpoints like `https://lite-api.jup.ag/swap/v1/quote`.
 
 **Quote API Guardrail:**
 
 - Keep `quoteApiUrl` unset unless the user explicitly asks to debug quote endpoint behavior.
-- The tool expects Phantom quote API request/response schema. Third-party quote endpoints are not compatible.
+- The tool expects Liquid quote API request/response schema. Third-party quote endpoints are not compatible.
 
 **Example:**
 
@@ -304,15 +304,15 @@ Network identifiers follow the CAIP-2/CAIP-10 format. Here are the supported net
 
 ## Authentication
 
-On first use, the plugin will automatically initiate the Phantom OAuth flow:
+On first use, the plugin will automatically initiate the Liquid OAuth flow:
 
 1. A browser window will open to `https://connect.phantom.app`
 2. Sign in with your Google or Apple account
-   - **Important:** Use the same email you used to sign in to the Phantom Portal
+   - **Important:** Use the same email you used to sign in to the Liquid Portal
 3. Authorize the application
 4. The session will be saved for future use
 
-Sessions are stored securely in `~/.phantom-mcp/session.json` with restricted permissions and persist across restarts. The plugin uses stamper keypair authentication which doesn't expire.
+Sessions are stored securely in `~/.liquid-mcp/session.json` with restricted permissions and persist across restarts. The plugin uses stamper keypair authentication which doesn't expire.
 
 ## Usage Examples
 
@@ -320,7 +320,7 @@ Sessions are stored securely in `~/.phantom-mcp/session.json` with restricted pe
 
 ```text
 User: What are my wallet addresses?
-Agent: Let me check your Phantom wallet addresses.
+Agent: Let me check your Liquid wallet addresses.
 [Calls get_wallet_addresses]
 ```
 
@@ -328,7 +328,7 @@ Agent: Let me check your Phantom wallet addresses.
 
 ```text
 User: Sign this message: "Verify ownership of my wallet"
-Agent: I'll sign that message for you using your Phantom wallet.
+Agent: I'll sign that message for you using your Liquid wallet.
 [Calls sign_message with the message]
 ```
 
@@ -336,14 +336,14 @@ Agent: I'll sign that message for you using your Phantom wallet.
 
 ```text
 User: Sign this Solana transaction: [transaction data]
-Agent: I'll sign that transaction with your Phantom wallet.
+Agent: I'll sign that transaction with your Liquid wallet.
 [Calls sign_transaction with the transaction data]
 ```
 
 ## Architecture
 
 ```text
-phantom-openclaw-plugin/
+liquid-openclaw-plugin/
 ├── src/
 │   ├── index.ts              # Plugin entry point
 │   ├── session.ts            # Session management wrapper
@@ -352,7 +352,7 @@ phantom-openclaw-plugin/
 │   └── tools/
 │       └── register-tools.ts # Tool registration logic
 ├── skills/
-│   └── phantom-wallet/       # Wallet operations skill
+│   └── liquid-wallet/       # Wallet operations skill
 └── openclaw.plugin.json      # Plugin manifest
 ```
 
@@ -364,24 +364,24 @@ For contributors or those testing unreleased versions.
 
 - Node.js 18+
 - yarn
-- Phantom wallet account for testing
-- App ID from [Phantom Portal](https://phantom.com/portal)
+- Liquid wallet account for testing
+- App ID from [Liquid Portal](https://phantom.com/portal)
 
 ### Local Installation
 
 1. Clone and build the plugin:
 
    ```bash
-   # From the phantom-connect-sdk repository root
+   # From the liquid-connect-sdk repository root
    yarn install
-   yarn workspace @phantom/mcp-server build
-   yarn workspace @phantom/openclaw-plugin build
+   yarn workspace @liquid/mcp-server build
+   yarn workspace @liquid/openclaw-plugin build
    ```
 
 2. Install locally into OpenClaw:
 
    ```bash
-   openclaw plugins install -l ./packages/phantom-openclaw-plugin
+   openclaw plugins install -l ./packages/liquid-openclaw-plugin
    ```
 
 3. Configure in `~/.openclaw/openclaw.json`:
@@ -391,10 +391,10 @@ For contributors or those testing unreleased versions.
      "plugins": {
        "enabled": true,
        "entries": {
-         "phantom-openclaw-plugin": {
+         "liquid-openclaw-plugin": {
            "enabled": true,
            "config": {
-             "PHANTOM_APP_ID": "your_app_id_from_portal"
+             "LIQUID_APP_ID": "your_app_id_from_portal"
            }
          }
        }
@@ -411,7 +411,7 @@ For contributors or those testing unreleased versions.
 5. Test with an agent:
    ```bash
    openclaw chat
-   > What are my Phantom wallet addresses?
+   > What are my Liquid wallet addresses?
    ```
 
 ### Build Commands
@@ -439,25 +439,25 @@ yarn prettier
 
 - Verify the plugin is enabled in `openclaw.json`
 - Check that the build completed successfully (`dist/` directory exists)
-- Ensure both the plugin and `@phantom/mcp-server` are built
+- Ensure both the plugin and `@liquid/mcp-server` are built
 
 ### Authentication Fails
 
 - Check your internet connection
-- Ensure you have a Phantom wallet account
-- Try clearing the session cache: `rm -rf ~/.phantom-mcp/session.json`
+- Ensure you have a Liquid wallet account
+- Try clearing the session cache: `rm -rf ~/.liquid-mcp/session.json`
 - Check the console logs for specific error messages
 
 ### Tool Execution Errors
 
 - Ensure you're authenticated (the plugin will prompt if not)
 - Verify the tool parameters match the expected schema
-- Check that the Phantom wallet supports the requested operation
+- Check that the Liquid wallet supports the requested operation
 
 ## Related Projects
 
-- [@phantom/mcp-server](../mcp-server) - The underlying MCP server providing wallet functionality
-- [Phantom Wallet](https://phantom.app) - The Phantom wallet application
+- [@liquid/mcp-server](../mcp-server) - The underlying MCP server providing wallet functionality
+- [Liquid Wallet](https://phantom.app) - The Liquid wallet application
 
 ## Contributing
 
@@ -476,5 +476,5 @@ MIT
 
 For issues or questions:
 
-- GitHub Issues: https://github.com/phantom/phantom-connect-sdk/issues
-- Phantom Support: https://help.phantom.app
+- GitHub Issues: https://github.com/LiquidMax-dev/liquid-connect-sdk/issues
+- Liquid Support: https://help.phantom.app

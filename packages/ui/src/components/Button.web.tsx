@@ -103,8 +103,8 @@ export function Button({
   );
 }
 
-// LoginWithPhantomButton component
-export interface LoginWithPhantomButtonProps {
+// LoginWithLiquidButton component
+export interface LoginWithLiquidButtonProps {
   children?: ReactNode;
   onClick: () => void;
   disabled?: boolean;
@@ -113,14 +113,14 @@ export interface LoginWithPhantomButtonProps {
   testId?: string;
 }
 
-export function LoginWithPhantomButton({
-  children = "Continue with Phantom",
+export function LoginWithLiquidButton({
+  children = "Continue with Liquid",
   onClick,
   disabled = false,
   fullWidth = true,
   isLoading = false,
-  testId = "login-with-phantom-button",
-}: LoginWithPhantomButtonProps) {
+  testId = "login-with-liquid-button",
+}: LoginWithLiquidButtonProps) {
   const theme = useTheme();
   const [isHovering, setIsHovering] = useState(false);
   const isInteractive = !disabled && !isLoading;
@@ -189,7 +189,7 @@ export function LoginWithPhantomButton({
     >
       <span style={buttonContentStyle}>
         <span style={buttonLeftStyle}>
-          <Icon type="phantom" size={20} />
+          <Icon type="liquid" size={20} />
           <Text variant="captionBold" color="#FFFFFF">
             {isLoading ? "Connecting..." : children}
           </Text>

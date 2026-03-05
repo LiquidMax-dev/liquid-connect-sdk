@@ -1,6 +1,6 @@
 import { parseSignMessageResponse, parseTransactionResponse, parseSolanaSignedTransaction } from "./response-parsers";
-import { base64urlEncode } from "@phantom/base64url";
-import { NetworkId } from "@phantom/constants";
+import { base64urlEncode } from "@liquid/base64url";
+import { NetworkId } from "@liquid/constants";
 
 describe("Response Parsing", () => {
   describe("parseSignMessageResponse", () => {

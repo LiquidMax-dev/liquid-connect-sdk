@@ -1,8 +1,8 @@
 import { autoConfirmSupportedChains } from "./autoConfirmSupportedChains";
-import { PHANTOM_NOT_DETECTED, APP_PROVIDER_NOT_FOUND } from "../errors";
+import { LIQUID_NOT_DETECTED, APP_PROVIDER_NOT_FOUND } from "../errors";
 
 describe("autoConfirmSupportedChains", () => {
-  const originalPhantom = (window as any).phantom;
+  const originalLiquid = (window as any).phantom;
   let mockRequest: jest.Mock;
 
   beforeEach(() => {
@@ -11,7 +11,7 @@ describe("autoConfirmSupportedChains", () => {
   });
 
   afterEach(() => {
-    (window as any).phantom = originalPhantom;
+    (window as any).phantom = originalLiquid;
   });
 
   it("should get supported chains", async () => {
@@ -22,17 +22,17 @@ describe("autoConfirmSupportedChains", () => {
     const result = await autoConfirmSupportedChains();
 
     expect(mockRequest).toHaveBeenCalledWith({
-      method: "phantom_auto_confirm_supported_chains",
+      method: "liquid_auto_confirm_supported_chains",
       params: {},
     });
     // Expect the processed result with NetworkId values
     expect(result).toEqual({ chains: ["solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp", "eip155:1", "sui:35834a8a"] });
   });
 
-  it("should throw when Phantom is not installed", async () => {
+  it("should throw when Liquid is not installed", async () => {
     (window as any).phantom = undefined;
 
-    await expect(autoConfirmSupportedChains()).rejects.toThrow(PHANTOM_NOT_DETECTED);
+    await expect(autoConfirmSupportedChains()).rejects.toThrow(LIQUID_NOT_DETECTED);
   });
 
   it("should throw when app provider is missing", async () => {

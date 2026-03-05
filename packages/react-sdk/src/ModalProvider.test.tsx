@@ -2,20 +2,20 @@ import * as React from "react";
 import { render, fireEvent } from "@testing-library/react";
 import { ModalProvider } from "./ModalProvider";
 import { useModal } from "./ModalContext";
-import { usePhantom } from "./PhantomContext";
-import { isMobileDevice } from "@phantom/browser-sdk";
+import { useLiquid } from "./LiquidContext";
+import { isMobileDevice } from "@liquid/browser-sdk";
 import type { ReactNode } from "react";
 
 // Mock dependencies
-jest.mock("./PhantomContext", () => ({
-  usePhantom: jest.fn(),
+jest.mock("./LiquidContext", () => ({
+  useLiquid: jest.fn(),
 }));
 
-jest.mock("@phantom/browser-sdk", () => ({
+jest.mock("@liquid/browser-sdk", () => ({
   isMobileDevice: jest.fn(),
 }));
 
-jest.mock("@phantom/wallet-sdk-ui", () => ({
+jest.mock("@liquid/wallet-sdk-ui", () => ({
   Modal: ({
     children,
     isVisible,
@@ -71,12 +71,12 @@ jest.mock("./components/ConnectedModalContent", () => ({
 }));
 
 describe("ModalProvider", () => {
-  const mockUsePhantom = usePhantom as jest.MockedFunction<typeof usePhantom>;
+  const mockUseLiquid = useLiquid as jest.MockedFunction<typeof useLiquid>;
   const mockIsMobileDevice = isMobileDevice as jest.MockedFunction<typeof isMobileDevice>;
 
   beforeEach(() => {
     jest.clearAllMocks();
-    mockUsePhantom.mockReturnValue({
+    mockUseLiquid.mockReturnValue({
       isConnected: false,
       addresses: [],
       sdk: null,
@@ -171,8 +171,8 @@ describe("ModalProvider", () => {
     });
 
     it("should render ConnectedModalContent when connected", () => {
-      mockUsePhantom.mockReturnValue({
-        ...mockUsePhantom(),
+      mockUseLiquid.mockReturnValue({
+        ...mockUseLiquid(),
         isConnected: true,
       } as any);
 
@@ -324,8 +324,8 @@ describe("ModalProvider", () => {
       expect(queryByTestId("connected-content")).not.toBeInTheDocument();
 
       // Update connection status
-      mockUsePhantom.mockReturnValue({
-        ...mockUsePhantom(),
+      mockUseLiquid.mockReturnValue({
+        ...mockUseLiquid(),
         isConnected: true,
       } as any);
 

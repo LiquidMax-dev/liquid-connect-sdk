@@ -25,9 +25,9 @@ jest.mock("jose", () => ({
   },
 }));
 
-// Mock @phantom/parsers to avoid needing @solana/web3.js in tests
+// Mock @liquid/parsers to avoid needing @solana/web3.js in tests
 // This completely mocks the parsers package to prevent it from loading @solana/web3.js
-jest.mock("@phantom/parsers", () => ({
+jest.mock("@liquid/parsers", () => ({
   parseToKmsTransaction: jest.fn().mockResolvedValue({ base64url: "mock-base64url", originalFormat: "mock" }),
   parseSignMessageResponse: jest.fn().mockReturnValue({ signature: "mock-signature", rawSignature: "mock-raw" }),
   parseTransactionResponse: jest.fn().mockReturnValue({

@@ -76,7 +76,7 @@ describe("connect", () => {
   it("should throw error when both connect attempts fail", async () => {
     mockProvider.connect.mockRejectedValueOnce(new Error("User not authenticated")).mockResolvedValueOnce(undefined);
 
-    await expect(connect()).rejects.toThrow("Failed to connect to Phantom.");
+    await expect(connect()).rejects.toThrow("Failed to connect to Liquid.");
   });
 
   it("should throw error when Ethereum provider is not found", async () => {
@@ -88,6 +88,6 @@ describe("connect", () => {
   it("should handle empty accounts array", async () => {
     mockProvider.connect.mockResolvedValueOnce([]).mockResolvedValueOnce([]);
 
-    await expect(connect()).rejects.toThrow("Failed to connect to Phantom.");
+    await expect(connect()).rejects.toThrow("Failed to connect to Liquid.");
   });
 });

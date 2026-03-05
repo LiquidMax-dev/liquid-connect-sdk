@@ -1,6 +1,6 @@
 import { render, fireEvent } from "@testing-library/react";
-import { Modal, type ModalProps } from "@phantom/wallet-sdk-ui";
-import { ThemeProvider } from "@phantom/wallet-sdk-ui";
+import { Modal, type ModalProps } from "@liquid/wallet-sdk-ui";
+import { ThemeProvider } from "@liquid/wallet-sdk-ui";
 
 const mockTheme = {
   background: "#ffffff" as const,

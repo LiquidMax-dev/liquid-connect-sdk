@@ -1,9 +1,9 @@
 import * as SecureStore from "expo-secure-store";
 import bs58 from "bs58";
 import { Buffer } from "buffer";
-import { base64urlEncode } from "@phantom/base64url";
-import { Algorithm } from "@phantom/sdk-types";
-import type { StamperWithKeyManagement, StamperKeyInfo } from "@phantom/sdk-types";
+import { base64urlEncode } from "@liquid/base64url";
+import { Algorithm } from "@liquid/sdk-types";
+import type { StamperWithKeyManagement, StamperKeyInfo } from "@liquid/sdk-types";
 
 interface StoredKeyRecord {
   privateKeyPkcs8: string;
@@ -22,7 +22,7 @@ export class ExpoAuth2Stamper implements StamperWithKeyManagement {
 
   /**
    * @param storageKey - expo-secure-store key used to persist the P-256 private key.
-   *   Use a unique key per app, e.g. `phantom-auth2-<appId>`.
+   *   Use a unique key per app, e.g. `liquid-auth2-<appId>`.
    */
   constructor(private readonly storageKey: string) {}
 

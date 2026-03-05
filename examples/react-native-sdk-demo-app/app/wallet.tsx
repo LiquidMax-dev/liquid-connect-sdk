@@ -11,7 +11,7 @@ import {
   Linking,
 } from "react-native";
 import { useRouter } from "expo-router";
-import { useAccounts, useSolana, useDisconnect } from "@phantom/react-native-sdk";
+import { useAccounts, useSolana, useDisconnect } from "@liquid/react-native-sdk";
 import { useBalance } from "../hooks/useBalance";
 import bs58 from "bs58";
 
@@ -25,7 +25,7 @@ export default function WalletScreen() {
   const [signError, setSignError] = useState<Error | null>(null);
   const [txError, setTxError] = useState<Error | null>(null);
 
-  const [messageToSign, setMessageToSign] = useState("Hello from Phantom SDK!");
+  const [messageToSign, setMessageToSign] = useState("Hello from Liquid SDK!");
   const [signedMessage, setSignedMessage] = useState<string | null>(null);
   const [transactionResult, setTransactionResult] = useState<string | null>(null);
   const [transactionError, setTransactionError] = useState<string | null>(null);

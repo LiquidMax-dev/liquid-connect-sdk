@@ -1,23 +1,23 @@
 import { EmbeddedProvider } from "./embedded-provider";
 import type { EmbeddedProviderConfig } from "./types";
-import { generateKeyPair } from "@phantom/client";
+import { generateKeyPair } from "@liquid/client";
 import type { PlatformAdapter, DebugLogger } from "./interfaces";
 
 // Mock dependencies
-jest.mock("@phantom/api-key-stamper");
-jest.mock("@phantom/parsers", () => ({
+jest.mock("@liquid/api-key-stamper");
+jest.mock("@liquid/parsers", () => ({
   parseToKmsTransaction: jest.fn().mockResolvedValue({ base64url: "mock-base64url", originalFormat: "mock" }),
   parseSignMessageResponse: jest.fn().mockReturnValue({ signature: "mock-signature", rawSignature: "mock-raw" }),
   parseTransactionResponse: jest.fn().mockReturnValue({ rawTransaction: "mock-raw-tx" }),
   parseSolanaTransactionSignature: jest.fn().mockReturnValue({ signature: "mock-signature", fallback: false }),
 }));
 
-// Mock PhantomClient with proper implementation
+// Mock LiquidClient with proper implementation
 const mockCreateOrganization = jest.fn().mockResolvedValue({ organizationId: "org-123" });
-jest.mock("@phantom/client", () => ({
-  ...jest.requireActual("@phantom/client"),
+jest.mock("@liquid/client", () => ({
+  ...jest.requireActual("@liquid/client"),
   generateKeyPair: jest.fn(),
-  PhantomClient: jest.fn().mockImplementation(() => ({
+  LiquidClient: jest.fn().mockImplementation(() => ({
     createOrganization: mockCreateOrganization,
   })),
 }));
@@ -73,7 +73,7 @@ describe("EmbeddedProvider Core", () => {
         authenticate: jest.fn(),
         resumeAuthFromRedirect: jest.fn(),
       },
-      phantomAppProvider: {
+      liquidAppProvider: {
         isAvailable: jest.fn().mockReturnValue(false),
         authenticate: jest.fn(),
       },
@@ -124,7 +124,7 @@ describe("EmbeddedProvider Core", () => {
 
       // Test that storage.getSession is called during connect
       try {
-        await provider.connect({ provider: "phantom" });
+        await provider.connect({ provider: "liquid" });
       } catch (error) {
         // Connection will fail, but storage should be called
       }
@@ -160,14 +160,14 @@ describe("EmbeddedProvider Core", () => {
         organizationId: "org-123",
         appId: "app-123",
         stamperInfo: { keyId: "key-123", publicKey: "pub-key" },
-        authProvider: "phantom-connect",
+        authProvider: "liquid-connect",
         userInfo: {},
         createdAt: Date.now(),
         lastUsed: Date.now(),
       });
 
       try {
-        await provider.connect({ provider: "phantom" });
+        await provider.connect({ provider: "liquid" });
       } catch (error) {
         // Connection may fail, but URL params should be checked during session validation
       }
@@ -180,7 +180,7 @@ describe("EmbeddedProvider Core", () => {
       mockPlatform.authProvider.resumeAuthFromRedirect.mockReturnValue(null);
 
       try {
-        await provider.connect({ provider: "phantom" });
+        await provider.connect({ provider: "liquid" });
       } catch (error) {
         // Connection will fail, but stamper.init should be called during createOrganizationAndStamper
       }
@@ -188,13 +188,13 @@ describe("EmbeddedProvider Core", () => {
       expect(mockPlatform.stamper.init).toHaveBeenCalled();
     });
 
-    it("should pass platform stamper to PhantomClient during initialization", async () => {
-      // For user-wallets, PhantomClient is only created after successful authentication
+    it("should pass platform stamper to LiquidClient during initialization", async () => {
+      // For user-wallets, LiquidClient is only created after successful authentication
       mockPlatform.storage.getSession.mockResolvedValue(null);
       mockPlatform.authProvider.resumeAuthFromRedirect.mockReturnValue(null);
 
       try {
-        await provider.connect({ provider: "phantom" });
+        await provider.connect({ provider: "liquid" });
       } catch (error) {
         // Connection will fail for user-wallet without proper auth setup
       }
@@ -294,7 +294,7 @@ describe("EmbeddedProvider Core", () => {
       mockPlatform.stamper.getKeyInfo.mockReturnValue(null);
 
       try {
-        await provider.connect({ provider: "phantom" });
+        await provider.connect({ provider: "liquid" });
       } catch (error) {
         // May fail on getWalletAddresses, but stamper should be called
       }
@@ -360,7 +360,7 @@ describe("EmbeddedProvider Core", () => {
       mockPlatform.storage.getSession.mockResolvedValue(mockSession);
       provider["walletId"] = "test-wallet-id";
       // Provide a parsed transaction so signTransaction/signAndSendTransaction reach the client call
-      const { parseToKmsTransaction } = jest.requireMock("@phantom/parsers");
+      const { parseToKmsTransaction } = jest.requireMock("@liquid/parsers");
       parseToKmsTransaction.mockResolvedValue({ parsed: "mock-base64url" });
       // Provide addresses so getAddressForNetwork returns a value
       provider["addresses"] = [{ addressType: "solana", address: "mockAddress" }];
@@ -476,7 +476,7 @@ describe("EmbeddedProvider Core", () => {
       };
 
       await expect(provider.connect(invalidAuthOptions)).rejects.toThrow(
-        "Invalid auth provider: invalid-provider. Must be google, apple, phantom",
+        "Invalid auth provider: invalid-provider. Must be google, apple, liquid",
       );
     });
   });
@@ -509,17 +509,17 @@ describe("EmbeddedProvider Core", () => {
       );
     });
 
-    it("should call platform phantomAppProvider for Phantom authentication", async () => {
-      // Mock Phantom app as available for this test
-      mockPlatform.phantomAppProvider.isAvailable.mockReturnValue(true);
-      mockPlatform.phantomAppProvider.authenticate.mockResolvedValue({
-        organizationId: "org-phantom-123",
-        walletId: "wallet-phantom-123",
+    it("should call platform liquidAppProvider for Liquid authentication", async () => {
+      // Mock Liquid app as available for this test
+      mockPlatform.liquidAppProvider.isAvailable.mockReturnValue(true);
+      mockPlatform.liquidAppProvider.authenticate.mockResolvedValue({
+        organizationId: "org-liquid-123",
+        walletId: "wallet-liquid-123",
         publicKey: "11111111111111111111111111111111",
-        authUserId: "phantom-user-123",
+        authUserId: "liquid-user-123",
       });
 
-      const authOptions = { provider: "phantom" as const };
+      const authOptions = { provider: "liquid" as const };
 
       try {
         await provider.connect(authOptions);
@@ -527,15 +527,15 @@ describe("EmbeddedProvider Core", () => {
         // Connection may fail on subsequent calls (e.g., getWalletAddresses)
       }
 
-      // Phantom uses phantomAppProvider instead of authProvider
-      expect(mockPlatform.phantomAppProvider.authenticate).toHaveBeenCalledWith(
+      // Liquid uses liquidAppProvider instead of authProvider
+      expect(mockPlatform.liquidAppProvider.authenticate).toHaveBeenCalledWith(
         expect.objectContaining({
           publicKey: "11111111111111111111111111111111",
           appId: "test-app-id",
         }),
       );
 
-      // Verify that authProvider.authenticate was NOT called for Phantom
+      // Verify that authProvider.authenticate was NOT called for Liquid
       expect(mockPlatform.authProvider.authenticate).not.toHaveBeenCalled();
     });
   });

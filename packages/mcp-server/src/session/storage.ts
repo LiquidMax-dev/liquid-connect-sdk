@@ -5,7 +5,7 @@ import type { SessionData } from "./types.js";
 
 /**
  * SessionStorage manages secure filesystem storage for OAuth sessions.
- * - Sessions are stored in ~/.phantom-mcp/ by default
+ * - Sessions are stored in ~/.liquid-mcp/ by default
  * - Directory permissions are 0o700 (user-only rwx)
  * - File permissions are 0o600 (user-only rw)
  */
@@ -14,7 +14,7 @@ export class SessionStorage {
   private readonly sessionFile: string;
 
   constructor(sessionDir?: string) {
-    this.sessionDir = sessionDir || path.join(os.homedir(), ".phantom-mcp");
+    this.sessionDir = sessionDir || path.join(os.homedir(), ".liquid-mcp");
     this.sessionFile = path.join(this.sessionDir, "session.json");
   }
 

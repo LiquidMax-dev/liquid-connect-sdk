@@ -1,10 +1,10 @@
 {
-  "name": "@phantom/indexed-db-stamper",
+  "name": "@liquid/indexed-db-stamper",
   "version": "1.0.5",
-  "description": "IndexedDB stamper for Phantom Wallet SDK with non-extractable key storage",
+  "description": "IndexedDB stamper for Liquid Wallet SDK with non-extractable key storage",
   "repository": {
     "type": "git",
-    "url": "https://github.com/phantom/phantom-connect-sdk",
+    "url": "https://github.com/LiquidMax-dev/liquid-connect-sdk",
     "directory": "packages/indexed-db-stamper"
   },
   "main": "dist/index.js",
@@ -44,11 +44,11 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
-    "@phantom/base64url": "workspace:^",
-    "@phantom/constants": "workspace:^",
-    "@phantom/crypto": "workspace:^",
-    "@phantom/embedded-provider-core": "workspace:^",
-    "@phantom/sdk-types": "workspace:^",
+    "@liquid/base64url": "workspace:^",
+    "@liquid/constants": "workspace:^",
+    "@liquid/crypto": "workspace:^",
+    "@liquid/embedded-provider-core": "workspace:^",
+    "@liquid/sdk-types": "workspace:^",
     "bs58": "^6.0.0",
     "buffer": "^6.0.3"
   },

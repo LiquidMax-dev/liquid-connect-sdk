@@ -1,12 +1,12 @@
 import { getProvider } from "./getProvider";
 import type { AutoConfirmResult } from "./types";
-import { internalCaipToNetworkId } from "@phantom/constants";
+import { internalCaipToNetworkId } from "@liquid/constants";
 
 export async function autoConfirmStatus(): Promise<AutoConfirmResult> {
   const provider = getProvider();
 
   const result = await provider.request({
-    method: "phantom_auto_confirm_status",
+    method: "liquid_auto_confirm_status",
     params: {},
   });
 

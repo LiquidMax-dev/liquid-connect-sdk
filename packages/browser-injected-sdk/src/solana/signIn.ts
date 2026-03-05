@@ -3,10 +3,10 @@ import { getProvider } from "./getProvider";
 import type { SolanaSignInData } from "./types";
 
 /**
- * Signs in with Solana using the Phantom provider.
+ * Signs in with Solana using the Liquid provider.
  * @param signInData The sign-in data.
  * @returns A promise that resolves with the address, signature, and signed message.
- * @throws Error if Phantom provider is not found or if the operation fails.
+ * @throws Error if Liquid provider is not found or if the operation fails.
  */
 export async function signIn(
   signInData: SolanaSignInData,

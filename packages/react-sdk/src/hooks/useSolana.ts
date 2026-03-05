@@ -1,6 +1,6 @@
-import { usePhantom } from "../PhantomContext";
-import type { ISolanaChain } from "@phantom/chain-interfaces";
-import { AddressType } from "@phantom/browser-sdk";
+import { useLiquid } from "../LiquidContext";
+import type { ISolanaChain } from "@liquid/chain-interfaces";
+import { AddressType } from "@liquid/browser-sdk";
 
 /**
  * Hook for Solana chain operations
@@ -11,7 +11,7 @@ export function useSolana(): {
   solana: ISolanaChain;
   isAvailable: boolean;
 } {
-  const { sdk, isClient, isLoading } = usePhantom();
+  const { sdk, isClient, isLoading } = useLiquid();
 
   if (!isClient || !sdk || isLoading) {
     // Return a stub object for SSR, while SDK is initializing, or while discovery is in progress

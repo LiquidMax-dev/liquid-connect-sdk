@@ -1,6 +1,6 @@
-# Phantom React Native SDK
+# Liquid React Native SDK
 
-A comprehensive React Native SDK for integrating Phantom Wallet functionality into your mobile applications. Built with Expo compatibility and optimized for both iOS and Android platforms.
+A comprehensive React Native SDK for integrating Liquid Wallet functionality into your mobile applications. Built with Expo compatibility and optimized for both iOS and Android platforms.
 
 ## Features
 
@@ -17,13 +17,13 @@ A comprehensive React Native SDK for integrating Phantom Wallet functionality in
 ### Using npm
 
 ```bash
-npm install @phantom/react-native-sdk
+npm install @liquid/react-native-sdk
 ```
 
 ### Using yarn
 
 ```bash
-yarn add @phantom/react-native-sdk
+yarn add @liquid/react-native-sdk
 ```
 
 ### Install peer dependencies
@@ -47,7 +47,7 @@ You must polyfill random byte generation to ensure cryptographic operations work
 // index.js, App.tsx, or _layout.tsx - MUST be the first import
 import "react-native-get-random-values";
 
-import { PhantomProvider } from "@phantom/react-native-sdk";
+import { LiquidProvider } from "@liquid/react-native-sdk";
 // ... other imports
 ```
 
@@ -79,22 +79,22 @@ Add your custom scheme to `app.json`:
 
 ### 2. Set up the provider
 
-Wrap your app with `PhantomProvider`:
+Wrap your app with `LiquidProvider`:
 
 ```tsx
 // App.tsx or _layout.tsx (for Expo Router)
-import { PhantomProvider, AddressType, darkTheme } from "@phantom/react-native-sdk";
+import { LiquidProvider, AddressType, darkTheme } from "@liquid/react-native-sdk";
 
 export default function App() {
   return (
-    <PhantomProvider
+    <LiquidProvider
       config={{
         providers: ["google", "apple"],
         appId: "your-app-id", // Get your app ID from phantom.com/portal
         scheme: "mywalletapp", // Must match app.json scheme
         addressTypes: [AddressType.solana],
         authOptions: {
-          redirectUrl: "mywalletapp://phantom-auth-callback",
+          redirectUrl: "mywalletapp://liquid-auth-callback",
         },
       }}
       theme={darkTheme} // Optional: Customize modal appearance
@@ -102,20 +102,20 @@ export default function App() {
       appName="Your App Name" // Optional: Your app name
     >
       <YourAppContent />
-    </PhantomProvider>
+    </LiquidProvider>
   );
 }
 ```
 
 ### 3. Use the connection modal (Recommended)
 
-The SDK includes a built-in bottom sheet modal that provides a user-friendly interface for connecting to Phantom. The modal supports multiple authentication methods (Google, Apple) and handles all connection logic automatically.
+The SDK includes a built-in bottom sheet modal that provides a user-friendly interface for connecting to Liquid. The modal supports multiple authentication methods (Google, Apple) and handles all connection logic automatically.
 
 ```tsx
 // WalletScreen.tsx
 import React from "react";
 import { View, Button, Text } from "react-native";
-import { useModal, useAccounts } from "@phantom/react-native-sdk";
+import { useModal, useAccounts } from "@liquid/react-native-sdk";
 
 export function WalletScreen() {
   const modal = useModal();
@@ -159,7 +159,7 @@ Alternatively, you can use the hooks directly for more control:
 // WalletScreen.tsx
 import React from "react";
 import { View, Button, Text, Alert } from "react-native";
-import { useConnect, useAccounts, useSolana, useEthereum, useDisconnect } from "@phantom/react-native-sdk";
+import { useConnect, useAccounts, useSolana, useEthereum, useDisconnect } from "@liquid/react-native-sdk";
 
 export function WalletScreen() {
   const { connect, isConnecting, error: connectError } = useConnect();
@@ -234,29 +234,29 @@ export function WalletScreen() {
 
 ## API Reference
 
-### PhantomProvider
+### LiquidProvider
 
 The main provider component that initializes the SDK and provides context to all hooks.
 
 ```tsx
-<PhantomProvider config={config}>
+<LiquidProvider config={config}>
   <App />
-</PhantomProvider>
+</LiquidProvider>
 ```
 
 #### Configuration Options
 
 ```typescript
-interface PhantomProviderProps {
-  config: PhantomSDKConfig;
-  debugConfig?: PhantomDebugConfig;
-  theme?: PhantomTheme; // Optional: Customize modal appearance
+interface LiquidProviderProps {
+  config: LiquidSDKConfig;
+  debugConfig?: LiquidDebugConfig;
+  theme?: LiquidTheme; // Optional: Customize modal appearance
   appIcon?: string; // Optional: Your app icon URL (shown in modal)
   appName?: string; // Optional: Your app name (shown in modal)
   children: ReactNode;
 }
 
-interface PhantomSDKConfig {
+interface LiquidSDKConfig {
   scheme: string; // Custom URL scheme for your app
   appId: string; // Your app ID from phantom.com/portal (required)
   addressTypes: [AddressType, ...AddressType[]]; // e.g., [AddressType.solana]
@@ -321,7 +321,7 @@ Provides access to connected wallet information.
 const {
   addresses, // Array of wallet addresses
   isConnected, // Connection status
-  walletId, // Phantom wallet ID
+  walletId, // Liquid wallet ID
 } = useAccounts();
 ```
 
@@ -411,16 +411,16 @@ await disconnect();
 
 ## Theming
 
-Customize the modal appearance by passing a `theme` prop to the `PhantomProvider`. The SDK includes built-in `darkTheme` (default).
+Customize the modal appearance by passing a `theme` prop to the `LiquidProvider`. The SDK includes built-in `darkTheme` (default).
 
 ### Using Built-in Theme
 
 ```tsx
-import { PhantomProvider, darkTheme } from "@phantom/react-native-sdk";
+import { LiquidProvider, darkTheme } from "@liquid/react-native-sdk";
 
-<PhantomProvider config={config} theme={darkTheme} appIcon="https://your-app.com/icon.png" appName="Your App Name">
+<LiquidProvider config={config} theme={darkTheme} appIcon="https://your-app.com/icon.png" appName="Your App Name">
   <App />
-</PhantomProvider>;
+</LiquidProvider>;
 ```
 
 ### Custom Theme
@@ -428,7 +428,7 @@ import { PhantomProvider, darkTheme } from "@phantom/react-native-sdk";
 You can pass a partial theme object to customize specific properties:
 
 ```tsx
-import { PhantomProvider } from "@phantom/react-native-sdk";
+import { LiquidProvider } from "@liquid/react-native-sdk";
 
 const customTheme = {
   brand: "#7C3AED", // Primary brand color
@@ -439,9 +439,9 @@ const customTheme = {
   borderRadius: 12, // Border radius for elements
 };
 
-<PhantomProvider config={config} theme={customTheme}>
+<LiquidProvider config={config} theme={customTheme}>
   <App />
-</PhantomProvider>;
+</LiquidProvider>;
 ```
 
 **Theme Properties:**
@@ -462,7 +462,7 @@ The SDK supports multiple authentication providers that you specify when calling
 - **Google** (`provider: "google"`) - Google OAuth authentication
 - **Apple** (`provider: "apple"`) - Apple ID authentication
 
-> **Note**: React Native SDK does not support Phantom Login or injected provider (browser extension) authentication. These are only available in the Browser SDK and React SDK for web applications.
+> **Note**: React Native SDK does not support Liquid Login or injected provider (browser extension) authentication. These are only available in the Browser SDK and React SDK for web applications.
 
 **Example Usage:**
 
@@ -487,7 +487,7 @@ await connect({ provider: "apple" });
 
 The SDK automatically handles deep link redirects. Ensure your app's URL scheme is properly configured:
 
-**Redirect URL format:** `{scheme}://phantom-auth-callback?wallet_id=...&session_id=...`
+**Redirect URL format:** `{scheme}://liquid-auth-callback?wallet_id=...&session_id=...`
 
 ## Security Features
 
@@ -509,9 +509,9 @@ The SDK automatically handles deep link redirects. Ensure your app's URL scheme 
 ### Basic Configuration
 
 ```tsx
-import { PhantomProvider, AddressType } from "@phantom/react-native-sdk";
+import { LiquidProvider, AddressType } from "@liquid/react-native-sdk";
 
-<PhantomProvider
+<LiquidProvider
   config={{
     appId: "your-app-id",
     providers: ["google", "apple"],
@@ -520,15 +520,15 @@ import { PhantomProvider, AddressType } from "@phantom/react-native-sdk";
   }}
 >
   <App />
-</PhantomProvider>;
+</LiquidProvider>;
 ```
 
 ### Multi-Chain Configuration
 
 ```tsx
-import { PhantomProvider, AddressType } from "@phantom/react-native-sdk";
+import { LiquidProvider, AddressType } from "@liquid/react-native-sdk";
 
-<PhantomProvider
+<LiquidProvider
   config={{
     appId: "your-app-id",
     providers: ["google", "apple"],
@@ -540,7 +540,7 @@ import { PhantomProvider, AddressType } from "@phantom/react-native-sdk";
   }}
 >
   <App />
-</PhantomProvider>;
+</LiquidProvider>;
 ```
 
 ## Platform Setup
@@ -563,7 +563,7 @@ import { PhantomProvider, AddressType } from "@phantom/react-native-sdk";
 
 ```typescript
 // Mock provider for testing
-import { PhantomProvider, AddressType } from '@phantom/react-native-sdk';
+import { LiquidProvider, AddressType } from '@liquid/react-native-sdk';
 
 const testConfig = {
   appId: "test-app",
@@ -571,9 +571,9 @@ const testConfig = {
   addressTypes: [AddressType.solana],
 };
 
-<PhantomProvider config={testConfig}>
+<LiquidProvider config={testConfig}>
   <TestApp />
-</PhantomProvider>
+</LiquidProvider>
 ```
 
 ### Deep Link Testing
@@ -582,10 +582,10 @@ Test deep links in development builds (not Expo Go):
 
 ```bash
 # iOS Simulator
-xcrun simctl openurl booted "myapp://phantom-auth-callback?wallet_id=test"
+xcrun simctl openurl booted "myapp://liquid-auth-callback?wallet_id=test"
 
 # Android Emulator
-adb shell am start -W -a android.intent.action.VIEW -d "myapp://phantom-auth-callback?wallet_id=test" com.yourcompany.myapp
+adb shell am start -W -a android.intent.action.VIEW -d "myapp://liquid-auth-callback?wallet_id=test" com.yourcompany.myapp
 ```
 
 ### Common Issues
@@ -614,33 +614,33 @@ adb shell am start -W -a android.intent.action.VIEW -d "myapp://phantom-auth-cal
 The React Native SDK supports separate debug configuration for better performance and dynamic control:
 
 ```typescript
-import { PhantomProvider, type PhantomSDKConfig, type PhantomDebugConfig } from "@phantom/react-native-sdk";
+import { LiquidProvider, type LiquidSDKConfig, type LiquidDebugConfig } from "@liquid/react-native-sdk";
 
 function App() {
   // SDK configuration - static, won't change when debug settings change
-  const config: PhantomSDKConfig = {
+  const config: LiquidSDKConfig = {
     appId: "your-app-id",
     scheme: "mywalletapp",
     // ... other config
   };
 
   // Debug configuration - separate to avoid SDK reinstantiation
-  const debugConfig: PhantomDebugConfig = {
+  const debugConfig: LiquidDebugConfig = {
     enabled: true, // Enable debug logging
   };
 
   return (
-    <PhantomProvider config={config} debugConfig={debugConfig}>
+    <LiquidProvider config={config} debugConfig={debugConfig}>
       <App />
-    </PhantomProvider>
+    </LiquidProvider>
   );
 }
 ```
 
-**PhantomDebugConfig Interface:**
+**LiquidDebugConfig Interface:**
 
 ```typescript
-interface PhantomDebugConfig {
+interface LiquidDebugConfig {
   enabled?: boolean; // Enable debug logging (default: false)
 }
 ```

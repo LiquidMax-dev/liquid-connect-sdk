@@ -3,7 +3,7 @@ import { hexToRgba } from "../utils/index";
 // Type-safe hex color string
 export type HexColor = `#${string}`;
 
-export interface PhantomTheme {
+export interface LiquidTheme {
   // Background color for modal
   background: HexColor;
 
@@ -85,22 +85,22 @@ export interface NativeTypography {
   };
 }
 
-type ComputedPhantomWebTheme = PhantomTheme & {
+type ComputedLiquidWebTheme = LiquidTheme & {
   aux: string;
   typography: WebTypography;
 };
 
-type ComputedPhantomNativeTheme = PhantomTheme & {
+type ComputedLiquidNativeTheme = LiquidTheme & {
   aux: string;
   typography: NativeTypography;
 };
 
 // Union type for compatibility
-export type ComputedPhantomTheme = ComputedPhantomWebTheme | ComputedPhantomNativeTheme;
+export type ComputedLiquidTheme = ComputedLiquidWebTheme | ComputedLiquidNativeTheme;
 
-export const loginWithPhantomColor: HexColor = "#7C63E7";
+export const loginWithLiquidColor: HexColor = "#7C63E7";
 
-export const darkTheme: PhantomTheme = {
+export const darkTheme: LiquidTheme = {
   background: "#181818",
   text: "#FFFFFF",
   secondary: "#98979C",
@@ -108,10 +108,10 @@ export const darkTheme: PhantomTheme = {
   borderRadius: "16px",
   error: "#F00000",
   success: "#1CC700",
-  brand: loginWithPhantomColor,
+  brand: loginWithLiquidColor,
 };
 
-export const lightTheme: PhantomTheme = {
+export const lightTheme: LiquidTheme = {
   background: "#FFFFFF",
   text: "#181818",
   secondary: "#98979C",
@@ -119,10 +119,10 @@ export const lightTheme: PhantomTheme = {
   borderRadius: "16px",
   error: "#F00000",
   success: "#1CC700",
-  brand: loginWithPhantomColor,
+  brand: loginWithLiquidColor,
 };
 
-export function mergeTheme(customTheme?: Partial<PhantomTheme>): ComputedPhantomWebTheme {
+export function mergeTheme(customTheme?: Partial<LiquidTheme>): ComputedLiquidWebTheme {
   const secondary = customTheme?.secondary || darkTheme.secondary;
   const isHex = secondary.startsWith("#");
 
@@ -163,7 +163,7 @@ export function mergeTheme(customTheme?: Partial<PhantomTheme>): ComputedPhantom
   };
 }
 
-export function mergeThemeNative(customTheme?: Partial<PhantomTheme>): ComputedPhantomNativeTheme {
+export function mergeThemeNative(customTheme?: Partial<LiquidTheme>): ComputedLiquidNativeTheme {
   const secondary = customTheme?.secondary || darkTheme.secondary;
   const isHex = secondary.startsWith("#");
 

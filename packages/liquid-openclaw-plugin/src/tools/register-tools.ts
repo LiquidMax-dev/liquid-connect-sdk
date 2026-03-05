@@ -1,10 +1,10 @@
 /**
- * Register Phantom MCP tools as OpenClaw tools
+ * Register Liquid MCP tools as OpenClaw tools
  */
 
 import { Type } from "@sinclair/typebox";
 import type { TSchema } from "@sinclair/typebox";
-import { tools } from "@phantom/mcp-server";
+import { tools } from "@liquid/mcp-server";
 import type { OpenClawApi } from "../client/types.js";
 import type { PluginSession } from "../session.js";
 
@@ -301,9 +301,9 @@ function convertSchema(mcpSchema: unknown): TSchema {
 }
 
 /**
- * Register all Phantom MCP tools with OpenClaw
+ * Register all Liquid MCP tools with OpenClaw
  */
-export function registerPhantomTools(api: OpenClawApi, session: PluginSession): void {
+export function registerLiquidTools(api: OpenClawApi, session: PluginSession): void {
   for (const mcpTool of tools) {
     api.registerTool({
       name: mcpTool.name,

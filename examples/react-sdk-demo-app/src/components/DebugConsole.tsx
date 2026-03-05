@@ -1,4 +1,4 @@
-import { DebugLevel } from "@phantom/react-sdk";
+import { DebugLevel } from "@liquid/react-sdk";
 import { useDebug } from "../contexts/DebugContext";
 
 export function DebugConsole() {

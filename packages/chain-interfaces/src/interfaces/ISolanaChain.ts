@@ -1,4 +1,4 @@
-import type { Transaction, VersionedTransaction } from "@phantom/sdk-types";
+import type { Transaction, VersionedTransaction } from "@liquid/sdk-types";
 
 export interface ISolanaChain {
   readonly publicKey: string | null;

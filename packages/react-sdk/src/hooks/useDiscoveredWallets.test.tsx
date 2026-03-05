@@ -1,12 +1,12 @@
 import { renderHook, waitFor } from "@testing-library/react";
 import { useDiscoveredWallets } from "./useDiscoveredWallets";
-import { PhantomProvider } from "../PhantomProvider";
-import { BrowserSDK, AddressType } from "@phantom/browser-sdk";
-import type { InjectedWalletInfo } from "@phantom/browser-sdk";
+import { LiquidProvider } from "../LiquidProvider";
+import { BrowserSDK, AddressType } from "@liquid/browser-sdk";
+import type { InjectedWalletInfo } from "@liquid/browser-sdk";
 
 // Mock BrowserSDK
-jest.mock("@phantom/browser-sdk", () => {
-  const actual = jest.requireActual("@phantom/browser-sdk");
+jest.mock("@liquid/browser-sdk", () => {
+  const actual = jest.requireActual("@liquid/browser-sdk");
   return {
     ...actual,
     BrowserSDK: jest.fn(),
@@ -46,7 +46,7 @@ describe("useDiscoveredWallets", () => {
     };
 
     return ({ children }: { children: React.ReactNode }) => (
-      <PhantomProvider config={defaultConfig}>{children}</PhantomProvider>
+      <LiquidProvider config={defaultConfig}>{children}</LiquidProvider>
     );
   };
 
