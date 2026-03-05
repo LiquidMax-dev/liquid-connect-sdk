@@ -7,8 +7,8 @@ const mockPostKmsRpc = jest.fn();
 jest.mock("@phantom/openapi-wallet-service", () => ({
   Configuration: jest.fn().mockImplementation((cfg: unknown) => cfg),
   KMSRPCApi: jest.fn().mockImplementation(() => ({ postKmsRpc: mockPostKmsRpc })),
-  GetOrCreateLiquidOrganizationMethodEnum: {
-    getOrCreateLiquidOrganization: "getOrCreateLiquidOrganization",
+  GetOrCreatePhantomOrganizationMethodEnum: {
+    getOrCreatePhantomOrganization: "getOrCreatePhantomOrganization",
   },
   GetOrganizationWalletsMethodEnum: { getOrganizationWallets: "getOrganizationWallets" },
   CreateWalletMethodEnum: { createWallet: "createWallet" },

@@ -45,9 +45,9 @@
     "@liquid/base64url": "workspace:^",
     "@liquid/constants": "workspace:^",
     "@liquid/crypto": "workspace:^",
-    "@phantom/openapi-wallet-service": "0.1.11",
     "@liquid/sdk-types": "workspace:^",
     "@liquid/utils": "workspace:^",
+    "@phantom/openapi-wallet-service": "0.1.11",
     "axios": "^1.10.0",
     "bs58": "^6.0.0",
     "buffer": "^6.0.3"

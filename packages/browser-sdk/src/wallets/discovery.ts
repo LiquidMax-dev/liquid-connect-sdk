@@ -71,7 +71,8 @@ function processEIP6963Providers(providers: Map<string, EIP6963ProviderDetail>):
     // Check both name and rdns to catch different variations
     const isLiquid =
       info.name.toLowerCase().includes("liquid") ||
-      (info.rdns && (info.rdns.toLowerCase().includes("liquid") || info.rdns.toLowerCase() === "app.phantom"));
+      info.name.toLowerCase().includes("phantom") ||
+      (info.rdns && (info.rdns.toLowerCase().includes("liquid") || info.rdns.toLowerCase().includes("phantom")));
 
     if (isLiquid) {
       debug.log(DebugCategory.BROWSER_SDK, "Skipping Liquid from EIP-6963", { name: info.name, rdns: info.rdns });
@@ -365,7 +366,7 @@ export async function discoverSolanaWallets(): Promise<InjectedWalletInfo[]> {
       }
 
       // Skip Liquid as is handled by our injected provider
-      if (wallet.name.toLowerCase().includes("liquid")) {
+      if (wallet.name.toLowerCase().includes("liquid") || wallet.name.toLowerCase().includes("phantom")) {
         debug.log(DebugCategory.BROWSER_SDK, "Skipping Liquid from Wallet Standard (handled separately)");
         continue;
       }

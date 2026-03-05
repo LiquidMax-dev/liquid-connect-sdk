@@ -168,7 +168,7 @@ describe("@liquid/base64url", () => {
     it("should match browser-sdk base64url behavior", () => {
       const testString = "Hello from Liquid!";
       const result = stringToBase64url(testString);
-      expect(result).toBe("SGVsbG8gZnJvbSBQaGFudG9tIQ");
+      expect(result).toBe("SGVsbG8gZnJvbSBMaXF1aWQh");
     });
 
     it("should handle JWT-like payloads", () => {

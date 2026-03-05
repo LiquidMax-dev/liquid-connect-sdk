@@ -37,7 +37,6 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.26.0",
     "@liquid/api-key-stamper": "workspace:^",
     "@liquid/base64url": "workspace:^",
     "@liquid/client": "workspace:^",
@@ -45,6 +44,7 @@
     "@liquid/crypto": "workspace:^",
     "@liquid/server-sdk": "workspace:^",
     "@liquid/utils": "workspace:^",
+    "@modelcontextprotocol/sdk": "^1.26.0",
     "@solana/spl-token": "^0.4.14",
     "@solana/web3.js": "^1.95.5",
     "axios": "^1.6.7",

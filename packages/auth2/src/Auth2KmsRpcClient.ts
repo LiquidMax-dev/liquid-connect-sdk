@@ -2,7 +2,7 @@ import {
   Configuration,
   KMSRPCApi,
   type KmsRpcRequest,
-  GetOrCreateLiquidOrganizationMethodEnum,
+  GetOrCreatePhantomOrganizationMethodEnum,
   GetOrganizationWalletsMethodEnum,
   CreateWalletMethodEnum,
 } from "@phantom/openapi-wallet-service";
@@ -103,7 +103,7 @@ export class Auth2KmsRpcClient {
 
     const created = await this.postKmsRpc(
       {
-        method: GetOrCreateLiquidOrganizationMethodEnum.getOrCreateLiquidOrganization,
+        method: GetOrCreatePhantomOrganizationMethodEnum.getOrCreatePhantomOrganization,
         params: { publicKey },
         timestampMs: Date.now(),
       } as KmsRpcRequest,
